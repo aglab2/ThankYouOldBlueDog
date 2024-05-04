@@ -21,6 +21,7 @@
 
 #include "config.h"
 #include "config/config_world.h"
+#include "actors/common1.h"
 
 /**
  * This file contains the code that processes the scene graph for rendering.
@@ -92,6 +93,7 @@ struct RenderModeContainer renderModeTable_1Cycle[2] = {
         [LAYER_OCCLUDE_SILHOUETTE_OPAQUE] = G_RM_AA_OPA_SURF,
         [LAYER_OCCLUDE_SILHOUETTE_ALPHA] = G_RM_AA_TEX_EDGE,
 #endif
+        [LAYER_COIN] = G_RM_AA_TEX_EDGE,
         [LAYER_CIRCLE_SHADOW] = G_RM_CLD_SURF,
         [LAYER_CIRCLE_SHADOW_TRANSPARENT] = G_RM_CLD_SURF,
         [LAYER_TRANSPARENT_DECAL] = G_RM_AA_XLU_SURF,
@@ -111,6 +113,7 @@ struct RenderModeContainer renderModeTable_1Cycle[2] = {
         [LAYER_OCCLUDE_SILHOUETTE_OPAQUE] = G_RM_AA_ZB_OPA_SURF,
         [LAYER_OCCLUDE_SILHOUETTE_ALPHA] = G_RM_AA_ZB_TEX_EDGE,
 #endif
+        [LAYER_COIN] = G_RM_AA_ZB_TEX_EDGE,
         [LAYER_CIRCLE_SHADOW] = G_RM_AA_ZB_XLU_DECAL,
         [LAYER_CIRCLE_SHADOW_TRANSPARENT] = G_RM_ZB_CLD_SURF,
         [LAYER_TRANSPARENT_DECAL] = G_RM_AA_ZB_XLU_DECAL,
@@ -133,6 +136,7 @@ struct RenderModeContainer renderModeTable_2Cycle[2] = {
         [LAYER_OCCLUDE_SILHOUETTE_OPAQUE] = G_RM_AA_OPA_SURF2,
         [LAYER_OCCLUDE_SILHOUETTE_ALPHA] = G_RM_AA_TEX_EDGE2,
 #endif
+        [LAYER_COIN] = G_RM_AA_TEX_EDGE2,
         [LAYER_CIRCLE_SHADOW] = G_RM_CLD_SURF2,
         [LAYER_CIRCLE_SHADOW_TRANSPARENT] = G_RM_CLD_SURF2,
         [LAYER_TRANSPARENT_DECAL] = G_RM_AA_XLU_SURF2,
@@ -152,6 +156,7 @@ struct RenderModeContainer renderModeTable_2Cycle[2] = {
         [LAYER_OCCLUDE_SILHOUETTE_OPAQUE] = G_RM_AA_ZB_OPA_SURF2,
         [LAYER_OCCLUDE_SILHOUETTE_ALPHA] = G_RM_AA_ZB_TEX_EDGE2,
 #endif
+        [LAYER_COIN] = G_RM_AA_ZB_TEX_EDGE2,
         [LAYER_CIRCLE_SHADOW] = G_RM_AA_ZB_XLU_DECAL2,
         [LAYER_CIRCLE_SHADOW_TRANSPARENT] = G_RM_ZB_CLD_SURF2,
         [LAYER_TRANSPARENT_DECAL] = G_RM_AA_ZB_XLU_DECAL2,
@@ -261,6 +266,17 @@ Mtx identityMatrixWorldScale = {{
  * 3. It does this, because layers 5-7 are non zbuffered, and just doing 0-7 of ZEX, then 0-7 of REJ
  * would make the ZEX 0-4 render on top of Rej's 5-7.
  */
+
+static const Gfx* sCoinsTextureDls[] = {
+    dl_coin_0,
+    dl_coin_22_5,
+    dl_coin_45,
+    dl_coin_67_5,
+    dl_coin_90,
+};
+
+extern uintptr_t sSegmentTable[32];
+
 void geo_process_master_list_sub(struct GraphNodeMasterList *node) {
     struct RenderPhase *renderPhase;
     struct DisplayListNode *currList;
@@ -273,6 +289,7 @@ void geo_process_master_list_sub(struct GraphNodeMasterList *node) {
     struct RenderModeContainer *mode1List = &renderModeTable_1Cycle[enableZBuffer];
     struct RenderModeContainer *mode2List = &renderModeTable_2Cycle[enableZBuffer];
     Gfx *tempGfxHead = gDisplayListHead;
+    int frame = gGlobalTimer % 8;
 
     // Loop through the render phases
     for (phaseIndex = RENDER_PHASE_FIRST; phaseIndex < finalPhase; phaseIndex++) {
@@ -309,8 +326,23 @@ void geo_process_master_list_sub(struct GraphNodeMasterList *node) {
             }
 #endif
 
-            if (currLayer == LAYER_CIRCLE_SHADOW) {
-                gSPDisplayList(tempGfxHead++, dl_shadow_circle);
+            if (!__builtin_expect(!sSegmentTable[3], 0))
+            {
+                if (currLayer == LAYER_COIN)
+                {
+                    if (frame < 5)
+                    {
+                        gSPDisplayList(tempGfxHead++, sCoinsTextureDls[frame]);
+                    }
+                    else
+                    {
+                        gSPDisplayList(tempGfxHead++, sCoinsTextureDls[8 - frame]);
+                    }
+                }
+
+                if (currLayer == LAYER_CIRCLE_SHADOW) {
+                    gSPDisplayList(tempGfxHead++, dl_shadow_circle);
+                }
             }
 
             // Iterate through all the displaylists on the current layer.
@@ -336,10 +368,19 @@ void geo_process_master_list_sub(struct GraphNodeMasterList *node) {
                 currList = currList->next;
             }
 
-            if (currLayer == LAYER_CIRCLE_SHADOW_TRANSPARENT) {
-                gSPTexture(tempGfxHead++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF);
-                gSPSetGeometryMode(tempGfxHead++, G_LIGHTING | G_CULL_BACK);
-                gDPSetCombineMode(tempGfxHead++, G_CC_SHADE, G_CC_SHADE);
+            if (!__builtin_expect(!sSegmentTable[3], 0))
+            {
+                if (currLayer == LAYER_CIRCLE_SHADOW_TRANSPARENT) {
+                    gSPTexture(tempGfxHead++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF);
+                    gSPSetGeometryMode(tempGfxHead++, G_LIGHTING | G_CULL_BACK);
+                    gDPSetCombineMode(tempGfxHead++, G_CC_SHADE, G_CC_SHADE);
+                }
+                if (currLayer == LAYER_COIN)
+                {
+                    gSPTexture(tempGfxHead++, 0x0001, 0x0001, 0, G_TX_RENDERTILE, G_OFF);
+                    gDPSetCombineMode(tempGfxHead++, G_CC_SHADE, G_CC_SHADE);
+                    gSPSetGeometryMode(tempGfxHead++, G_LIGHTING);
+                }
             }
         }
     }
@@ -522,6 +563,12 @@ void geo_process_level_of_detail(struct GraphNodeLevelOfDetail *node) {
         && node->node.children != 0) {
         geo_process_node_and_siblings(node->node.children);
     }
+}
+
+void geo_process_coin(struct GraphNodeCoin *node)
+{
+    void* dl = gGlobalTimer % 8 < 5 ? node->displayList : node->displayList_r;
+    geo_append_display_list(dl, GET_GRAPH_NODE_LAYER(node->node.flags));
 }
 
 /**
@@ -1225,6 +1272,7 @@ static GeoProcessFunc GeoProcessJumpTable[] = {
     [GRAPH_NODE_TYPE_CULLING_RADIUS      ] = geo_try_process_children,
     [GRAPH_NODE_TYPE_ROOT                ] = geo_try_process_children,
     [GRAPH_NODE_TYPE_START               ] = geo_try_process_children,
+    [GRAPH_NODE_TYPE_COIN                ] = geo_process_coin,
 };
 
 /**
