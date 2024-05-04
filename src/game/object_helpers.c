@@ -12,6 +12,7 @@
 #include "engine/math_util.h"
 #include "engine/surface_collision.h"
 #include "game_init.h"
+#include "game/emutest.h"
 #include "helper_macros.h"
 #include "ingame_menu.h"
 #include "interaction.h"
@@ -89,6 +90,28 @@ Gfx *geo_update_layer_transparency(s32 callContext, struct GraphNode *node, UNUS
         gSPEndDisplayList(dlHead);
     }
 
+    return dlStart;
+}
+
+Gfx *geo_update_layer_transparency_envcolor(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    Gfx *dlStart = NULL;
+    struct GraphNodeGenerated *currentGraphNode = (struct GraphNodeGenerated *) node;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        struct Object *objectGraphNode = (struct Object *) gCurGraphNodeObject; // TODO: change this to object pointer?
+
+        if (gCurGraphNodeHeldObject != NULL) {
+            objectGraphNode = gCurGraphNodeHeldObject->objNode;
+        }
+
+        o->oAnimState = gIsConsole;
+        SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, gIsConsole ? LAYER_SMOKE_ALPHA : LAYER_SMOKE_TRANSPARENT);
+        s32 objectOpacity = objectGraphNode->oOpacity;
+        dlStart = alloc_display_list(sizeof(Gfx) * 2);
+        Gfx *dlHead = dlStart;
+        gDPSetEnvColor(dlHead++, 255, 255, 255, objectOpacity);
+        gSPEndDisplayList(dlHead);
+    }
     return dlStart;
 }
 
