@@ -6074,4 +6074,10 @@ const BehaviorScript bhvIntroScene[] = {
     END_LOOP(),
 };
 
-
+extern void bhv_murder();
+const BehaviorScript RM_Scroll_Texture[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_murder),
+    END_LOOP(),
+};
