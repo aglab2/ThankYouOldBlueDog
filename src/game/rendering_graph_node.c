@@ -660,6 +660,23 @@ void geo_process_level_of_detail(struct GraphNodeLevelOfDetail *node) {
     }
 }
 
+void geo_process_cull(struct GraphNodeCull* node)
+{
+    s16 active = TRUE;
+#ifdef AUTO_LOD
+    // if (!__unlikely(!gIsConsole))
+#endif
+    {
+        active = node->x0 < gMarioStates->pos[0] && gMarioStates->pos[0] < node->x1
+                && node->y0 < gMarioStates->pos[1] && gMarioStates->pos[1] < node->y1
+                && node->z0 < gMarioStates->pos[2] && gMarioStates->pos[2] < node->z1;
+    }
+
+    if ((active ^ node->style) && node->node.children != 0) {
+        geo_process_node_and_siblings(node->node.children);
+    }
+}
+
 void geo_process_coin(struct GraphNodeCoin *node)
 {
     void* dl = gGlobalTimer % 8 < 5 ? node->displayList : node->displayList_r;
@@ -1367,6 +1384,7 @@ static GeoProcessFunc GeoProcessJumpTable[] = {
     [GRAPH_NODE_TYPE_CULLING_RADIUS      ] = geo_try_process_children,
     [GRAPH_NODE_TYPE_ROOT                ] = geo_try_process_children,
     [GRAPH_NODE_TYPE_START               ] = geo_try_process_children,
+    [GRAPH_NODE_TYPE_CULL                ] = geo_process_cull,
     [GRAPH_NODE_TYPE_COIN                ] = geo_process_coin,
 };
 

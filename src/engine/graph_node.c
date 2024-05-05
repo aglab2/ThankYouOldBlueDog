@@ -147,6 +147,30 @@ struct GraphNodeLevelOfDetail *init_graph_node_render_range(s32 alloc,
     return graphNode;
 }
 
+struct GraphNodeCull* init_graph_node_cull(s32 alloc,
+                                           struct GraphNodeCull *graphNode,
+                                           s16 x0, s16 x1,
+                                           s16 y0, s16 y1,
+                                           s16 z0, s16 z1, s16 style)
+{
+    if (alloc) {
+        graphNode = main_pool_alloc(sizeof(struct GraphNodeCull));
+    }
+
+    if (graphNode != NULL) {
+        init_scene_graph_node_links(&graphNode->node, GRAPH_NODE_TYPE_CULL);
+        graphNode->x0 = x0;
+        graphNode->x1 = x1;
+        graphNode->y0 = y0;
+        graphNode->y1 = y1;
+        graphNode->z0 = z0;
+        graphNode->z1 = z1;
+        graphNode->style = style;
+    }
+
+    return graphNode;
+}
+
 /**
  * Allocates and returns a newly created switch case node
  */
