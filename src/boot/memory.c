@@ -99,7 +99,7 @@ extern uintptr_t sSegmentTable[32];
  * Memory pool for small graphical effects that aren't connected to Objects.
  * Used for colored text, paintings, and environmental snow and bubbles.
  */
-struct MemoryPool *gEffectsMemoryPool;
+struct MemoryPool *gEffectsMemoryPool __attribute__((section(".data")));
 
 
 uintptr_t sSegmentTable[32];
@@ -162,6 +162,7 @@ void move_segment_table_to_dmem(void) {
 
 extern u8 _framebuffer2SegmentBssEnd[];
 extern u8 _goddardSegmentStart[];
+extern u8 _sbssSegmentBssEnd[];
 
 #define ZBUFFER_END ZBUFFER_START + RENDER_BUFFER_BUFFER_SIZE
 #define FRAMEBUFFER0_END FRAMEBUFFER0_START + RENDER_BUFFER_BUFFER_SIZE
@@ -581,6 +582,22 @@ void *load_segment_decompress(s32 segment, u8 *srcStart, u8 *srcEnd) {
     set_segment_memory_printout(segment, ppSize);
 #endif
     return dest;
+}
+
+extern u8 _gp[];
+extern u8 _sdataSegmentStart[];
+extern u8 _sdataSegmentEnd[];
+extern u8 _sdataSegmentRomStart[];
+extern u8 _sdataSegmentRomEnd[];
+
+void load_sdata(void) {
+    void *startAddr = (void *) _sdataSegmentStart;
+    u32 totalSize = _sdataSegmentEnd - _sdataSegmentStart;
+
+    bzero(startAddr, totalSize);
+    osWritebackDCacheAll();
+    dma_read(startAddr, _sdataSegmentRomStart, _sdataSegmentRomEnd);
+    osInvalDCache(startAddr, totalSize);
 }
 
 void load_engine_code_segment(void) {

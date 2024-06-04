@@ -32,7 +32,7 @@ extern Gfx dl_menu_idle_hand[];
 extern Gfx dl_menu_grabbing_hand[];
 extern struct DiacriticLUTEntry menu_font_diacritic_lut[];
 extern struct AsciiCharLUTEntry menu_font_lut[];
-extern struct Utf8LUT menu_font_utf8_lut;
+extern struct Utf8LUT menu_font_utf8_lut __attribute__((section(".data")));
 extern Texture texture_menu_font_char_umlaut[];
 extern Gfx dl_menu_ia8_text_begin[];
 extern Gfx dl_menu_ia8_text_end[];
