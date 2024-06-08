@@ -6616,6 +6616,8 @@ Gfx mat_mario_metal[] = {
 
 Gfx mat_revert_mario_metal[] = {
 	gsDPPipeSync(),
+	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, SHADE),
+	gsDPSetAlphaCompare(G_AC_NONE),
 	gsSPGeometryMode(G_TEXTURE_GEN, 0),
 	gsSPEndDisplayList(),
 };
@@ -6950,6 +6952,8 @@ Gfx mat_mario_shoes[] = {
 
 Gfx mat_revert_mario_shoes[] = {
 	gsDPPipeSync(),
+	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, SHADE),
+	gsDPSetAlphaCompare(G_AC_NONE),
 	gsDPSetTextureLUT(G_TT_NONE),
 	gsSPEndDisplayList(),
 };
