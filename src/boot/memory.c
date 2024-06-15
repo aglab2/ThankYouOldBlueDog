@@ -30,6 +30,8 @@
 #define	DOWN(s, align)	(((u32)(s)) & ~((align)-1))
 #define DOWN4(s) DOWN(s, 4)
 
+#ifndef MAIN_POOL_SINGLE_REGION
+
 #if MEMORY_FRAGMENTATION_NO_FRAGMENTATION == MEMORY_FRAGMENTATION_LEVEL
 // One giant region encompassing all of the ram. Memory layout follows vanilla implementation
 // -zbuffer-|-game/engine data-|-framebuffers-|-main pool region-
@@ -58,6 +60,10 @@
 //                                             ^                                ^
 //                                        0x80500000                       0x80700000
 #define MAIN_POOL_REGIONS_COUNT 3
+#endif
+
+#else
+#define MAIN_POOL_REGIONS_COUNT 1
 #endif
 
 struct MainPoolContext {
@@ -189,21 +195,27 @@ void main_pool_init() {
 #if MEMORY_FRAGMENTATION_ZBUFFER_AND_FRAMEBUFFERS == MEMORY_FRAGMENTATION_LEVEL
     // Region before zbuffer and region after the framebuffer2
     SET_REGION(0, _poolStart, ZBUFFER_START);
+#ifndef MAIN_POOL_SINGLE_REGION
     SET_REGION(1, FRAMEBUFFER2_END, _goddardSegmentStart);
+#endif
 #endif
 
 #if MEMORY_FRAGMENTATION_ZBUFFER_AND_FRAMEBUFFERS_SPLIT == MEMORY_FRAGMENTATION_LEVEL
     // Regions before zbuffer, after the framebuffer2, between zbuffer and framebuffer0
     SET_REGION(0, 0x80600000, _goddardSegmentStart);
+#ifndef MAIN_POOL_SINGLE_REGION
     SET_REGION(1, _poolStart, ZBUFFER_START);
     SET_REGION(2, FRAMEBUFFER2_END, 0x80600000);
+#endif
 #endif
 
 #if MEMORY_FRAGMENTATION_ZBUFFER_AND_EACH_FRAMEBUFFER == MEMORY_FRAGMENTATION_LEVEL
     // Region before zbuffer, between fb0/fb1, after fb2
     SET_REGION(0, _poolStart, ZBUFFER_START);
+#ifndef MAIN_POOL_SINGLE_REGION
     SET_REGION(1, FRAMEBUFFER0_END, FRAMEBUFFER1_START);
     SET_REGION(2, FRAMEBUFFER2_END, _goddardSegmentStart);
+#endif
 #endif
 
 #undef SET_REGION

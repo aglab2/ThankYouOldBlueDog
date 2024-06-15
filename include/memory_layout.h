@@ -46,3 +46,5 @@
 // Consider memory to be contiguous instead of consisting of multiple regions (single region) effectively removing any size checks
 #define MAIN_POOL_SINGLE_REGION
 #endif
+
+#define MAIN_POOL_SINGLE_REGION
