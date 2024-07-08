@@ -164,6 +164,7 @@ enum WarpNodes {
     WARP_NODE_DEATH         = 0xF1,
     WARP_NODE_LOOK_UP       = 0xF2,
     WARP_NODE_WARP_FLOOR    = 0xF3,
+    WARP_NODE_FAIL_WARP     = 0xF4,
     WARP_NODE_CREDITS_MIN   = 0xF8,
     WARP_NODE_CREDITS_START = 0xF8,
     WARP_NODE_CREDITS_NEXT  = 0xF9,

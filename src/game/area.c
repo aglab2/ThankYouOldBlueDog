@@ -8,6 +8,7 @@
 #include "game_init.h"
 #include "object_list_processor.h"
 #include "engine/surface_load.h"
+#include "fail_warp.h"
 #include "ingame_menu.h"
 #include "screen_transition.h"
 #include "mario.h"
@@ -136,6 +137,11 @@ u32 get_mario_spawn_type(struct Object *obj) {
 }
 
 struct ObjectWarpNode *area_get_warp_node(u8 id) {
+    if (id == WARP_NODE_FAIL_WARP)
+    {
+        return fail_warp_area_get_warp_node();
+    }
+
     struct ObjectWarpNode *node = NULL;
 
     for (node = gCurrentArea->warpNodes; node != NULL; node = node->next) {
@@ -147,6 +153,11 @@ struct ObjectWarpNode *area_get_warp_node(u8 id) {
 }
 
 struct Object *get_destination_warp_object(u8 warpDestId) {
+    if (warpDestId == WARP_NODE_FAIL_WARP)
+    {
+        return &gFailWarpSpoofedWarpObject;
+    }
+
     struct Object *children = (struct Object *) gObjParentGraphNode.children;
 
     do {
