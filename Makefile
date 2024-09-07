@@ -150,7 +150,19 @@ GCC_MAIN_OPT_FLAGS = \
   -finline-limit=1 \
   -freorder-blocks-algorithm=simple  \
   -ffunction-sections \
-  -fdata-sections
+  -fdata-sections \
+  -fno-loop-unroll-and-jam \
+  -fno-peel-loops \
+  -fno-split-loops \
+  -fno-split-paths \
+  -fno-tree-loop-distribution \
+  -fno-unswitch-loops \
+  -fno-ipa-cp-clone \
+  -fno-align-functions \
+  -fno-align-jumps \
+  -fno-align-labels \
+  -fno-align-loops \
+  -fno-prefetch-loop-arrays
 
 # Surface Collision
 GCC_COLLISION_OPT_FLAGS = \
