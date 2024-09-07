@@ -378,7 +378,7 @@ void geo_process_master_list_sub(struct GraphNodeMasterList *node) {
                 wantMode2 &= ~IM_RD;
             }
 #endif
-            if (wantMode1 != curMode1 || wantMode2 != curMode2)
+            if (currLayer == LAYER_COIN || currLayer == LAYER_SMOKE_ALPHA || wantMode1 != curMode1 || wantMode2 != curMode2)
             {
                 gDPSetRenderMode(tempGfxHead++, wantMode1, wantMode2);
                 curMode1 = wantMode1; curMode2 = wantMode2;
