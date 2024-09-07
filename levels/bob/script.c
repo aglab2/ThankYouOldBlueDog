@@ -40,7 +40,7 @@ const LevelScript level_bob_entry[] = {
 		WARP_NODE(0xf0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xf1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, 0x00000000, bhvBobCtrl),
-		MARIO_POS(0x01, 0, -4, 0, 1503),
+		MARIO_POS(0x01, 0, -4, 476, 1503),
 		OBJECT(MODEL_THI_WARP_PIPE, -10, 0, 2020, 0, 0, 0, 0x00000000, bhvWarpPipe),
 		OBJECT(MODEL_STAR, 5, 0, 2, 0, 0, 0, 0x00000000, bhvStar),
 		TERRAIN(bob_area_1_collision),
@@ -52,7 +52,7 @@ const LevelScript level_bob_entry[] = {
 	END_AREA(),
 
 	FREE_LEVEL_POOL(),
-	MARIO_POS(0x01, 0, -4, 0, 1503),
+	MARIO_POS(0x01, 0, -4, 476, 1503),
 	CALL(0, lvl_init_or_update),
 	CALL_LOOP(1, lvl_init_or_update),
 	CLEAR_LEVEL(),
