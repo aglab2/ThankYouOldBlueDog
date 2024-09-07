@@ -272,9 +272,6 @@ void set_vi_mode(int enabled)
 
 void load_area(s32 index) {
     int mode = 0;
-    if (gCurrAreaIndex == 1 && (gCurrLevelNum == LEVEL_JRB || gCurrLevelNum == LEVEL_BOB || gCurrLevelNum == LEVEL_CCM))
-        mode = 6;
-
     set_vi_mode(mode);
 
     if (gCurrentArea == NULL && gAreaData[index].graphNode != NULL) {
