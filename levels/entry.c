@@ -9,6 +9,10 @@
 
 #include "config.h"
 
+#ifndef DISABLE_ALL
+#define TEST_LEVEL LEVEL_BOB
+#endif
+
 extern const LevelScript level_main_scripts_entry[];
 const LevelScript level_script_entry[] = {
     INIT_LEVEL(),
