@@ -123,7 +123,7 @@ struct Utf8LUT {
 struct DiacriticLUTEntry {
     s8 xOffset;
     s8 yOffset;
-    char *str;
+    const char *str;
 };
 
 enum TextDiacriticMarks {
@@ -215,7 +215,7 @@ enum MultilangLanguages {
 #define LANG_ARRAY_COND_SPANISH(...)
 #endif
 
-typedef char * LangArray[LANGUAGE_COUNT];
+typedef const char * LangArray[LANGUAGE_COUNT];
 #define LANG_ARRAY(cmd) ((cmd)[gInGameLanguage])
 #define DEFINE_LANGUAGE_ARRAY(english, french, german, japanese, spanish) { \
     [LANGUAGE_ENGLISH] = english,                                           \
@@ -230,7 +230,7 @@ typedef char * LangArray[LANGUAGE_COUNT];
 // If multilang is off, ignore all other languages and only include English.
 #define LANGUAGE_ENGLISH 0
 
-typedef char * LangArray;
+typedef const char * LangArray;
 #define LANG_ARRAY(cmd) (cmd)
 #define DEFINE_LANGUAGE_ARRAY(english, french, german, japanese, spanish) english
 
@@ -254,7 +254,7 @@ typedef char * LangArray;
 
 typedef union {
     s32 asInt;
-    char *asStr;
+    const char *asStr;
 } DialogVariable;
 
 extern s32 gDialogResponse;
@@ -270,23 +270,23 @@ void create_dl_ortho_matrix(void);
 void create_dl_scale_matrix(s8 pushOp, f32 x, f32 y, f32 z);
 
 void set_text_color(u32 r, u32 g, u32 b);
-s32 get_string_width(char *str, struct AsciiCharLUTEntry *asciiLut, struct Utf8LUT *utf8LUT);
+s32 get_string_width(const char *str, const struct AsciiCharLUTEntry *asciiLut, const struct Utf8LUT *utf8LUT);
 void format_int_to_string(char *buf, s32 value);
-void print_generic_string(s16 x, s16 y, char *str);
-void print_hud_lut_string(s16 x, s16 y, char *str);
-void print_menu_generic_string(s16 x, s16 y, char *str);
-void print_credits_string(s16 x, s16 y, char *str);
-void print_generic_string_aligned(s16 x, s16 y, char *str, u32 alignment);
-void print_hud_lut_string_aligned(s16 x, s16 y, char *str, u32 alignment);
-void print_menu_generic_string_aligned(s16 x, s16 y, char *str, u32 alignment);
-void print_credits_string_aligned(s16 x, s16 y, char *str, u32 alignment);
+void print_generic_string(s16 x, s16 y, const char *str);
+void print_hud_lut_string(s16 x, s16 y, const char *str);
+void print_menu_generic_string(s16 x, s16 y, const char *str);
+void print_credits_string(s16 x, s16 y, const char *str);
+void print_generic_string_aligned(s16 x, s16 y, const char *str, u32 alignment);
+void print_hud_lut_string_aligned(s16 x, s16 y, const char *str, u32 alignment);
+void print_menu_generic_string_aligned(s16 x, s16 y, const char *str, u32 alignment);
+void print_credits_string_aligned(s16 x, s16 y, const char *str, u32 alignment);
 
 void handle_menu_scrolling(s8 scrollDirection, s8 *currentIndex, s8 minIndex, s8 maxIndex);
 void print_hud_my_score_coins(s32 useCourseCoinScore, s8 fileIndex, s8 courseIndex, s16 x, s16 y);
 s32 get_dialog_id(void);
 void create_dialog_box(s16 dialog);
 void create_dialog_box_with_int_var(s16 dialog, s32 dialogVar);
-void create_dialog_box_with_str_var(s16 dialog, char *dialogVar);
+void create_dialog_box_with_str_var(s16 dialog, const char *dialogVar);
 void create_dialog_box_with_var(s16 dialog, DialogVariable dialogVar);
 void create_dialog_inverted_box(s16 dialog);
 void create_dialog_box_with_response(s16 dialog);

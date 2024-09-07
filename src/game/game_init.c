@@ -32,6 +32,10 @@
 #include "profiling.h"
 #include "emutest.h"
 
+#include "hacktice/cfg.h"
+#include "hacktice/main.h"
+#include "hacktice/soft_reset.h"
+
 // Emulators that the Instant Input patch should not be applied to
 #define INSTANT_INPUT_BLACKLIST (EMU_CONSOLE | EMU_WIIVC | EMU_ARES | EMU_SIMPLE64 | EMU_CEN64)
 
@@ -813,6 +817,15 @@ void thread5_game_loop(UNUSED void *arg) {
         audio_game_loop_tick();
         select_gfx_pool();
         read_controller_inputs(THREAD_5_GAME_LOOP);
+        if (Hacktice_gEnabled)
+        {
+            Hacktice_onFrame();
+        }
+        const int ResetCombo = L_TRIG | Z_TRIG;
+        if (Hacktice_gConfig.softReset)
+        {
+            SoftReset_onFrame();
+        }
         profiler_update(PROFILER_TIME_CONTROLLERS, 0);
         profiler_collision_reset();
         addr = level_script_execute(addr);
