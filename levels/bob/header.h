@@ -12,4 +12,12 @@ extern const LevelScript level_bob_entry[];
 
 #include "levels/bob/header.inc.h"
 
+#include "levels/bob/bob_init/geo_header.h"
+
+#include "levels/bob/bob_init/collision_header.h"
+
+#include "levels/bob/bob_move/geo_header.h"
+
+#include "levels/bob/bob_move/collision_header.h"
+
 #endif

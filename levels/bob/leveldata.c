@@ -8,3 +8,8 @@
 #include "levels/bob/areas/1/trajectory.inc.c"
 
 #include "levels/bob/leveldata.inc.c"
+
+#include "levels/bob/bob_init/model.inc.c"
+#include "levels/bob/bob_init/collision.inc.c"
+#include "levels/bob/bob_move/model.inc.c"
+#include "levels/bob/bob_move/collision.inc.c"

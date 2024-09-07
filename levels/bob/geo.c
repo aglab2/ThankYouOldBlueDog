@@ -14,3 +14,6 @@
 #include "levels/bob/header.h"
 
 #include "levels/bob/geo.inc.c"
+
+#include "levels/bob/bob_init/geo.inc.c"
+#include "levels/bob/bob_move/geo.inc.c"

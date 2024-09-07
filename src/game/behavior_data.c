@@ -6083,3 +6083,33 @@ const BehaviorScript RM_Scroll_Texture[] = {
         CALL_NATIVE(bhv_murder),
     END_LOOP(),
 };
+
+void bhv_bob_ctrl_init();
+void bhv_bob_ctrl_loop();
+const BehaviorScript bhvBobCtrl[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    CALL_NATIVE(bhv_bob_ctrl_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_bob_ctrl_loop),
+    END_LOOP(),
+};
+
+extern const Collision bob_init_collision[];
+const BehaviorScript bhvBobInit[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(bob_init_collision),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern const Collision bob_move_collision[];
+const BehaviorScript bhvBobMove[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(bob_move_collision),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};

@@ -1,0 +1,11 @@
+extern const GeoLayout bob_move_geo[];
+extern Lights1 bob_move_f3dlite_material_005_lights;
+extern Lights1 bob_move_f3dlite_material_001_lights;
+extern u8 bob_move__3_ci8[];
+extern u8 bob_move__3_pal_rgba16[];
+extern u8 bob_move__4_ci8[];
+extern u8 bob_move__4_pal_rgba16[];
+extern Vtx bob_move_Plane_002_mesh_layer_1_vtx_cull[8];
+extern Vtx bob_move_Plane_002_mesh_layer_1_vtx_0[4];
+extern Vtx bob_move_Plane_002_mesh_layer_1_vtx_1[8];
+extern Gfx bob_move_Plane_002_mesh_layer_1[];
