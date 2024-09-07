@@ -2237,6 +2237,7 @@ const BehaviorScript bhvDddWarp[] = {
     END_LOOP(),
 };
 
+const Collision castle_grounds_seg7_collision_moat_grills[];
 const BehaviorScript bhvMoatGrills[] = {
     BEGIN(OBJ_LIST_SURFACE),
 #ifdef UNLOCK_ALL
@@ -4421,6 +4422,7 @@ const BehaviorScript bhvSandSoundLoop[] = {
     END_LOOP(),
 };
 
+extern const Collision castle_grounds_seg7_collision_cannon_grill[];
 const BehaviorScript bhvHiddenAt120Stars[] = {
     BEGIN(OBJ_LIST_SURFACE),
 #ifdef UNLOCK_ALL
