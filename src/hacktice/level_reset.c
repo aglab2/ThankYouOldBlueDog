@@ -52,7 +52,7 @@ static void miniResetCommon()
     gMarioStates->numCoins = 0;
     gSnowParticleCount = 5;
     gHudDisplay.timer = 0;
-    sTimerRunning = true;
+    sTimerRunning = false;
     Timer_reset();
     sWarpDest.type = 2;
     resetCamera();
@@ -95,7 +95,7 @@ void LevelReset_onNormal()
         gMarioStates->health = 0x880;
         sCurrPlayMode = 0x4;
         gHudDisplay.timer = 0;
-        sTimerRunning = true;
+        sTimerRunning = false;
         sTimerRunningDeferred = true;
         sReloadObjectsAreasMask = ~0;
     }
@@ -112,7 +112,7 @@ void LevelReset_onNormal()
         gMarioStates->health = 0x880;
         sCurrPlayMode = 0x4;
         gHudDisplay.timer = 0;
-        sTimerRunning = true;
+        sTimerRunning = false;
         sTimerRunningDeferred = true;
         sReloadObjectsAreasMask = ~0;
         Timer_reset();

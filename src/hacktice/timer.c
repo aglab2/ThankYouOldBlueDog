@@ -57,6 +57,6 @@ void Timer_onFrame()
     if (gMarioStates->action == ACT_STAR_DANCE_NO_EXIT)
         if (!Config_timerStopOnCoinStar())
         {
-            sTimerRunning = true;
+            sTimerRunning = false;
         }
 }

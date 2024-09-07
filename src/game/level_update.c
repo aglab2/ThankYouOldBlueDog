@@ -168,7 +168,7 @@ u16 level_control_timer(s32 timerOp) {
 
         case TIMER_CONTROL_HIDE:
             gHudDisplay.flags &= ~HUD_DISPLAY_FLAG_TIMER;
-            sTimerRunning = Hacktice_gEnabled;
+            sTimerRunning = FALSE;
             gHudDisplay.timer = 0;
             break;
     }

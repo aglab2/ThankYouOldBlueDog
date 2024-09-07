@@ -5,6 +5,8 @@
 #include "game/level_update.h"
 #include "game/mario.h"
 
+#include "hacktice/savestate.h"
+
 extern void set_camera_mode_8_directions(struct Camera *c);
 extern s16 s8DirModeYawOffset;
 
@@ -18,14 +20,7 @@ static s16 sSafePosCameraYaw;
 
 static void fail_warp_set_safe_pos(struct MarioState *m)
 {
-    // print_text_fmt_int(20, 20, "X %d", (int) m->pos[0]);
-    // print_text_fmt_int(20, 40, "Y %d", (int) m->pos[1]);
-    // print_text_fmt_int(20, 60, "Z %d", (int) m->pos[2]);
-    sSafePos[0] = m->pos[0];
-    sSafePos[1] = m->pos[1];
-    sSafePos[2] = m->pos[2];
-    sSafePosAngle = m->faceAngle[1];
-    sSafePosCameraYaw = s8DirModeYawOffset;
+    SaveState_Trigger();
     sSafePosArea = gCurrAreaIndex;
     sSafePosLevel = gCurrLevelNum;
 }
@@ -52,7 +47,7 @@ void fail_warp_mario_set_safe_pos(struct MarioState *m, struct Surface *floor)
         return;
 
     s16 type = floor->type;
-    if (!SURFACE_IS_UNSAFE(type) && type != SURFACE_VERY_SLIPPERY && floor->normal.y >= 0.8f)
+    if (type == SURFACE_VANISH_CAP_WALLS)
     {
         return fail_warp_set_safe_pos(m);
     }
@@ -92,6 +87,8 @@ void fail_warp_pre_level_trigger_warp(struct MarioState *m, s32* warpOp)
         return;
     }
 
+    SaveState_Load();
+    return;
     damage = 0x400;
     if (m->health <= damage + 0x80)
         return;

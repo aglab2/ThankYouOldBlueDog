@@ -29,6 +29,7 @@ extern u8 _hackticeStateDataEnd1[];
 #endif
 
 static bool sMustSaveState = 0;
+static bool sMustLoadState = 0;
 
 static void resetCamera()
 {
@@ -51,6 +52,7 @@ void SaveState_onNormal()
     if (sMustSaveState)
     {
         sMustSaveState = false;
+        sMustLoadState = false;
         Hacktice_gState->area  = gCurrAreaIndex;
         Hacktice_gState->level = gCurrLevelNum;
         Hacktice_gState->size = sizeof(State);
@@ -59,8 +61,9 @@ void SaveState_onNormal()
     }
     else
     {
-        if (Config_action() == Config_ButtonAction_LOAD_STATE)
+        if (sMustLoadState)
         {
+            sMustLoadState = false;
             if (Hacktice_gState->area == gCurrAreaIndex && Hacktice_gState->level == gCurrLevelNum)
             {
                 memcpy(_hackticeStateDataStart0, Hacktice_gState->memory, _hackticeStateDataEnd0 - _hackticeStateDataStart0);
@@ -79,4 +82,14 @@ void SaveState_onPause()
         sMustSaveState = true;
         TextManager_addLine("STATE SET", 30);
     }
+}
+
+void SaveState_Trigger()
+{
+    sMustSaveState = true;
+}
+
+void SaveState_Load()
+{
+    sMustLoadState = true;
 }
