@@ -595,6 +595,10 @@ The Indy development board use cartridge domain 1:
 #define VI_CTRL_SERRATE_ON	 0x00040    /* Bit 6: on if interlaced */
 #define VI_CTRL_ANTIALIAS_MASK	 0x00300    /* Bit [9:8] anti-alias mode */
 #define VI_CTRL_DITHER_FILTER_ON 0x10000    /* Bit 16: dither-filter mode */
+#define VI_CTRL_ANTIALIAS_MODE_0    0x00000 /* Bit [9:8] anti-alias mode: AA enabled, resampling enabled, always fetch extra lines */
+#define VI_CTRL_ANTIALIAS_MODE_1    0x00100 /* Bit [9:8] anti-alias mode: AA enabled, resampling enabled, fetch extra lines as-needed */
+#define VI_CTRL_ANTIALIAS_MODE_2    0x00200 /* Bit [9:8] anti-alias mode: AA disabled, resampling enabled, operate as if everything is covered */
+#define VI_CTRL_ANTIALIAS_MODE_3    0x00300 /* Bit [9:8] anti-alias mode: AA disabled, resampling disabled, replicate pixels */
 
 /*
  * Possible video clocks (NTSC or PAL)
