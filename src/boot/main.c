@@ -109,11 +109,8 @@ void setup_mesg_queues(void) {
 }
 
 void alloc_pool(void) {
-    void *start = (void *) SEG_POOL_START;
-    void *end = (void *) (SEG_POOL_START + POOL_SIZE);
-
-    main_pool_init(start, end);
-    gEffectsMemoryPool = mem_pool_init(EFFECTS_MEMORY_POOL, MEMORY_POOL_LEFT);
+    main_pool_init();
+    gEffectsMemoryPool = mem_pool_init(EFFECTS_MEMORY_POOL);
 }
 
 void create_thread(OSThread *thread, OSId id, void (*entry)(void *), void *arg, void *sp, OSPri pri) {
@@ -349,6 +346,10 @@ void thread3_main(UNUSED void *arg) {
     setup_mesg_queues();
     alloc_pool();
     load_engine_code_segment();
+#ifdef PUPPYPRINT_DEBUG
+    puppyprint_calculate_ram_usage_static();
+    puppyprint_calculate_ram_usage_dynamic();
+#endif
     detect_emulator();
 #ifndef UNF
     crash_screen_init();
