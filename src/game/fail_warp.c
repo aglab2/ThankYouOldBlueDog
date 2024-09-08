@@ -6,6 +6,7 @@
 #include "game/mario.h"
 
 #include "hacktice/savestate.h"
+#include "game/game_init.h"
 
 extern void set_camera_mode_8_directions(struct Camera *c);
 extern s16 s8DirModeYawOffset;
@@ -18,11 +19,18 @@ static Vec3s sSafePos = {};
 static s16 sSafePosAngle;
 static s16 sSafePosCameraYaw;
 
-static void fail_warp_set_safe_pos(struct MarioState *m)
+uint32_t gSafePosAllowedFrame = 0;
+
+static void fail_warp_set_safe_pos(struct MarioState *m, bool force)
 {
-    SaveState_Trigger();
-    sSafePosArea = gCurrAreaIndex;
-    sSafePosLevel = gCurrLevelNum;
+    gSafePosAllowedFrame = gGlobalTimer;
+    print_text_aligned(160, 20, "PRESS L TO SAVE", TEXT_ALIGN_CENTER);
+    if (force || (gPlayer1Controller->buttonPressed & L_TRIG))
+    {
+        SaveState_Trigger();
+        sSafePosArea = gCurrAreaIndex;
+        sSafePosLevel = gCurrLevelNum;
+    }
 }
 
 void fail_warp_mario_set_safe_pos(struct MarioState *m, struct Surface *floor)
@@ -39,7 +47,7 @@ void fail_warp_mario_set_safe_pos(struct MarioState *m, struct Surface *floor)
 
     if (sSafePosArea != gCurrAreaIndex || sSafePosLevel != gCurrLevelNum) 
     {
-        return fail_warp_set_safe_pos(m);
+        return fail_warp_set_safe_pos(m, 1);
     }
     
     bool slideTerrain = (m->area->terrainType & TERRAIN_MASK) == TERRAIN_SLIDE;
@@ -49,7 +57,7 @@ void fail_warp_mario_set_safe_pos(struct MarioState *m, struct Surface *floor)
     s16 type = floor->type;
     if (type == SURFACE_VANISH_CAP_WALLS)
     {
-        return fail_warp_set_safe_pos(m);
+        return fail_warp_set_safe_pos(m, 0);
     }
 }
 

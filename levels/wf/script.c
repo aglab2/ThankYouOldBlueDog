@@ -27,12 +27,18 @@ const LevelScript level_wf_entry[] = {
 	LOAD_MIO0(0x7, _wf_segment_7SegmentRomStart, _wf_segment_7SegmentRomEnd), 
 	ALLOC_LEVEL_POOL(),
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
+	LOAD_MODEL_FROM_GEO(MODEL_WF_MOVE_SAFE, wf_movesafe_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, wf_area_1),
+		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xf0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xf1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		MARIO_POS(0x01, 0, 0, 11, -14),
+		OBJECT(MODEL_NONE, 0, 204, 0, 0, 0, 0, 0x00000000, bhvWfCtl),
+		OBJECT(MODEL_STAR, -3, 3763, -28, 0, 0, 0, 0x00000000, bhvStar),
 		TERRAIN(wf_area_1_collision),
 		MACRO_OBJECTS(wf_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),

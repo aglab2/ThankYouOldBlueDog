@@ -31,6 +31,8 @@ extern u8 _hackticeStateDataEnd1[];
 static bool sMustSaveState = 0;
 static bool sMustLoadState = 0;
 
+extern uint32_t gSafePosAllowedFrame;
+
 static void resetCamera()
 {
     if (CAMERA_MODE_BEHIND_MARIO  == gCamera->mode
@@ -61,7 +63,7 @@ void SaveState_onNormal()
     }
     else
     {
-        if (sMustLoadState)
+        if (sMustLoadState || (Config_action() == Config_ButtonAction_LOAD_STATE && gSafePosAllowedFrame != gGlobalTimer - 1))
         {
             sMustLoadState = false;
             if (Hacktice_gState->area == gCurrAreaIndex && Hacktice_gState->level == gCurrLevelNum)

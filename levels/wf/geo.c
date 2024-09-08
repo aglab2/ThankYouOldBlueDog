@@ -14,3 +14,6 @@
 #include "levels/wf/header.h"
 
 #include "levels/wf/geo.inc.c"
+
+#include "levels/wf/wf_movesafe/geo.inc.c"
+#include "levels/wf/wf_movedeath/geo.inc.c"

@@ -19,6 +19,7 @@ Config Hacktice_gConfig = {
     .timerShow = true,
     .warpWheel = true,
     .customText = "PRACTICE",
+    .lAction = Config_ButtonAction_LOAD_STATE,
 };
 
 typedef struct ConfigDescriptor

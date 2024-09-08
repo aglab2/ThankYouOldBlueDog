@@ -259,7 +259,7 @@ s32 stationary_ground_step(struct MarioState *m) {
     mario_set_forward_vel(m, 0.0f);
 
     u32 takeStep = (mario_update_moving_sand(m) | mario_update_windy_ground(m));
-    if (takeStep) {
+    if (1) {
         stepResult = perform_ground_step(m);
     } else {
         // HackerSM64 2.1: This check prevents the downwarps that plagued stationary actions.

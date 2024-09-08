@@ -6113,3 +6113,38 @@ const BehaviorScript bhvBobMove[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+void bhv_wf_ctrl_init();
+void bhv_wf_ctrl_loop();
+const BehaviorScript bhvWfCtl[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    CALL_NATIVE(bhv_wf_ctrl_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_wf_ctrl_loop),
+    END_LOOP(),
+};
+
+extern void bhv_wf_move_init();
+extern void bhv_wf_move_loop();
+extern const Collision wf_movedeath_collision[];
+const BehaviorScript bhvWfMoveSafe[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(wf_movedeath_collision),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_wf_move_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_wf_move_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern const Collision wf_movesafe_collision[];
+const BehaviorScript bhvWfMoveDeath[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(wf_movesafe_collision),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_wf_move_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
