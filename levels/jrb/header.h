@@ -13,4 +13,8 @@ extern const LevelScript level_jrb_entry[];
 
 #include "levels/jrb/header.inc.h"
 
+#include "levels/jrb/jrb_rotate/geo_header.h"
+
+#include "levels/jrb/jrb_rotate/collision_header.h"
+
 #endif

@@ -6148,3 +6148,15 @@ const BehaviorScript bhvWfMoveDeath[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+extern const Collision jrb_rotate_collision[];
+const BehaviorScript bhvJrbRotat[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(jrb_rotate_collision),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_INT(oAngleVelYaw, 0x100),
+    BEGIN_LOOP(),
+        CALL_NATIVE(cur_obj_rotate_face_angle_using_vel),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};

@@ -14,3 +14,5 @@
 #include "levels/jrb/header.h"
 
 #include "levels/jrb/geo.inc.c"
+
+#include "levels/jrb/jrb_rotate/geo.inc.c"

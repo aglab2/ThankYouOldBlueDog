@@ -10,7 +10,7 @@
 #include "config.h"
 
 #ifndef DISABLE_ALL
-#define TEST_LEVEL LEVEL_WF
+#define TEST_LEVEL LEVEL_JRB
 #endif
 
 extern const LevelScript level_main_scripts_entry[];

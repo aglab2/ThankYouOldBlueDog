@@ -549,4 +549,6 @@ extern const BehaviorScript bhvWfCtl[];
 extern const BehaviorScript bhvWfMoveSafe[];
 extern const BehaviorScript bhvWfMoveDeath[];
 
+extern const BehaviorScript bhvJrbRotat[];
+
 #endif // BEHAVIOR_DATA_H

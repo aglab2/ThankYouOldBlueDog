@@ -10,3 +10,6 @@
 #include "levels/jrb/areas/2/movtext.inc.c"
 
 #include "levels/jrb/leveldata.inc.c"
+
+#include "levels/jrb/jrb_rotate/model.inc.c"
+#include "levels/jrb/jrb_rotate/collision.inc.c"
