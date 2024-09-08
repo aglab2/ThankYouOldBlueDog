@@ -66,18 +66,21 @@ void play_step_sound(struct MarioState *m, s16 frame1, s16 frame2) {
 
 void align_with_floor(struct MarioState *m) {
     struct Surface *floor = m->floor;
-    if ((floor != NULL) && (m->pos[1] < (m->floorHeight + 80.0f))) {
-        m->pos[1] = m->floorHeight;
+    if (!gGravityMode && (floor != NULL) && (m->pos[1] < (m->floorHeight + 80.0f))) {
+        // Use a temp position so m->pos is not passed to the function
+        Vec3f tempPos;
+        vec3f_copy(tempPos,m->pos);
+        tempPos[1] = m->floorHeight;
 #ifdef FAST_FLOOR_ALIGN
-        if (absf(m->forwardVel) > FAST_FLOOR_ALIGN) {
+        if ((gCurrLevelNum != LEVEL_CCM) && (absf(m->forwardVel) > FAST_FLOOR_ALIGN)) {
             Vec3f floorNormal;
             surface_normal_to_vec3f(floorNormal, floor);
-            mtxf_align_terrain_normal(sFloorAlignMatrix[m->playerID], floorNormal, m->pos, m->faceAngle[1]);
+            mtxf_align_terrain_normal(sFloorAlignMatrix[m->playerID], floorNormal, tempPos, m->faceAngle[1]);
         } else {
-            mtxf_align_terrain_triangle(sFloorAlignMatrix[m->playerID], m->pos, m->faceAngle[1], 40.0f);
+            mtxf_align_terrain_triangle(sFloorAlignMatrix[m->playerID], tempPos, m->faceAngle[1], 40.0f);
         }
 #else
-        mtxf_align_terrain_triangle(sFloorAlignMatrix[m->playerID], m->pos, m->faceAngle[1], 40.0f);
+        mtxf_align_terrain_triangle(sFloorAlignMatrix[m->playerID], tempPos, m->faceAngle[1], 40.0f);
 #endif
         m->marioObj->header.gfx.throwMatrix = &sFloorAlignMatrix[m->playerID];
     }

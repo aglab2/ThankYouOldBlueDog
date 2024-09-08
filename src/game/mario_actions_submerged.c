@@ -84,7 +84,7 @@ static u32 perform_water_full_step(struct MarioState *m, Vec3f nextPos) {
 
     if (nextPos[1] >= floorHeight) {
         if (ceilHeight - nextPos[1] >= 160.0f) {
-            vec3f_copy(m->pos, nextPos);
+            vec3f_copy_with_gravity_switch(m->pos, nextPos);
             set_mario_floor(m, floor, floorHeight);
 
             if (wall != NULL) {
@@ -185,7 +185,7 @@ static u32 perform_water_step(struct MarioState *m) {
 
     stepResult = perform_water_full_step(m, nextPos);
 
-    vec3f_copy(marioObj->header.gfx.pos, m->pos);
+    vec3f_copy_with_gravity_switch(marioObj->header.gfx.pos, m->pos);
     vec3s_set(marioObj->header.gfx.angle, -m->faceAngle[0], m->faceAngle[1], m->faceAngle[2]);
 
     return stepResult;
@@ -1084,7 +1084,7 @@ static s32 act_caught_in_whirlpool(struct MarioState *m) {
     m->faceAngle[1] = atan2s(dz, dx) + 0x8000;
 
     set_mario_animation(m, MARIO_ANIM_GENERAL_FALL);
-    vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
+    vec3f_copy_with_gravity_switch(m->marioObj->header.gfx.pos, m->pos);
     vec3s_set(m->marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
 #if ENABLE_RUMBLE
     reset_rumble_timers_slip();
