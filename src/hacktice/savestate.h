@@ -10,5 +10,6 @@ typedef struct
     s32 size;
     s16 level;
     s16 area;
+    s32 flipped;
     char memory[0];
 } State;

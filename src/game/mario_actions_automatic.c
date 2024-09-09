@@ -21,6 +21,8 @@
 
 #define HANG_DISTANCE 144.0f
 
+extern u8 sDeferGravSwap;
+
 void add_tree_leaf_particles(struct MarioState *m) {
     if (m->usedObj->behavior == segmented_to_virtual(bhvTree)) {
         // make leaf effect spawn higher on the Shifting Sand Land palm tree
@@ -87,7 +89,7 @@ s32 set_pole_position(struct MarioState *m, f32 offsetY) {
         }
     }
 
-    vec3f_copy(marioObj->header.gfx.pos, m->pos);
+    vec3f_copy_with_gravity_switch(marioObj->header.gfx.pos, m->pos);
     vec3s_set(marioObj->header.gfx.angle, m->usedObj->oMoveAnglePitch, m->faceAngle[1],
               m->usedObj->oMoveAngleRoll);
 
@@ -106,6 +108,10 @@ s32 act_holding_pole(struct MarioState *m) {
     if (m->input & INPUT_A_PRESSED) {
         add_tree_leaf_particles(m);
         m->faceAngle[1] += 0x8000;
+        if (gCurrCourseNum == COURSE_CCM)
+        {
+            sDeferGravSwap = 1;
+        }
         return set_mario_action(m, ACT_WALL_KICK_AIR, 0);
     }
 
@@ -162,6 +168,10 @@ s32 act_climbing_pole(struct MarioState *m) {
     if (m->input & INPUT_A_PRESSED) {
         add_tree_leaf_particles(m);
         m->faceAngle[1] += 0x8000;
+        if (gCurrCourseNum == COURSE_CCM)
+        {
+            sDeferGravSwap = 1;
+        }
         return set_mario_action(m, ACT_WALL_KICK_AIR, 0);
     }
 
@@ -284,7 +294,7 @@ s32 perform_hanging_step(struct MarioState *m, Vec3f nextPos) {
     }
 
     nextPos[1] = m->ceilHeight - HANG_DISTANCE;
-    vec3f_copy_with_gravity_switch(m->pos, nextPos);
+    vec3f_copy(m->pos, nextPos);
 
     set_mario_floor(m, floor, floorHeight);
     set_mario_ceil(m, ceil, ceilHeight);
@@ -761,7 +771,7 @@ s32 act_in_cannon(struct MarioState *m) {
             }
     }
 
-    vec3f_copy(marioObj->header.gfx.pos, m->pos);
+    vec3f_copy_with_gravity_switch(marioObj->header.gfx.pos, m->pos);
     vec3s_set(marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
     set_mario_animation(m, MARIO_ANIM_DIVE);
 

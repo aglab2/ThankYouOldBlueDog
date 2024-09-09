@@ -6160,3 +6160,12 @@ const BehaviorScript bhvJrbRotat[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+extern void bhv_ccm_flipper_loop();
+const BehaviorScript bhvCcmFlipper[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ccm_flipper_loop),
+    END_LOOP(),
+};

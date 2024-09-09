@@ -84,7 +84,7 @@ static u32 perform_water_full_step(struct MarioState *m, Vec3f nextPos) {
 
     if (nextPos[1] >= floorHeight) {
         if (ceilHeight - nextPos[1] >= 160.0f) {
-            vec3f_copy_with_gravity_switch(m->pos, nextPos);
+            vec3f_copy(m->pos, nextPos);
             set_mario_floor(m, floor, floorHeight);
 
             if (wall != NULL) {

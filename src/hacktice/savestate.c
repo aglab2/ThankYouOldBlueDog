@@ -33,6 +33,8 @@ static bool sMustLoadState = 0;
 
 extern uint32_t gSafePosAllowedFrame;
 
+extern u32 gIsGravityFlipped;
+
 static void resetCamera()
 {
     if (CAMERA_MODE_BEHIND_MARIO  == gCamera->mode
@@ -57,6 +59,7 @@ void SaveState_onNormal()
         sMustLoadState = false;
         Hacktice_gState->area  = gCurrAreaIndex;
         Hacktice_gState->level = gCurrLevelNum;
+        Hacktice_gState->flipped = gIsGravityFlipped;
         Hacktice_gState->size = sizeof(State);
         memcpy(Hacktice_gState->memory, _hackticeStateDataStart0, _hackticeStateDataEnd0 - _hackticeStateDataStart0);
         memcpy(Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0), _hackticeStateDataStart1, _hackticeStateDataEnd1 - _hackticeStateDataStart1);
@@ -70,6 +73,7 @@ void SaveState_onNormal()
             {
                 memcpy(_hackticeStateDataStart0, Hacktice_gState->memory, _hackticeStateDataEnd0 - _hackticeStateDataStart0);
                 memcpy(_hackticeStateDataStart1, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0), _hackticeStateDataEnd1 - _hackticeStateDataStart1);
+                gIsGravityFlipped = Hacktice_gState->flipped;
                 resetCamera();
             }
         }

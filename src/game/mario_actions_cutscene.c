@@ -558,7 +558,7 @@ s32 act_debug_free_move(struct MarioState *m) {
         if (ceil != NULL && pos[1] + 160.0f > ceilHeight) {
             pos[1] = ceilHeight - 160.0f;
         }
-        vec3f_copy_with_gravity_switch(m->pos, pos);
+        vec3f_copy(m->pos, pos);
     }
 
     m->faceAngle[1] = m->intendedYaw;
@@ -1899,7 +1899,7 @@ static void jumbo_star_cutscene_flying(struct MarioState *m) {
                 targetHyp = sqrtf(sqr(targetD[0]) + sqr(targetD[2]));
                 targetAngle = atan2s(targetD[2], targetD[0]);
 
-                vec3f_copy_with_gravity_switch(m->pos, targetPos);
+                vec3f_copy(m->pos, targetPos);
                 m->marioObj->header.gfx.angle[0] = -atan2s(targetHyp, targetD[1]);
                 m->marioObj->header.gfx.angle[1] = targetAngle;
                 m->marioObj->header.gfx.angle[2] = ((((m->faceAngle[1] - targetAngle) << 16) >> 16) * 20);

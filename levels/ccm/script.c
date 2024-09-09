@@ -32,7 +32,14 @@ const LevelScript level_ccm_entry[] = {
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, ccm_area_1),
+		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xf0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xf1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		MARIO_POS(0x01, 0, 0, 11, -14),
+		MARIO_POS(0x01, 0, -3, 17, -28),
+		OBJECT(MODEL_NONE, -12, -3242, -2429, 0, 0, 0, 0x00000000, bhvCcmFlipper),
+		OBJECT(MODEL_STAR, 0, 11, -6446, 0, 0, 0, 0x00000000, bhvStar),
+		OBJECT(MODEL_NONE, -12, 2630, -5368, 0, 0, 0, 0x00000000, bhvCcmFlipper),
 		TERRAIN(ccm_area_1_collision),
 		MACRO_OBJECTS(ccm_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
@@ -42,7 +49,7 @@ const LevelScript level_ccm_entry[] = {
 	END_AREA(),
 
 	FREE_LEVEL_POOL(),
-	MARIO_POS(0x01, 0, 0, 11, -14),
+	MARIO_POS(0x01, 0, -3, 17, -28),
 	CALL(0, lvl_init_or_update),
 	CALL_LOOP(1, lvl_init_or_update),
 	CLEAR_LEVEL(),

@@ -18,6 +18,8 @@
 #include "config.h"
 
 extern u32 gGravityMode;
+extern u32 gIsGravityFlipped;
+extern u8 sDeferGravSwap;
 
 void play_flip_sounds(struct MarioState *m, s16 frame1, s16 frame2, s16 frame3) {
     s32 animFrame = m->marioObj->header.gfx.animInfo.animFrame;
@@ -1134,6 +1136,10 @@ u32 common_air_knockback_step(struct MarioState *m, u32 landAction, u32 hardFall
 s32 check_wall_kick(struct MarioState *m) {
     if ((m->input & INPUT_A_PRESSED) && m->wallKickTimer != 0 && m->prevAction == ACT_AIR_HIT_WALL) {
         m->faceAngle[1] += 0x8000;
+        if (gCurrCourseNum == COURSE_CCM)
+        {
+            sDeferGravSwap = 1;
+        }
         return set_mario_action(m, ACT_WALL_KICK_AIR, 0);
     }
 
@@ -1278,6 +1284,10 @@ s32 act_air_hit_wall(struct MarioState *m) {
         if (m->input & INPUT_A_PRESSED) {
             m->vel[1] = 52.0f;
             m->faceAngle[1] += 0x8000;
+            if (gCurrCourseNum == COURSE_CCM)
+            {
+                sDeferGravSwap = 1;
+            }
             return set_mario_action(m, ACT_WALL_KICK_AIR, 0);
         }
     } else if (m->forwardVel >= 38.0f) {

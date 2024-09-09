@@ -24,6 +24,8 @@
 #include "version.h"
 #include "wallkick_frame.h"
 
+#include "game/gravity.h"
+
 #define PLAY_MODE_NORMAL 0
 #define PLAY_MODE_PAUSED 2
 
@@ -50,6 +52,12 @@ void Hacktice_onFrame()
         Checkpoint_onNormal();
 
         Action_onNormal();
+
+        if (sDeferGravSwap)
+        {
+            set_gravity(!gIsGravityFlipped);
+            sDeferGravSwap = false;
+        }
     }
 
     Timer_onFrame();
