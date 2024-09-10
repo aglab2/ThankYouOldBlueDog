@@ -337,6 +337,9 @@ Gfx *geo_mirror_mario_set_alpha(s32 callContext, struct GraphNode *node, UNUSED 
             bodyState->modelState |= MODEL_STATE_NOISE_ALPHA;
         }
 #endif
+        if (gCurGraphNodeObject == &gMirrorMario)
+            alpha = 255 - alpha;
+
         gfx = make_gfx_mario_alpha(asGenerated, alpha);
     }
     return gfx;
@@ -576,6 +579,9 @@ Gfx *geo_switch_mario_hand_grab_pos(s32 callContext, struct GraphNode *node, Mat
     return NULL;
 }
 
+u8 gMirrorTrigger;
+Vec3f gMirrorOffset = {};
+
 /**
  * Geo node that creates a clone of Mario's geo node and updates it to becomes
  * a mirror image of the player.
@@ -595,7 +601,7 @@ Gfx *geo_render_mirror_mario(s32 callContext, struct GraphNode *node, UNUSED Mat
             geo_remove_child(&gMirrorMario.node);
             break;
         case GEO_CONTEXT_RENDER:
-            if (mario->header.gfx.pos[0] > 1700.0f) {
+            if (gMirrorTrigger) {
                 // TODO: Is this a geo layout copy or a graph node copy?
                 gMirrorMario.sharedChild = mario->header.gfx.sharedChild;
                 gMirrorMario.areaIndex = mario->header.gfx.areaIndex;
@@ -604,10 +610,12 @@ Gfx *geo_render_mirror_mario(s32 callContext, struct GraphNode *node, UNUSED Mat
                 vec3f_copy(gMirrorMario.scale, mario->header.gfx.scale);
 
                 gMirrorMario.animInfo = mario->header.gfx.animInfo;
-                mirroredX = CASTLE_MIRROR_X - gMirrorMario.pos[0];
-                gMirrorMario.pos[0] = mirroredX + CASTLE_MIRROR_X;
-                gMirrorMario.angle[1] = -gMirrorMario.angle[1];
-                gMirrorMario.scale[0] *= -1.0f;
+                gMirrorMario.pos[0] = gMirrorMario.pos[0] + gMirrorOffset[0];
+                gMirrorMario.pos[1] = gMirrorMario.pos[1] + gMirrorOffset[1];
+                gMirrorMario.pos[2] = gMirrorMario.pos[2] + gMirrorOffset[2];
+                // gMirrorMario.angle[1] = -gMirrorMario.angle[1];
+                // gMirrorMario.scale[0] *= -1.0f;
+                // gMirrorMario.scale[2] *= -1.0f;
                 ((struct GraphNode *) &gMirrorMario)->flags |= GRAPH_RENDER_ACTIVE;
             } else {
                 ((struct GraphNode *) &gMirrorMario)->flags &= ~GRAPH_RENDER_ACTIVE;
@@ -629,8 +637,8 @@ Gfx *geo_mirror_mario_backface_culling(s32 callContext, struct GraphNode *node, 
         gfx = alloc_display_list(3 * sizeof(*gfx));
 
         if (asGenerated->parameter == 0) {
-            gSPClearGeometryMode(&gfx[0], G_CULL_BACK);
-            gSPSetGeometryMode(&gfx[1], G_CULL_FRONT);
+            gSPClearGeometryMode(&gfx[0], G_CULL_FRONT);
+            gSPSetGeometryMode(&gfx[1], G_CULL_BACK);
             gSPEndDisplayList(&gfx[2]);
         } else {
             gSPClearGeometryMode(&gfx[0], G_CULL_FRONT);

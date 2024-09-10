@@ -3,6 +3,9 @@
 const GeoLayout bbh_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_ASM(0, geo_render_mirror_mario),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 250, 0, -250, bbh_dl_Plane_mesh_layer_1),
+		GEO_ROTATION_NODE_WITH_DL(LAYER_ALPHA, 90, 0, 0, bbh_dl_Plane_001_mesh_layer_4),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -20,7 +23,7 @@ const GeoLayout bbh_area_1[] = {
 		GEO_OPEN_NODE(),
 			GEO_CAMERA_FRUSTUM_WITH_FUNC(45.0000, 100, 30000, geo_camera_fov),
 			GEO_OPEN_NODE(),
-				GEO_CAMERA(CAMERA_MODE_8_DIRECTIONS, 0, 0, 0, 0, -100, 0, geo_camera_main),
+				GEO_CAMERA(CAMERA_MODE_8_DIRECTIONS, 0, 0, 0, 0, -50, 0, geo_camera_main),
 				GEO_OPEN_NODE(),
 					GEO_BRANCH(1, bbh_area_1_geo),
 					GEO_RENDER_OBJ(),

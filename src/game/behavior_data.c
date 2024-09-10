@@ -6169,3 +6169,13 @@ const BehaviorScript bhvCcmFlipper[] = {
         CALL_NATIVE(bhv_ccm_flipper_loop),
     END_LOOP(),
 };
+
+extern void bhv_bbh_ctl_init();
+extern void bhv_bbh_ctl_loop();
+extern const BehaviorScript bhvBbhCtl[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    CALL_NATIVE(bhv_bbh_ctl_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_bbh_ctl_loop),
+    END_LOOP(),
+};
