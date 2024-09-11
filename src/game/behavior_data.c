@@ -6179,3 +6179,11 @@ extern const BehaviorScript bhvBbhCtl[] = {
         CALL_NATIVE(bhv_bbh_ctl_loop),
     END_LOOP(),
 };
+
+extern void bhv_hmc_ctl_loop();
+extern const BehaviorScript bhvHmcCtl[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_hmc_ctl_loop),
+    END_LOOP(),
+};

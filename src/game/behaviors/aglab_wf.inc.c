@@ -3,6 +3,8 @@
 #define oWfTrajCurPoint oFC
 #define oWfMoveTrajIdx o100
 
+// Moving 30 platform in a loop
+
 extern const Trajectory wf_area_1_spline_traj0[];
 extern const Trajectory wf_area_1_spline_traj1[];
 

@@ -555,4 +555,6 @@ extern const BehaviorScript bhvCcmFlipper[];
 
 extern const BehaviorScript bhvBbhCtl[];
 
+extern const BehaviorScript bhvHmcCtl[];
+
 #endif // BEHAVIOR_DATA_H

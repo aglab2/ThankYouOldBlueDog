@@ -3,6 +3,8 @@
 #define oBobCtrlNext oObjF8
 #define oBobCtrlStar oObjFC
 
+// Spawning floors
+
 extern const BehaviorScript bhvBobInit[];
 extern const BehaviorScript bhvBobMove[];
 

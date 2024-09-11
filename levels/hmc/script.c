@@ -32,7 +32,13 @@ const LevelScript level_hmc_entry[] = {
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, hmc_area_1),
-		MARIO_POS(0x01, 0, 0, 11, -14),
+		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xf0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xf1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_NONE, 0, 270, 5589, 0, 0, 0, 0x00000000, bhvHmcCtl),
+		MARIO_POS(0x01, 0, -94, 728, -278),
+		OBJECT(MODEL_NONE, 0, 270, 5589, 0, 0, 0, 0x00000000, bhvInstantActiveWarp),
+		OBJECT(MODEL_STAR, -14, 4490, -1626, 0, 0, 0, 0x00000000, bhvStar),
 		TERRAIN(hmc_area_1_collision),
 		MACRO_OBJECTS(hmc_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
@@ -42,7 +48,7 @@ const LevelScript level_hmc_entry[] = {
 	END_AREA(),
 
 	FREE_LEVEL_POOL(),
-	MARIO_POS(0x01, 0, 0, 11, -14),
+	MARIO_POS(0x01, 0, -94, 728, -278),
 	CALL(0, lvl_init_or_update),
 	CALL_LOOP(1, lvl_init_or_update),
 	CLEAR_LEVEL(),

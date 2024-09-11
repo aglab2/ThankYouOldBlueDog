@@ -101,6 +101,9 @@ static s32 find_wall_collisions_from_list(struct SurfaceNode *surfaceNode, struc
             }
         }
 
+        if (!(gCollisionFlags & COLLISION_FLAG_WATER) && type == SURFACE_WATER)
+            continue;
+
         // Dot of normal and pos, + origin offset
         offset = (surf->normal.x * pos[0])
                + (surf->normal.y * pos[1])
@@ -340,6 +343,9 @@ static struct Surface *find_ceil_from_list(struct SurfaceNode *surfaceNode, s32 
             continue;
         }
 
+        if (!(gCollisionFlags & COLLISION_FLAG_WATER) && type == SURFACE_WATER)
+            continue;
+
         // Check that the point is within the triangle bounds
         if (gGravityMode) {
             if (!check_within_floor_triangle_bounds(x, z, surf)) continue;
@@ -486,6 +492,9 @@ static struct Surface *find_floor_from_list(struct SurfaceNode *surfaceNode, s32
         } else if (type == SURFACE_CAMERA_BOUNDARY) {
             continue; // If we are not checking for the camera, ignore camera only floors.
         }
+
+        if (!(gCollisionFlags & COLLISION_FLAG_WATER) && type == SURFACE_WATER)
+            continue;
 
         // Exclude all floors above the point.
         if (gGravityMode) {
