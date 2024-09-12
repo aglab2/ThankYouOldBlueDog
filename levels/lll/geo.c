@@ -14,3 +14,5 @@
 #include "levels/lll/header.h"
 
 #include "levels/lll/geo.inc.c"
+
+#include "levels/lll/lll_72/geo.inc.c"

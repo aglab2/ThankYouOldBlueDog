@@ -6187,3 +6187,17 @@ extern const BehaviorScript bhvHmcCtl[] = {
         CALL_NATIVE(bhv_hmc_ctl_loop),
     END_LOOP(),
 };
+
+extern void bhv_lll_72_init();
+extern void bhv_lll_72_loop();
+extern const Collision lll_72_collision[];
+extern const BehaviorScript bhvLll72[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(lll_72_collision),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_lll_72_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_lll_72_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};

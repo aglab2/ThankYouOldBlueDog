@@ -9,3 +9,6 @@
 #include "levels/lll/areas/2/movtext.inc.c"
 
 #include "levels/lll/leveldata.inc.c"
+
+#include "levels/lll/lll_72/collision.inc.c"
+#include "levels/lll/lll_72/model.inc.c"
