@@ -6201,3 +6201,12 @@ extern const BehaviorScript bhvLll72[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+extern void bhv_ssl_loop();
+extern const BehaviorScript bhvSslCtl[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ssl_loop),
+    END_LOOP(),
+};

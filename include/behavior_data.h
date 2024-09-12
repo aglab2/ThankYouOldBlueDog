@@ -559,4 +559,6 @@ extern const BehaviorScript bhvHmcCtl[];
 
 extern const BehaviorScript bhvLll72[];
 
+extern const BehaviorScript bhvSslCtl[];
+
 #endif // BEHAVIOR_DATA_H

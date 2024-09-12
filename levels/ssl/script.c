@@ -25,14 +25,19 @@
 const LevelScript level_ssl_entry[] = {
 	INIT_LEVEL(),
 	LOAD_MIO0(0x7, _ssl_segment_7SegmentRomStart, _ssl_segment_7SegmentRomEnd), 
+	LOAD_YAY0(        /*seg*/ 0x08, _common0_yay0SegmentRomStart, _common0_yay0SegmentRomEnd),
+	LOAD_RAW(         /*seg*/ 0x0F, _common0_geoSegmentRomStart,  _common0_geoSegmentRomEnd),
 	ALLOC_LEVEL_POOL(),
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
+	JUMP_LINK(script_func_global_1),
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, ssl_area_1),
-		MARIO_POS(0x01, 0, 0, 11, -14),
+		OBJECT(MODEL_NONE, 687, 1070, 2576, 0, 0, 0, 0x00000000, bhvSslCtl),
+		OBJECT(MODEL_NONE, 623, 451, 3105, 0, 0, 0, 0x00000000, bhvInstantActiveWarp),
+		MARIO_POS(0x01, 0, 681, 583, 3134),
 		TERRAIN(ssl_area_1_collision),
 		MACRO_OBJECTS(ssl_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
@@ -42,7 +47,7 @@ const LevelScript level_ssl_entry[] = {
 	END_AREA(),
 
 	FREE_LEVEL_POOL(),
-	MARIO_POS(0x01, 0, 0, 11, -14),
+	MARIO_POS(0x01, 0, 681, 583, 3134),
 	CALL(0, lvl_init_or_update),
 	CALL_LOOP(1, lvl_init_or_update),
 	CLEAR_LEVEL(),
