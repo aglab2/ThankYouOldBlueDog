@@ -95,7 +95,7 @@ void fail_warp_pre_level_trigger_warp(struct MarioState *m, s32* warpOp)
         return;
     }
 
-    SaveState_Load();
+    // SaveState_Load();
     return;
     damage = 0x400;
     if (m->health <= damage + 0x80)

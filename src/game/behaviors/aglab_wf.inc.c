@@ -11,7 +11,6 @@ extern const Trajectory wf_area_1_spline_traj1[];
 static void wf_traj_instantiate(const Trajectory* kTraj, int id)
 {
     const int amount = 30;
-    int i;
     o->oWfTrajLength = 0.f;
     const Trajectory* traj = kTraj;
     while (traj[0] != -1)

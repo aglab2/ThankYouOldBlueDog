@@ -37,9 +37,6 @@ void bhv_hmc_ctl_loop()
     if (!hasCeil)
         floorHeight = CELL_HEIGHT_LIMIT;
 
-    print_text_fmt_int(20, 20, "C %d", (int) ceilHeight);
-    print_text_fmt_int(20, 40, "F %d", (int) floorHeight);
-
     if (ceilHeight - 40.f < gMarioStates->pos[1] && gMarioStates->pos[1] < floorHeight)
     {
         gDisableGravity = 1;

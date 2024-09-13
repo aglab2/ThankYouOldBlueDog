@@ -735,6 +735,12 @@ s16 level_trigger_warp(struct MarioState *m, s32 warpOp) {
     if (sDelayedWarpOp == WARP_OP_NONE) {
         m->invincTimer = -1;
         fail_warp_pre_level_trigger_warp(m, &warpOp);
+        if (warpOp == WARP_OP_DEATH || warpOp == WARP_OP_WARP_FLOOR)
+        {
+            m->action = 0;
+            return 0;
+        }
+
         sDelayedWarpArg = WARP_FLAGS_NONE;
         sDelayedWarpOp = warpOp;
 

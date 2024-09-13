@@ -217,6 +217,7 @@ static void add_save_block_signature(void *buffer, s32 size, u16 magic) {
 }
 
 static void save_main_menu_data(void) {
+    gSaveBuffer.menuData.randomNum = tinymt32_generate_u32(&gGlobalRandomState);
     if (gMainMenuDataModified) {
         // Compute checksum
         add_save_block_signature(&gSaveBuffer.menuData, sizeof(gSaveBuffer.menuData), MENU_DATA_MAGIC);
@@ -392,6 +393,7 @@ void save_file_load_all(void) {
     // Failsafe in case the language in the save file isn't defined.
     multilang_set_language(get_language_index(multilang_get_language()));
 #endif
+    tinymt32_init(&gGlobalRandomState, gSaveBuffer.menuData.randomNum);
 }
 
 #ifdef PUPPYCAM

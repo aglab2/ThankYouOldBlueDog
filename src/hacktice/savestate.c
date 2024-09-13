@@ -8,6 +8,7 @@
 #include "game/camera.h"
 #include "game/print.h"
 #include "game/level_update.h"
+#include "engine/math_util.h"
 #include "libc/string.h"
 
 void set_play_mode(s16 playMode);
@@ -71,10 +72,13 @@ void SaveState_onNormal()
             sMustLoadState = false;
             if (Hacktice_gState->area == gCurrAreaIndex && Hacktice_gState->level == gCurrLevelNum)
             {
+                tinymt32_t rng = gGlobalRandomState;
                 memcpy(_hackticeStateDataStart0, Hacktice_gState->memory, _hackticeStateDataEnd0 - _hackticeStateDataStart0);
                 memcpy(_hackticeStateDataStart1, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0), _hackticeStateDataEnd1 - _hackticeStateDataStart1);
                 gIsGravityFlipped = Hacktice_gState->flipped;
                 resetCamera();
+                gGlobalRandomState = rng;
+                (void) random_u16();
             }
         }
     }

@@ -1341,6 +1341,8 @@ s32 act_burning_ground(struct MarioState *m) {
     play_sound(SOUND_MOVING_LAVA_BURN, m->marioObj->header.gfx.cameraToObject);
 
     m->health -= 10;
+    m->action = 0;
+    return FALSE;
     if (m->health < 0x100) {
         set_mario_action(m, ACT_STANDING_DEATH, 0);
     }
