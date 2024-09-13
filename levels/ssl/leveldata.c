@@ -14,3 +14,8 @@
 #include "levels/ssl/areas/2/movtext.inc.c"
 
 #include "levels/ssl/leveldata.inc.c"
+
+#include "levels/ssl/ssl_square/model.inc.c"
+#include "levels/ssl/ssl_square/collision.inc.c"
+#include "levels/ssl/ssl_plank/collision.inc.c"
+#include "levels/ssl/ssl_plank/model.inc.c"

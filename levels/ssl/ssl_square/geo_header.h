@@ -1,0 +1,11 @@
+extern const GeoLayout ssl_square_geo[];
+extern Lights1 ssl_square_f3dlite_material_010_lights;
+extern Lights1 ssl_square_f3dlite_material_009_lights;
+extern u8 ssl_square__8_ci4[];
+extern u8 ssl_square__8_pal_rgba16[];
+extern u8 ssl_square__14_ci4[];
+extern u8 ssl_square__14_pal_rgba16[];
+extern Vtx ssl_square_Plane_002_mesh_layer_1_vtx_cull[8];
+extern Vtx ssl_square_Plane_002_mesh_layer_1_vtx_0[4];
+extern Vtx ssl_square_Plane_002_mesh_layer_1_vtx_1[16];
+extern Gfx ssl_square_Plane_002_mesh_layer_1[];

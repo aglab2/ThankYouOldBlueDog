@@ -6210,3 +6210,42 @@ extern const BehaviorScript bhvSslCtl[] = {
         CALL_NATIVE(bhv_ssl_loop),
     END_LOOP(),
 };
+
+extern const Collision ssl_plank_collision[];
+extern const Collision ssl_square_collision[];
+extern void bhv_ssl_plank_init();
+extern void bhv_ssl_plank_loop();
+extern void bhv_ssl_square1_init();
+extern void bhv_ssl_square1_loop();
+extern void bhv_ssl_square2_loop();
+extern const BehaviorScript bhvSslPlank[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(ssl_plank_collision),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_ssl_plank_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ssl_plank_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern const BehaviorScript bhvSslSquare1[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(ssl_square_collision),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_ssl_square1_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ssl_square1_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern const BehaviorScript bhvSslSquare2[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(ssl_square_collision),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ssl_square2_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};

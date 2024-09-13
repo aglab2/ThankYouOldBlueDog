@@ -33,6 +33,8 @@ const LevelScript level_ssl_entry[] = {
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
 	JUMP_LINK(script_func_global_1), 
 	JUMP_LINK(script_func_global_15), 
+	LOAD_MODEL_FROM_GEO(MODEL_SSL_PLANK, ssl_plank_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_SSL_SQUARE, ssl_square_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -41,6 +43,7 @@ const LevelScript level_ssl_entry[] = {
 		OBJECT(MODEL_NONE, 687, 1070, 2576, 0, 0, 0, 0x00000000, bhvSslCtl),
 		OBJECT(MODEL_NONE, 623, 451, 3105, 0, 0, 0, 0x00000000, bhvInstantActiveWarp),
 		MARIO_POS(0x01, 0, 681, 583, 3134),
+		OBJECT(MODEL_STAR, 3174, 273, 1029, 0, 0, 0, 0x00000000, bhvStar),
 		TERRAIN(ssl_area_1_collision),
 		MACRO_OBJECTS(ssl_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),

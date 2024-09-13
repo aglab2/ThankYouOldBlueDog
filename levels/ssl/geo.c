@@ -14,3 +14,6 @@
 #include "levels/ssl/header.h"
 
 #include "levels/ssl/geo.inc.c"
+
+#include "levels/ssl/ssl_square/geo.inc.c"
+#include "levels/ssl/ssl_plank/geo.inc.c"

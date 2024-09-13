@@ -1,5 +1,4 @@
-static const u8 kSslFloors[] = { SURFACE_HARD, SURFACE_HARD_NOT_SLIPPERY, SURFACE_NOISE_DEFAULT, -1 };
-
+static const u8 kSslFloors[] = { SURFACE_HARD, SURFACE_HARD_NOT_SLIPPERY, SURFACE_NOISE_DEFAULT, SURFACE_ICE, SURFACE_NOISE_DEFAULT, SURFACE_HARD_NOT_SLIPPERY, -1 };
 
 static void cur_obj_despawn_all_with_beh(const BehaviorScript *behavior) {
     uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
@@ -30,9 +29,13 @@ static const struct SslSpawnDesc kSslSpawns[] = {
     { MODEL_GOOMBA, bhvGoomba, 55, -350.f },
     { MODEL_KOOPA_WITHOUT_SHELL, bhvKoopa, 25, -350.f },
     { MODEL_AMP, bhvCirclingAmp, 33, -120.f },
+
+    { MODEL_SSL_PLANK, bhvSslPlank, 50, 100.f },
+    { MODEL_SSL_SQUARE, bhvSslSquare1, 50, -10.f },
+    { MODEL_SSL_SQUARE, bhvSslSquare2, 50, -10.f },
 };
 
-static uint8_t sSslOrder[] = { 0, 1, 2 };
+static uint8_t sSslOrder[] = { 0, 1, 2, 3, 4, 5 };
 
 struct SslMults
 {
@@ -43,6 +46,10 @@ static const struct SslMults kSslMults[] = {
     { -1, 1 },
     { -1, -1 },
     { 1, -1 },
+    
+    { 1, -1 },
+    { -1, -1 },
+    { -1, 1 },
 };
 
 void bhv_ssl_loop()
@@ -54,12 +61,19 @@ void bhv_ssl_loop()
     {
         if (0 == o->oAction)
         {
-            for (unsigned i = 0; i < sizeof(sSslOrder); i++)
+            for (unsigned i = 0; i < 3; i++)
             {
                 int j = random_u16() % 3;
                 int tmp = sSslOrder[i];
                 sSslOrder[i] = sSslOrder[j];
                 sSslOrder[j] = tmp;
+            }
+            for (unsigned i = 0; i < 3; i++)
+            {
+                int j = random_u16() % 3;
+                int tmp = sSslOrder[i + 3];
+                sSslOrder[i + 3] = sSslOrder[j + 3];
+                sSslOrder[j + 3] = tmp;
             }
         }
 
@@ -78,5 +92,63 @@ void bhv_ssl_loop()
         }
 
         o->oAction++;
+
+        if (SURFACE_ICE == gMarioStates->floor->type)
+        {
+            f32 d;
+            struct Object* star = cur_obj_find_nearest_object_with_behavior(bhvStar, &d);
+            star->oPosX = 789.f;
+            star->oPosY = 100.f;
+            star->oPosZ = 3136.f;
+        }
     }
+}
+
+void bhv_ssl_plank_init()
+{
+    o->oFaceAngleYaw = random_u16();
+    o->oFaceAnglePitch = random_u16();
+}
+
+void bhv_ssl_plank_loop()
+{
+    o->oFaceAnglePitch += 0x129;
+}
+
+void bhv_ssl_square1_init()
+{
+    o->oForwardVel = 5.f;
+    o->oFaceAngleYaw = random_u16();
+    obj_scale_xyz(o, 0.7f, 1.f, 0.7f);
+}
+
+static void ssl_wrap(f32* v)
+{
+    f32 sign = *v < 0.f ? -1.f : 1.f;
+    f32 abs = absf(*v);
+
+    if (abs > 3700.f)
+    {
+        abs -= 3300.f;
+    }
+
+    if (abs < 300.f)
+    {
+        abs += 3300.f;
+    }
+
+    *v = sign * abs;
+}
+
+void bhv_ssl_square1_loop()
+{
+    o->oPosX += o->oForwardVel * coss(o->oFaceAngleYaw);
+    o->oPosZ += o->oForwardVel * sins(o->oFaceAngleYaw);
+    ssl_wrap(&o->oPosX);
+    ssl_wrap(&o->oPosZ);
+}
+
+void bhv_ssl_square2_loop()
+{
+    obj_scale_xyz(o, (1.1f + sins(o->oTimer * 0x168)) / 2.f, 1.f, (1.1f + coss(o->oTimer * 0x168)) / 2.f);
 }

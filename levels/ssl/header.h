@@ -20,4 +20,12 @@ extern const LevelScript level_ssl_entry[];
 
 #include "levels/ssl/header.inc.h"
 
+#include "levels/ssl/ssl_square/geo_header.h"
+
+#include "levels/ssl/ssl_square/collision_header.h"
+
+#include "levels/ssl/ssl_plank/collision_header.h"
+
+#include "levels/ssl/ssl_plank/geo_header.h"
+
 #endif

@@ -4,6 +4,7 @@
 
 
 
+
 Gfx ssl_dl__6_ci4_aligner[] = {gsSPEndDisplayList()};
 u8 ssl_dl__6_ci4[] = {
 	0x01, 0x22, 0x23, 0x31, 0x11, 0x11, 0x22, 0x21, 
@@ -1073,17 +1074,15 @@ Vtx ssl_dl_Plane_mesh_layer_1_vtx_0[67] = {
 	{{ {500, -123, -3500}, 0, {-16, 1008}, {0, 127, 0, 255} }},
 };
 
-Vtx ssl_dl_Plane_mesh_layer_1_vtx_1[18] = {
+Vtx ssl_dl_Plane_mesh_layer_1_vtx_1[16] = {
 	{{ {500, 0, 3500}, 0, {864, 466}, {0, 127, 0, 255} }},
 	{{ {1390, 0, 3500}, 0, {864, -16}, {0, 127, 0, 255} }},
 	{{ {1082, 0, 2723}, 0, {23, 151}, {0, 127, 0, 255} }},
 	{{ {500, 0, 2688}, 0, {-16, 466}, {0, 127, 0, 255} }},
-	{{ {2716, 0, 500}, 0, {-16, 534}, {0, 127, 0, 255} }},
-	{{ {2966, 0, 1164}, 0, {258, 898}, {0, 127, 0, 255} }},
-	{{ {3500, 0, 1363}, 0, {845, 1008}, {0, 127, 0, 255} }},
 	{{ {3500, 0, 500}, 0, {845, 534}, {0, 127, 0, 255} }},
-	{{ {2716, 0, -500}, 0, {-16, -16}, {0, 127, 0, 255} }},
 	{{ {3500, 0, -500}, 0, {845, -16}, {0, 127, 0, 255} }},
+	{{ {2716, 0, -500}, 0, {-16, -16}, {0, 127, 0, 255} }},
+	{{ {2716, 0, 500}, 0, {-16, 534}, {0, 127, 0, 255} }},
 	{{ {-500, 0, -3500}, 0, {-16, 1008}, {0, 127, 0, 255} }},
 	{{ {-500, 0, -3065}, 0, {876, 1008}, {0, 127, 0, 255} }},
 	{{ {-45, 0, -3065}, 0, {876, 542}, {0, 127, 0, 255} }},
@@ -1095,20 +1094,27 @@ Vtx ssl_dl_Plane_mesh_layer_1_vtx_1[18] = {
 };
 
 Vtx ssl_dl_Plane_mesh_layer_1_vtx_2[4] = {
+	{{ {2716, 0, 500}, 0, {-16, 534}, {0, 127, 0, 255} }},
+	{{ {2966, 0, 1164}, 0, {258, 898}, {0, 127, 0, 255} }},
+	{{ {3500, 0, 1363}, 0, {845, 1008}, {0, 127, 0, 255} }},
+	{{ {3500, 0, 500}, 0, {845, 534}, {0, 127, 0, 255} }},
+};
+
+Vtx ssl_dl_Plane_mesh_layer_1_vtx_3[4] = {
 	{{ {500, 0, 3500}, 0, {816, -16}, {0, 127, 0, 255} }},
 	{{ {500, 0, 2688}, 0, {-16, -16}, {0, 127, 0, 255} }},
 	{{ {-500, 0, 2688}, 0, {-16, 1008}, {0, 127, 0, 255} }},
 	{{ {-500, 0, 3500}, 0, {816, 1008}, {0, 127, 0, 255} }},
 };
 
-Vtx ssl_dl_Plane_mesh_layer_1_vtx_3[4] = {
+Vtx ssl_dl_Plane_mesh_layer_1_vtx_4[4] = {
 	{{ {-3500, 0, -500}, 0, {-16, -16}, {0, 127, 0, 255} }},
 	{{ {-3500, 0, -12}, 0, {-16, 484}, {0, 127, 0, 255} }},
 	{{ {-2926, 0, -12}, 0, {572, 484}, {0, 127, 0, 255} }},
 	{{ {-2926, 0, -500}, 0, {572, -16}, {0, 127, 0, 255} }},
 };
 
-Vtx ssl_dl_Plane_mesh_layer_1_vtx_4[4] = {
+Vtx ssl_dl_Plane_mesh_layer_1_vtx_5[4] = {
 	{{ {-45, 0, -3500}, 0, {-16, 542}, {0, 127, 0, 255} }},
 	{{ {-45, 0, -3065}, 0, {430, 542}, {0, 127, 0, 255} }},
 	{{ {500, 0, -3065}, 0, {430, -16}, {0, 127, 0, 255} }},
@@ -1197,12 +1203,16 @@ Gfx ssl_dl_Plane_mesh_layer_1[] = {
 	gsDPLoadBlock(7, 0, 0, 2047, 128),
 	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 6, 0),
 	gsDPSetTileSize(0, 0, 0, 252, 124),
-	gsSPVertex(ssl_dl_Plane_mesh_layer_1_vtx_1 + 0, 18, 0),
+	gsSPVertex(ssl_dl_Plane_mesh_layer_1_vtx_1 + 0, 16, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
 	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0),
-	gsSP2Triangles(7, 8, 4, 0, 7, 9, 8, 0),
-	gsSP2Triangles(10, 11, 12, 0, 10, 12, 13, 0),
-	gsSP2Triangles(14, 15, 16, 0, 14, 16, 17, 0),
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0),
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0),
+	gsDPPipeSync(),
+    gsSPLightColor(LIGHT_1, 0xffffffff),
+    gsSPLightColor(LIGHT_2, 0x7f7f7fff),
+	gsSPVertex(ssl_dl_Plane_mesh_layer_1_vtx_2 + 0, 4, 0),
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
 	gsDPPipeSync(),
 	gsSPSetOtherMode(G_SETOTHERMODE_H, 4, 20, G_AD_NOISE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_RGBA16 | G_TL_TILE | G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_1PRIMITIVE),
     gsSPLightColor(LIGHT_1, 0xffffffff),
@@ -1215,7 +1225,7 @@ Gfx ssl_dl_Plane_mesh_layer_1[] = {
 	gsDPLoadBlock(7, 0, 0, 255, 1024),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 2, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0),
 	gsDPSetTileSize(0, 0, 0, 124, 124),
-	gsSPVertex(ssl_dl_Plane_mesh_layer_1_vtx_2 + 0, 4, 0),
+	gsSPVertex(ssl_dl_Plane_mesh_layer_1_vtx_3 + 0, 4, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
 	gsDPPipeSync(),
     gsSPLightColor(LIGHT_1, 0xffffffff),
@@ -1224,7 +1234,7 @@ Gfx ssl_dl_Plane_mesh_layer_1[] = {
 	gsDPLoadTLUTCmd(5, 15),
 	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, ssl_dl__27_ci4),
 	gsDPLoadBlock(7, 0, 0, 255, 1024),
-	gsSPVertex(ssl_dl_Plane_mesh_layer_1_vtx_3 + 0, 4, 0),
+	gsSPVertex(ssl_dl_Plane_mesh_layer_1_vtx_4 + 0, 4, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
 	gsDPPipeSync(),
     gsSPLightColor(LIGHT_1, 0xffffffff),
@@ -1233,7 +1243,7 @@ Gfx ssl_dl_Plane_mesh_layer_1[] = {
 	gsDPLoadTLUTCmd(5, 15),
 	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, ssl_dl__26_ci4),
 	gsDPLoadBlock(7, 0, 0, 255, 1024),
-	gsSPVertex(ssl_dl_Plane_mesh_layer_1_vtx_4 + 0, 4, 0),
+	gsSPVertex(ssl_dl_Plane_mesh_layer_1_vtx_5 + 0, 4, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
 	gsDPPipeSync(),
 	gsSPSetOtherMode(G_SETOTHERMODE_H, 4, 20, G_CD_MAGICSQ | G_AD_NOISE | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE | G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_1PRIMITIVE),
