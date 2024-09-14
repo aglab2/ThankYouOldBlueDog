@@ -7,6 +7,7 @@ const GeoLayout sl_area_1_geo[] = {
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, sl_dl_Plane_001_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, sl_dl_Plane_002_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, sl_dl_Plane_002_mesh_layer_5),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_ALPHA, 0, -674, 1026, 0, 0, -90, sl_dl_Plane_003_mesh_layer_4),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
