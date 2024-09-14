@@ -6249,3 +6249,17 @@ extern const BehaviorScript bhvSslSquare2[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+extern const Collision ddd_move_collision[];
+extern void bhv_ddd_move_init();
+extern void bhv_ddd_move_loop();
+extern const BehaviorScript bhvDddMove[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    LOAD_COLLISION_DATA(ddd_move_collision),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
+    CALL_NATIVE(bhv_ddd_move_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ddd_move_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};

@@ -1750,6 +1750,10 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 #ifdef PUPPYCAM
         }
 #endif
+        if (0 == gMarioState->action) {
+            return ACTIVE_PARTICLE_NONE;
+        }
+
         mario_process_interactions(gMarioState);
 
         // If Mario is OOB, stop executing actions.

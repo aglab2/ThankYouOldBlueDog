@@ -10,7 +10,7 @@
 #include "config.h"
 
 #ifndef DISABLE_ALL
-#define TEST_LEVEL LEVEL_SSL
+#define TEST_LEVEL LEVEL_DDD
 #endif
 
 extern const LevelScript level_main_scripts_entry[];

@@ -14,3 +14,5 @@
 #include "levels/ddd/header.h"
 
 #include "levels/ddd/geo.inc.c"
+
+#include "levels/ddd/ddd_move/geo.inc.c"

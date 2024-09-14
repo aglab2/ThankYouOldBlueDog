@@ -9,3 +9,6 @@
 #include "levels/ddd/areas/2/movtext.inc.c"
 
 #include "levels/ddd/leveldata.inc.c"
+
+#include "levels/ddd/ddd_move/model.inc.c"
+#include "levels/ddd/ddd_move/collision.inc.c"

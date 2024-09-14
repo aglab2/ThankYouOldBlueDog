@@ -12,4 +12,8 @@ extern const LevelScript level_ddd_entry[];
 
 #include "levels/ddd/header.inc.h"
 
+#include "levels/ddd/ddd_move/geo_header.h"
+
+#include "levels/ddd/ddd_move/collision_header.h"
+
 #endif
