@@ -1261,6 +1261,11 @@ void update_mario_joystick_inputs(struct MarioState *m) {
     } else {
         m->intendedYaw = m->faceAngle[1];
     }
+
+    if (gCurrCourseNum == COURSE_SL)
+    {
+        m->intendedYaw += 0x4000;
+    }
 }
 
 /**

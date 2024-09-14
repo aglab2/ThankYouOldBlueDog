@@ -17,3 +17,5 @@
 #include "levels/sl/areas/2/geo.inc.c"
 
 #include "levels/sl/geo.inc.c"
+
+#include "levels/sl/ssl_spin/geo.inc.c"

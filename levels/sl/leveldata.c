@@ -22,3 +22,5 @@
 #include "levels/sl/areas/1/movtext.inc.c"
 
 #include "levels/sl/leveldata.inc.c"
+
+#include "levels/sl/ssl_spin/model.inc.c"

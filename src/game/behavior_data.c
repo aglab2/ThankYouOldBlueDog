@@ -6263,3 +6263,14 @@ extern const BehaviorScript bhvDddMove[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+extern void bhv_sl_ctl_init();
+extern void bhv_sl_ctl_loop();
+extern const BehaviorScript bhvSlCtl[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(bhv_sl_ctl_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_sl_ctl_loop),
+    END_LOOP(),
+};

@@ -10687,6 +10687,21 @@ struct CutsceneSplinePoint sCcmOutsideCreditsSplineFocus[] = {
     { -1, 50, { -4730, -1215, 1795 } }
 };
 
+void cutscene_sl_spin(struct Camera *c) {
+    cutscene_event(cutscene_end_waving_start, c, 0, 0);
+    c->pos[0] = 5000;
+    c->pos[1] = 0;
+    c->pos[2] = 0;
+
+    c->focus[0] = 0;
+    c->focus[1] = 0;
+    c->focus[2] = 0;
+}
+
+struct Cutscene sCutsceneSlSpin[] = {
+    { cutscene_sl_spin, CUTSCENE_LOOP }
+};
+
 /**
  * Play the current cutscene until either gCutsceneTimer reaches the max time, or c->cutscene is set to 0
  *
@@ -10752,6 +10767,8 @@ void play_cutscene(struct Camera *c) {
         CUTSCENE(CUTSCENE_RACE_DIALOG,          sCutsceneDialog)
         CUTSCENE(CUTSCENE_ENTER_PYRAMID_TOP,    sCutsceneEnterPyramidTop)
         CUTSCENE(CUTSCENE_SSL_PYRAMID_EXPLODE,  sCutscenePyramidTopExplode)
+        
+        CUTSCENE(CUTSCENE_SL_SPIN,              sCutsceneSlSpin)
     }
 
 #undef CUTSCENE
