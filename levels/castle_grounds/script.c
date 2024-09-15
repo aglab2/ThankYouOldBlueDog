@@ -34,7 +34,7 @@ const LevelScript level_castle_grounds_entry[] = {
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, castle_grounds_area_1),
-		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0x0A, LEVEL_RR, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xf0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xf1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_HMC_METAL_DOOR, 3865, 85, -70, 0, -90, 0, (0xa << 16), bhvDoorWarp),

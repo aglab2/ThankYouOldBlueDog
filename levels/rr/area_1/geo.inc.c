@@ -3,7 +3,8 @@
 const GeoLayout rr_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, rr_dl_Plane_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, rr_dl_ow_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, rr_dl_ow_001_mesh_layer_5),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, rr_dl_Sphere_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 0, 0, -20000, rr_dl_Sphere_001_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 0, 0, 20000, rr_dl_Sphere_002_mesh_layer_1),

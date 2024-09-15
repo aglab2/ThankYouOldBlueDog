@@ -32,8 +32,8 @@ const LevelScript level_rr_entry[] = {
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, rr_area_1),
-		MARIO_POS(0x01, 0, 0, 499, -14),
-		OBJECT(MODEL_NONE, -3, 506, -28, 0, 0, 0, 0x00000000, bhvInstantActiveWarp),
+		MARIO_POS(0x01, 0, 267, 227, 3082),
+		OBJECT(MODEL_NONE, 300, 335, 3242, 0, 0, 0, (0xa << 16), bhvSpinAirborneWarp),
 		TERRAIN(rr_area_1_collision),
 		MACRO_OBJECTS(rr_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
@@ -43,7 +43,7 @@ const LevelScript level_rr_entry[] = {
 	END_AREA(),
 
 	FREE_LEVEL_POOL(),
-	MARIO_POS(0x01, 0, 0, 499, -14),
+	MARIO_POS(0x01, 0, 267, 227, 3082),
 	CALL(0, lvl_init_or_update),
 	CALL_LOOP(1, lvl_init_or_update),
 	CLEAR_LEVEL(),
