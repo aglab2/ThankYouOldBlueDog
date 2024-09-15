@@ -43,7 +43,7 @@ const LevelScript level_wdw_entry[] = {
 		MARIO_POS(0x01, 0, 0, 499, -14),
 		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, 0x00000000, bhvWdwCtl),
 		OBJECT(MODEL_NONE, -3, 506, -28, 0, 0, 0, 0x00000000, bhvInstantActiveWarp),
-		OBJECT(MODEL_STAR, -1457, 2209, -786, 0, 0, 0, 0x00000000, bhvStar),
+		OBJECT(MODEL_STAR, -1457, 1803, -1008, 0, 0, 0, 0x00000000, bhvStar),
 		TERRAIN(wdw_area_1_collision),
 		MACRO_OBJECTS(wdw_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),

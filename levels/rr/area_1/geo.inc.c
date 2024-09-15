@@ -3,6 +3,16 @@
 const GeoLayout rr_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, rr_dl_Plane_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, rr_dl_Sphere_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 0, 0, -20000, rr_dl_Sphere_001_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 0, 0, 20000, rr_dl_Sphere_002_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 20000, 0, 0, rr_dl_Sphere_003_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 20000, 0, -20000, rr_dl_Sphere_004_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 20000, 0, 20000, rr_dl_Sphere_005_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -20000, 0, 0, rr_dl_Sphere_006_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -20000, 0, -20000, rr_dl_Sphere_007_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -20000, 0, 20000, rr_dl_Sphere_008_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
