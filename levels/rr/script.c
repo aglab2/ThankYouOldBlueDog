@@ -27,6 +27,7 @@ const LevelScript level_rr_entry[] = {
 	LOAD_MIO0(0x7, _rr_segment_7SegmentRomStart, _rr_segment_7SegmentRomEnd), 
 	ALLOC_LEVEL_POOL(),
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
+	LOAD_MODEL_FROM_GEO(MODEL_RR_CUBE, rr_cube_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -37,8 +38,9 @@ const LevelScript level_rr_entry[] = {
 		OBJECT(MODEL_NONE, 12489, -188, 12933, 0, 0, 0, 0x00000000, bhvCcmFlipper),
 		OBJECT(MODEL_NONE, 11489, -188, 12933, 0, 0, 0, 0x00000000, bhvCcmFlipper),
 		OBJECT(MODEL_NONE, 10489, -188, 12933, 0, 0, 0, 0x00000000, bhvCcmFlipper),
-		MARIO_POS(0x01, 0, 15839, 85, 12936),
+		MARIO_POS(0x01, 0, 3373, 85, 12910),
 		OBJECT(MODEL_NONE, 292, 347, 3176, 0, -180, 0, (0xa << 16), bhvSpinAirborneWarp),
+		OBJECT(MODEL_RR_CUBE, 1830, -162, 12910, 0, 0, 0, 0x00000000, bhvRrCube),
 		TERRAIN(rr_area_1_collision),
 		MACRO_OBJECTS(rr_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
@@ -48,7 +50,7 @@ const LevelScript level_rr_entry[] = {
 	END_AREA(),
 
 	FREE_LEVEL_POOL(),
-	MARIO_POS(0x01, 0, 15839, 85, 12936),
+	MARIO_POS(0x01, 0, 3373, 85, 12910),
 	CALL(0, lvl_init_or_update),
 	CALL_LOOP(1, lvl_init_or_update),
 	CLEAR_LEVEL(),

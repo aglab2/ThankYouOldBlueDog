@@ -9,7 +9,7 @@ const Collision rr_cube_collision[] = {
 	COL_VERTEX(226, -226, -226),
 	COL_VERTEX(226, 226, 226),
 	COL_VERTEX(226, -226, 226),
-	COL_TRI_INIT(SURFACE_DEFAULT, 12),
+	COL_TRI_INIT(SURFACE_NOT_SLIPPERY, 12),
 	COL_TRI(0, 1, 2),
 	COL_TRI(0, 2, 3),
 	COL_TRI(3, 2, 4),

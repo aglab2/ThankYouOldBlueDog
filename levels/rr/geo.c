@@ -16,3 +16,4 @@
 #include "levels/rr/geo.inc.c"
 
 #include "levels/rr/rr_cube/geo.inc.c"
+#include "levels/rr/rr_move/geo.inc.c"

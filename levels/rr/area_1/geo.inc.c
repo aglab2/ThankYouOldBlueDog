@@ -12,7 +12,6 @@ const GeoLayout rr_area_1_geo[] = {
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -13278, 0, -52, 0, -180, 0, rr_dl_ow_006_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_TRANSPARENT, -34012, 0, -52, 0, -180, 0, rr_dl_ow_007_mesh_layer_5),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 11834, 0, 13206, 0, 90, 0, rr_dl_ow_008_mesh_layer_1),
-		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 13120, 0, -13381, 0, 90, 0, rr_dl_ow_009_mesh_layer_1),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -13314, 0, -13381, 0, 90, 0, rr_dl_ow_010_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, rr_dl_Sphere_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 0, 0, -13000, rr_dl_Sphere_001_mesh_layer_1),
