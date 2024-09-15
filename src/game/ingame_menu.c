@@ -2016,7 +2016,7 @@ s32 render_pause_courses_and_castle(void) {
             if ((gMarioStates[0].action & (ACT_FLAG_SWIMMING | ACT_FLAG_METAL_WATER | ACT_FLAG_PAUSE_EXIT))
              || (gMarioStates[0].pos[1] <= gMarioStates[0].floorHeight)) {
 #else
-            if (gMarioStates[0].action & ACT_FLAG_PAUSE_EXIT) {
+            if (0) {
 #endif
                 render_pause_course_options(109, 91, &gDialogLineNum, 15);
             }

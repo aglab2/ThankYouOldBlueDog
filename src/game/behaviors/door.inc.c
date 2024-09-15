@@ -1,5 +1,7 @@
 // door.inc.c
 
+#include "buffers/buffers.h"
+
 struct DoorAction {
     u32 flag;
     ObjAction32 action;
@@ -52,6 +54,10 @@ void play_warp_door_open_noise(void) {
 }
 
 void bhv_door_loop(void) {
+    // scramble the randomness a bit :)
+    tinymt32_init(&gGlobalRandomState, tinymt32_generate_u32(&gGlobalRandomState) ^ (*(u32*) &gMarioStates->controller->rawStickX));
+    tinymt32_init(&gGlobalRandomState, tinymt32_generate_u32(&gGlobalRandomState) ^ (*(u32*) &gMarioStates->controller->buttonDown));
+
     s32 index = 0;
 
     while (sDoorActions[index].flag != 0xFFFFFFFF) {
