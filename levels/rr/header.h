@@ -13,4 +13,8 @@ extern const LevelScript level_rr_entry[];
 
 #include "levels/rr/header.inc.h"
 
+#include "levels/rr/rr_cube/geo_header.h"
+
+#include "levels/rr/rr_cube/collision_header.h"
+
 #endif

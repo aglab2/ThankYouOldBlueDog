@@ -6285,3 +6285,13 @@ extern const BehaviorScript bhvWdwCtl[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+extern void bhv_rr_ctl_init();
+extern void bhv_rr_ctl_loop();
+extern const BehaviorScript bhvRrCtl[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    CALL_NATIVE(bhv_rr_ctl_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rr_ctl_loop),
+    END_LOOP(),
+};

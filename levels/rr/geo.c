@@ -14,3 +14,5 @@
 #include "levels/rr/header.h"
 
 #include "levels/rr/geo.inc.c"
+
+#include "levels/rr/rr_cube/geo.inc.c"

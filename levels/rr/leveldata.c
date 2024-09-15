@@ -8,3 +8,6 @@
 #include "levels/rr/areas/1/trajectory.inc.c"
 
 #include "levels/rr/leveldata.inc.c"
+
+#include "levels/rr/rr_cube/model.inc.c"
+#include "levels/rr/rr_cube/collision.inc.c"
