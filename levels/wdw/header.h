@@ -12,4 +12,12 @@ extern const LevelScript level_wdw_entry[];
 
 #include "levels/wdw/header.inc.h"
 
+#include "levels/wdw/wdw_0/geo_header.h"
+
+#include "levels/wdw/wdw_0/collision_header.h"
+
+#include "levels/wdw/wdw_1/collision_header.h"
+
+#include "levels/wdw/wdw_1/geo_header.h"
+
 #endif

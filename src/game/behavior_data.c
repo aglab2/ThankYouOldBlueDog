@@ -6274,3 +6274,14 @@ extern const BehaviorScript bhvSlCtl[] = {
         CALL_NATIVE(bhv_sl_ctl_loop),
     END_LOOP(),
 };
+
+extern void bhv_wdw_ctl_init();
+extern void bhv_wdw_ctl_loop();
+extern const BehaviorScript bhvWdwCtl[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    CALL_NATIVE(bhv_wdw_ctl_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_wdw_ctl_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};

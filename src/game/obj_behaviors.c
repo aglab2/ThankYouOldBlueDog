@@ -781,3 +781,4 @@ UNUSED s32 debug_sequence_tracker(s16 debugInputSequence[]) {
 #include "behaviors/aglab_ssl.inc.c"
 #include "behaviors/aglab_ddd.inc.c"
 #include "behaviors/aglab_sl.inc.c"
+#include "behaviors/aglab_wdw.inc.c"

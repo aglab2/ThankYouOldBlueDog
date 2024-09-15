@@ -9,3 +9,8 @@
 #include "levels/wdw/areas/2/movtext.inc.c"
 
 #include "levels/wdw/leveldata.inc.c"
+
+#include "levels/wdw/wdw_0/model.inc.c"
+#include "levels/wdw/wdw_0/collision.inc.c"
+#include "levels/wdw/wdw_1/collision.inc.c"
+#include "levels/wdw/wdw_1/model.inc.c"

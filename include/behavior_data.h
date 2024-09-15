@@ -569,4 +569,6 @@ extern const BehaviorScript bhvDddMove[];
 
 extern const BehaviorScript bhvSlCtl[];
 
+extern const BehaviorScript bhvWdwCtl[];
+
 #endif // BEHAVIOR_DATA_H

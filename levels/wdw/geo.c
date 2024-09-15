@@ -14,3 +14,6 @@
 #include "levels/wdw/header.h"
 
 #include "levels/wdw/geo.inc.c"
+
+#include "levels/wdw/wdw_0/geo.inc.c"
+#include "levels/wdw/wdw_1/geo.inc.c"
