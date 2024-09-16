@@ -1,0 +1,11 @@
+extern const GeoLayout rr_jump_1_geo[];
+extern Lights1 rr_jump_1_f3dlite_material_011_lights;
+extern Lights1 rr_jump_1_f3dlite_material_012_lights;
+extern u8 rr_jump_1__11_ci8[];
+extern u8 rr_jump_1__11_pal_rgba16[];
+extern u8 rr_jump_1__3_ci8[];
+extern u8 rr_jump_1__3_pal_rgba16[];
+extern Vtx rr_jump_1_Plane_009_mesh_layer_1_vtx_cull[8];
+extern Vtx rr_jump_1_Plane_009_mesh_layer_1_vtx_0[12];
+extern Vtx rr_jump_1_Plane_009_mesh_layer_1_vtx_1[12];
+extern Gfx rr_jump_1_Plane_009_mesh_layer_1[];

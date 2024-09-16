@@ -2,6 +2,7 @@
 #define oRrBobCtrlCurr oObjF8
 #define oRrBobCtrlNext oObjFC
 #define oRrCtlProgress o100
+#define oRrWdwCtlWasOnPlatformBefore o104
 
 void bhv_rr_ctl_init()
 {
@@ -240,4 +241,38 @@ void rr_rotat_ctl_init()
 
         obj->oOpacity = i % 2 ? 0 : 255;
     }
+}
+
+extern const Collision rr_jump_0_collision[];
+extern const Collision rr_jump_1_collision[];
+void rr_jump_init()
+{
+    cur_obj_set_model(MODEL_RR_JUMP_0);
+    obj_set_collision_data(o, rr_jump_0_collision);
+    o->oRrWdwCtlWasOnPlatformBefore = 0;
+}
+
+static void rr_wdw_switch()
+{
+    o->oAction = !o->oAction;
+    if (o->oAction)
+    {
+        cur_obj_set_model(MODEL_RR_JUMP_1);
+        obj_set_collision_data(o, rr_jump_1_collision);
+    }
+    else
+    {
+        cur_obj_set_model(MODEL_RR_JUMP_0);
+        obj_set_collision_data(o, rr_jump_0_collision);
+    }
+}
+
+void rr_jump_loop()
+{
+    int onPlatform = gMarioObject->platform == o;
+    if (o->oRrWdwCtlWasOnPlatformBefore && !onPlatform)
+    {
+        rr_wdw_switch();
+    }
+    o->oRrWdwCtlWasOnPlatformBefore = onPlatform;
 }

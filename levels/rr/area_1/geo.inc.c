@@ -17,6 +17,8 @@ const GeoLayout rr_area_1_geo[] = {
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, rr_dl_ow_009_mesh_layer_5),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, rr_dl_ow_010_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, rr_dl_ow_011_mesh_layer_5),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, 2221, 0, 0, rr_dl_ow_012_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_TRANSPARENT, 2221, 0, 0, rr_dl_ow_013_mesh_layer_5),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, rr_dl_Plane_005_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, rr_dl_Plane_006_mesh_layer_5),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, rr_dl_Sphere_mesh_layer_1),

@@ -6338,3 +6338,15 @@ extern const BehaviorScript bhvRrRotatCtl[] = {
     CALL_NATIVE(rr_rotat_ctl_init),
     BREAK(),
 };
+
+extern void rr_jump_init();
+extern void rr_jump_loop();
+extern const BehaviorScript bhvRrJump[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(rr_jump_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(rr_jump_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
