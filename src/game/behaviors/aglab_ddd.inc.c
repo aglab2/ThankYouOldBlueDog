@@ -27,6 +27,7 @@ static int obj_count_opened_gate_switches()
 
 void bhv_ddd_move_loop()
 {
+    o->oCollisionDistance = 10000.f;
     if (0 == o->oAction)
     {
         if (gMarioObject->platform == o)

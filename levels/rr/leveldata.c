@@ -12,3 +12,4 @@
 #include "levels/rr/rr_cube/model.inc.c"
 #include "levels/rr/rr_cube/collision.inc.c"
 #include "levels/rr/rr_move/model.inc.c"
+#include "levels/rr/rr_move/collision.inc.c"
