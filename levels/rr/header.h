@@ -21,4 +21,8 @@ extern const LevelScript level_rr_entry[];
 
 #include "levels/rr/rr_move/collision_header.h"
 
+#include "levels/rr/rr_rotat/geo_header.h"
+
+#include "levels/rr/rr_rotat/collision_header.h"
+
 #endif

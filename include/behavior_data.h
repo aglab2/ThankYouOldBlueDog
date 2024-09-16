@@ -575,5 +575,6 @@ extern const BehaviorScript bhvRrCtl[];
 
 extern const BehaviorScript bhvRrCube[];
 extern const BehaviorScript bhvRrMove[];
+extern const BehaviorScript bhvRrRotatCtl[];
 
 #endif // BEHAVIOR_DATA_H

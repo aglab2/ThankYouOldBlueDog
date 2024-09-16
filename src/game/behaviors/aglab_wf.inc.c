@@ -139,12 +139,13 @@ void bhv_wf_move_loop()
     }
     else if (1 == o->oAction)
     {
-        if (o->oOpacity > 10)
+        if (o->oOpacity > 7)
         {
-            o->oOpacity -= 10;
+            o->oOpacity -= 7;
         }
         else
         {
+            o->oOpacity = 0;
             o->oAction = 2;
         }
     }
@@ -152,7 +153,8 @@ void bhv_wf_move_loop()
     {
         if (o->oTimer > 60)
         {
-            o->oOpacity += 50;
+            int amt = o->oOpacity + 50;
+            o->oOpacity = CLAMP(amt, 0, 255);
             if (o->oOpacity == 255)
             {
                 o->oAction = 0;

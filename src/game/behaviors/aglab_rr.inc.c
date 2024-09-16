@@ -168,3 +168,76 @@ void rr_move_ctl_loop()
 
     cur_obj_move_using_fvel_and_gravity();
 }
+
+void rr_rotat_init()
+{
+    o->oDrawingDistance = 10000.f;
+    obj_scale(o, 0.3f);
+}
+
+extern const Collision rr_rotat_collision[];
+extern const Collision rr_rotat_death_collision[];
+void rr_rotat_loop()
+{
+    o->oFaceAngleYaw += 0x34;
+    o->oPosX = o->oHomeX + 700.f * sins(o->oFaceAngleYaw);
+    o->oPosZ = o->oHomeZ + 700.f * coss(o->oFaceAngleYaw);
+
+    if (o->oOpacity < 10)
+    {
+        obj_set_collision_data(o, rr_rotat_death_collision);
+    }
+    else
+    {
+        obj_set_collision_data(o, rr_rotat_collision);
+    }
+
+    if (0 == o->oAction)
+    {
+        if (255 == o->oOpacity && gMarioObject->platform == o)
+        {
+            o->oAction = 1;
+        }
+    }
+    else if (1 == o->oAction)
+    {
+        if (o->oOpacity > 8)
+        {
+            o->oOpacity -= 7;
+        }
+        else
+        {
+            o->oOpacity = 0;
+            o->oAction = 2;
+        }
+    }
+    else if (2 == o->oAction)
+    {
+        if (o->oTimer > 60)
+        {
+            int amt = o->oOpacity + 50;
+            o->oOpacity = CLAMP(amt, 0, 255);
+            if (o->oOpacity == 255)
+            {
+                o->oAction = 0;
+            }
+        }
+    }
+}
+
+extern const BehaviorScript bhvRrRotat[];
+void rr_rotat_ctl_init()
+{
+    for (int i = 0; i < 8; i++)
+    {
+        struct Object* obj = spawn_object(o, MODEL_RR_ROTAT, bhvRrRotat);
+        obj->oFaceAngleYaw = i * (0x10000 / 8);
+        obj->oPosX = o->oPosX + 700.f * sins(obj->oFaceAngleYaw);
+        obj->oPosZ = o->oPosZ + 700.f * coss(obj->oFaceAngleYaw);
+
+        obj->oHomeX = o->oPosX;
+        obj->oHomeZ = o->oPosZ;
+
+        obj->oOpacity = i % 2 ? 0 : 255;
+    }
+}

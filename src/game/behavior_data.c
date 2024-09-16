@@ -6317,3 +6317,24 @@ extern const BehaviorScript bhvRrMove[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+extern const Collision rr_rotat_collision[];
+extern void rr_rotat_init();
+extern void rr_rotat_loop();
+extern const BehaviorScript bhvRrRotat[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(rr_rotat_collision),
+    CALL_NATIVE(rr_rotat_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(rr_rotat_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void rr_rotat_ctl_init();
+extern const BehaviorScript bhvRrRotatCtl[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    CALL_NATIVE(rr_rotat_ctl_init),
+    BREAK(),
+};
