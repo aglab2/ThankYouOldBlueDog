@@ -629,6 +629,22 @@ s16 music_unchanged_through_warp(s16 arg) {
     return unchanged;
 }
 
+static uint8_t kLevelsOrder[] = {
+    LEVEL_BOB,
+    LEVEL_WF,
+    LEVEL_JRB,
+    LEVEL_CCM,
+    LEVEL_BBH,
+    LEVEL_HMC,
+    LEVEL_LLL,
+    LEVEL_SSL,
+    LEVEL_DDD,
+    LEVEL_SL,
+    LEVEL_WDW,
+
+    LEVEL_RR,
+};
+
 /**
  * Set the current warp type and destination level/area/node.
  */
