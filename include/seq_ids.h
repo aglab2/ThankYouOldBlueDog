@@ -48,6 +48,7 @@ enum SeqId {
 
     SEQ_LEVEL_LOOMING,
     SEQ_LEVEL_SLAP,
+    SEQ_LEVEL_INNOCENCE,
 
     SEQ_COUNT
 };
