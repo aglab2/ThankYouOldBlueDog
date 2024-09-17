@@ -121,6 +121,8 @@ void rr_water_ctl_loop()
 
     if (floorHeight - 40.f < gMarioStates->pos[1] && gMarioStates->pos[1] < ceilHeight)
     {
+        gMarioStates->controller->buttonDown &= ~B_BUTTON;
+        gMarioStates->controller->buttonPressed &= ~B_BUTTON;
         gDisableGravity = 1;
         gMarioStates->action = ACT_JUMP;
         gMarioStates->vel[1] += 4.f;

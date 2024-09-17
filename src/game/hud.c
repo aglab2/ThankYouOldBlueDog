@@ -605,7 +605,7 @@ void render_hud(void) {
         }
 
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_TIMER) {
-            render_hud_timer();
+            // render_hud_timer();
         }
 
 #ifdef VANILLA_STYLE_CUSTOM_DEBUG
