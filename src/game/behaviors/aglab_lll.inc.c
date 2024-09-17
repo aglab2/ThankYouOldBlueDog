@@ -27,14 +27,14 @@ void bhv_lll_72_loop()
     else
     {
         s16 angle = o->oLll72BaseAngle - 30 * o->oTimer;
-        f32 dist = o->oLll72BaseDist - 1000.f * (1 - coss(o->oTimer * 0x86));
+        f32 dist = o->oLll72BaseDist - 1000.f * (1 - coss(o->oTimer * 0xa2));
         o->oPosX = dist * sins(angle);
         o->oPosZ = dist * coss(angle);
     }
 
     if (gMarioStates->floor && (gMarioStates->floor->type == SURFACE_NOT_SLIPPERY || gMarioStates->floor->type == SURFACE_HARD_NOT_SLIPPERY))
     {
-        int amt = CLAMP(gMirrorVCAmount + 1, 0, 255);
+        int amt = CLAMP(gMirrorVCAmount + 2, 0, 255);
         gMirrorVCAmount = amt;
         if (amt == 255)
             gMarioStates->flags &= ~MARIO_VANISH_CAP;
