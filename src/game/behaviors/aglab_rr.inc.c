@@ -102,6 +102,33 @@ void rr_mirror_mario_ctl_loop()
     }
 }
 
+void rr_water_ctl_loop()
+{
+    gDisableGravity = 0;
+    gCollisionFlags |= COLLISION_FLAG_WATER;
+
+    struct Surface* floor = NULL;
+    f32 floorHeight = find_floor(gMarioStates->pos[0], gMarioStates->pos[1], gMarioStates->pos[2], &floor);
+    if (floorHeight == FLOOR_LOWER_LIMIT)
+    {    
+        gCollisionFlags &= ~COLLISION_FLAG_WATER;
+        return;
+    }
+
+    struct Surface* ceil = NULL;
+    f32 ceilHeight = find_ceil(gMarioStates->pos[0], floorHeight, gMarioStates->pos[2], &ceil);
+    gCollisionFlags &= ~COLLISION_FLAG_WATER;
+
+    if (floorHeight - 40.f < gMarioStates->pos[1] && gMarioStates->pos[1] < ceilHeight)
+    {
+        gDisableGravity = 1;
+        gMarioStates->action = ACT_JUMP;
+        gMarioStates->vel[1] += 4.f;
+        if (gMarioStates->vel[1] > 60.f)
+            gMarioStates->vel[1] = 60.f;
+    }
+}
+
 void bhv_rr_ctl_loop()
 {
     int curSegmentX = CLAMP((int) ((gMarioStates->pos[0] + 15000.f) / 10000.f), 0, 2);
@@ -144,6 +171,15 @@ void bhv_rr_ctl_loop()
         gMirrorOffset[0] = 0.f;
         gMirrorOffset[1] = 0.f;
         gMirrorOffset[2] = 0.f;
+    }
+
+    if (1 == curSegmentX && 1 == curSegmentZ)
+    {
+        rr_water_ctl_loop();
+    }
+    else
+    {
+        gDisableGravity = 0;
     }
 }
 

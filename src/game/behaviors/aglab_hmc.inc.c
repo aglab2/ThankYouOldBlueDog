@@ -13,31 +13,18 @@ void bhv_hmc_ctl_loop()
     gCollisionFlags |= COLLISION_FLAG_WATER;
 
     struct Surface* floor = NULL;
-    f32 floorHeight = find_floor(gMarioStates->pos[0], CELL_HEIGHT_LIMIT, gMarioStates->pos[2], &floor);
+    f32 floorHeight = find_floor(gMarioStates->pos[0], gMarioStates->pos[1], gMarioStates->pos[2], &floor);
+    if (floorHeight == FLOOR_LOWER_LIMIT)
+    {    
+        gCollisionFlags &= ~COLLISION_FLAG_WATER;
+        return;
+    }
+
     struct Surface* ceil = NULL;
-    f32 ceilHeight = find_ceil(gMarioStates->pos[0], FLOOR_LOWER_LIMIT, gMarioStates->pos[2], &ceil);
-
-    s32 hasFloor = floor && floor->type == SURFACE_WATER;
-    s32 hasCeil = ceil && ceil->type == SURFACE_WATER;
-    
-    // print_text_fmt_int(20, 60, "C %d", (int) ceilHeight);
-    // print_text_fmt_int(20, 80, "F %d", (int) floorHeight);
-
-    // print_text_fmt_int(20, 100, "HF %d", hasFloor);
-    // print_text_fmt_int(20, 120, "HC %d", hasCeil);
-
+    f32 ceilHeight = find_ceil(gMarioStates->pos[0], floorHeight, gMarioStates->pos[2], &ceil);
     gCollisionFlags &= ~COLLISION_FLAG_WATER;
 
-    if (!hasFloor && !hasCeil)
-        return;
-
-    if (!hasFloor)
-        ceilHeight = FLOOR_LOWER_LIMIT;
-    
-    if (!hasCeil)
-        floorHeight = CELL_HEIGHT_LIMIT;
-
-    if (ceilHeight - 40.f < gMarioStates->pos[1] && gMarioStates->pos[1] < floorHeight)
+    if (floorHeight - 40.f < gMarioStates->pos[1] && gMarioStates->pos[1] < ceilHeight)
     {
         gDisableGravity = 1;
         gMarioStates->action = ACT_JUMP;
