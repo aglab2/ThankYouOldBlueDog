@@ -34,12 +34,12 @@ const LevelScript level_castle_grounds_entry[] = {
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, castle_grounds_area_1),
-		WARP_NODE(0x0A, LEVEL_RR, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xf0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xf1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_HMC_METAL_DOOR, 3865, 85, -70, 0, -90, 0, (0xa << 16), bhvDoorWarp),
 		OBJECT(MODEL_HMC_METAL_DOOR, 3865, 85, 69, 0, 90, 0, (0xa << 16), bhvDoorWarp),
-		MARIO_POS(0x01, 0, -3209, 682, -3),
+		MARIO_POS(0x01, 0, 4109, 966, 11),
 		OBJECT(MODEL_NONE, -3209, 670, -8, 0, 0, 0, 0x00000000, bhvInstantActiveWarp),
 		TERRAIN(castle_grounds_area_1_collision),
 		MACRO_OBJECTS(castle_grounds_area_1_macro_objs),
@@ -50,7 +50,7 @@ const LevelScript level_castle_grounds_entry[] = {
 	END_AREA(),
 
 	FREE_LEVEL_POOL(),
-	MARIO_POS(0x01, 0, -3209, 682, -3),
+	MARIO_POS(0x01, 0, 4109, 966, 11),
 	CALL(0, lvl_init_or_update),
 	CALL_LOOP(1, lvl_init_or_update),
 	CLEAR_LEVEL(),
