@@ -375,7 +375,7 @@ s32 perform_ground_step(struct MarioState *m) {
 #define hdot_surf(surf, vec) (((surf)->normal.x * (vec)[0]) + ((surf)->normal.z * (vec)[2]))
 
 struct Surface *check_ledge_grab(struct MarioState *m, struct Surface *prevWall, struct Surface *wall, Vec3f intendedPos, Vec3f nextPos, Vec3f ledgePos, struct Surface **ledgeFloor) {
-    if (gCurrCourseNum == COURSE_WF)
+    if (gCurrCourseNum == COURSE_WF || gCurrCourseNum == COURSE_CCM)
     {
         return NULL;
     }

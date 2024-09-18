@@ -52,6 +52,7 @@ enum SeqId {
     SEQ_LEVEL_MAGIC,
     SEQ_LEVEL_NEMURI,
     SEQ_LEVEL_FELI,
+    SEQ_LEVEL_WHOA,
 
     SEQ_COUNT
 };
