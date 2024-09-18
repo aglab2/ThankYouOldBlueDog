@@ -7,6 +7,14 @@
 extern const Trajectory wf_area_1_spline_traj0[];
 extern const Trajectory wf_area_1_spline_traj1[];
 
+#if 0
+int sWfCursor = 0;
+struct Pos{ f32 x, y, z; };
+struct Pos sWfPositions[200];
+#endif
+
+extern struct Pos kWfCoinPositions0[];
+
 static void wf_traj_instantiate(const Trajectory* kTraj, int id)
 {
     const int amount = 30;
@@ -130,6 +138,16 @@ static void wf_traj_instantiate(const Trajectory* kTraj, int id)
             mov->oWfMoveTrajIdx = id;
         }
     }
+
+
+    struct Pos* positions = segmented_to_virtual(kWfCoinPositions0);
+    for (int i = 0; i < 36; i++)
+    {
+        struct Object* coin = spawn_object(o, MODEL_YELLOW_COIN, bhvYellowCoin);
+        coin->oPosX = positions[i].x;
+        coin->oPosY = positions[i].y;
+        coin->oPosZ = positions[i].z;
+    }
 }
 
 void bhv_wf_ctrl_init()
@@ -140,7 +158,17 @@ void bhv_wf_ctrl_init()
 
 void bhv_wf_ctrl_loop()
 {
+#if 0
+    if (0 == (o->oTimer % 10))
+    {
+        sWfPositions[sWfCursor].x = gMarioStates->pos[0];
+        sWfPositions[sWfCursor].y = gMarioStates->pos[1] + 40.f;
+        sWfPositions[sWfCursor].z = gMarioStates->pos[2];
+        sWfCursor++;
+    }
 
+    print_text_fmt_int(20, 20, "%d", sWfCursor);
+#endif
 }
 
 void bhv_wf_move_init()
@@ -182,7 +210,7 @@ void bhv_wf_move_loop()
     }
     else if (2 == o->oAction)
     {
-        if (o->oTimer > 50)
+        if (o->oTimer > 45)
         {
             int amt = o->oOpacity + 50;
             o->oOpacity = CLAMP(amt, 0, 255);

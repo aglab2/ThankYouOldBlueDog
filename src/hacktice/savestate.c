@@ -52,6 +52,8 @@ static void resetCamera()
     }
 }
 
+extern int sWfCursor;
+
 void SaveState_onNormal()
 {
     if (sMustSaveState)
@@ -79,6 +81,9 @@ void SaveState_onNormal()
                 resetCamera();
                 gGlobalRandomState = rng;
                 (void) random_u16();
+#if 0
+                sWfCursor = 0;
+#endif
             }
         }
     }
