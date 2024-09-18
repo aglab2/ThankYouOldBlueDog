@@ -7,9 +7,10 @@
 extern const Trajectory wf_area_1_spline_traj0[];
 extern const Trajectory wf_area_1_spline_traj1[];
 
+struct Pos{ f32 x, y, z; };
+
 #if 0
 int sWfCursor = 0;
-struct Pos{ f32 x, y, z; };
 struct Pos sWfPositions[200];
 #endif
 
