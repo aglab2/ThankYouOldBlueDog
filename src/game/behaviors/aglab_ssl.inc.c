@@ -100,6 +100,10 @@ void bhv_ssl_loop()
             star->oPosX = 789.f;
             star->oPosY = 100.f;
             star->oPosZ = 3136.f;
+            o->oPosX = gMarioStates->pos[0];
+            o->oPosY = gMarioStates->pos[1];
+            o->oPosZ = gMarioStates->pos[2];
+            cur_obj_play_sound_2(SOUND_OBJ_BOO_LAUGH_LONG);
         }
     }
 }

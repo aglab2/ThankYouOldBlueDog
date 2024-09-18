@@ -40,13 +40,16 @@ const LevelScript level_ssl_entry[] = {
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, ssl_area_1),
+		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xf0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xf1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_NONE, 687, 1070, 2576, 0, 0, 0, 0x00000000, bhvSslCtl),
-		OBJECT(MODEL_NONE, 623, 451, 3105, 0, 0, 0, 0x00000000, bhvInstantActiveWarp),
+		OBJECT(MODEL_NONE, 623, 451, 3105, 0, -90, 0, (0xa << 16), bhvSpinAirborneWarp),
 		MARIO_POS(0x01, 0, 681, 583, 3134),
 		OBJECT(MODEL_STAR, 3174, 273, 1029, 0, 0, 0, 0x00000000, bhvStar),
 		TERRAIN(ssl_area_1_collision),
 		MACRO_OBJECTS(ssl_area_1_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_TEAMWORK),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
