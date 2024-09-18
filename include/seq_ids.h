@@ -51,6 +51,7 @@ enum SeqId {
     SEQ_LEVEL_INNOCENCE,
     SEQ_LEVEL_MAGIC,
     SEQ_LEVEL_NEMURI,
+    SEQ_LEVEL_FELI,
 
     SEQ_COUNT
 };

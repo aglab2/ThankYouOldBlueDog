@@ -40,7 +40,7 @@ const LevelScript level_jrb_entry[] = {
 		WARP_NODE(0xf0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xf1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		MARIO_POS(0x01, 0, 0, 11, 3130),
-		OBJECT(MODEL_NONE, -3, 477, 3116, 0, 0, 0, 0x00000000, bhvInstantActiveWarp),
+		OBJECT(MODEL_NONE, -3, 477, 3116, 0, -180, 0, (0xa << 16), bhvSpinAirborneWarp),
 		OBJECT(MODEL_PURPLE_SWITCH, 0, -32, 0, 0, 0, 0, 0x00000000, bhvFloorSwitchHiddenObjects),
 		OBJECT(MODEL_JRB_ROTAT, 0, 0, 0, 0, 0, 0, 0x00000000, bhvJrbRotat),
 		OBJECT(MODEL_BREAKABLE_BOX, 0, 0, -2553, 0, 0, 0, 0x00000000, bhvHiddenObject),
@@ -49,7 +49,7 @@ const LevelScript level_jrb_entry[] = {
 		OBJECT(MODEL_STAR, 0, 545, -3721, 0, 0, 0, 0x00000000, bhvStar),
 		TERRAIN(jrb_area_1_collision),
 		MACRO_OBJECTS(jrb_area_1_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_FELI),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
