@@ -73,6 +73,7 @@ static struct KoopaTheQuickProperties sKoopaTheQuickProperties[] = {
  * Initialization function.
  */
 void bhv_koopa_init(void) {
+    o->oDamageOrCoinValue = 1;
     if ((o->oKoopaMovementType = o->oBehParams2ndByte) == KOOPA_BP_TINY) {
         // Tiny koopa in THI
         o->oKoopaMovementType = KOOPA_BP_NORMAL;
@@ -778,6 +779,7 @@ static void koopa_the_quick_update(void) {
 void bhv_koopa_update(void) {
     // PARTIAL_UPDATE
 
+    o->oDamageOrCoinValue = 1;
     o->oDeathSound = SOUND_OBJ_KOOPA_FLYGUY_DEATH;
 
     if (o->oKoopaMovementType >= KOOPA_BP_KOOPA_THE_QUICK_BASE) {
