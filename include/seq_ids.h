@@ -53,6 +53,7 @@ enum SeqId {
     SEQ_LEVEL_NEMURI,
     SEQ_LEVEL_FELI,
     SEQ_LEVEL_WHOA,
+    SEQ_LEVEL_IMBALANCE,
 
     SEQ_COUNT
 };

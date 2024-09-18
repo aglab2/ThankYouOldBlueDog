@@ -14,6 +14,14 @@ void bhv_bbh_ctl_init()
 
 void bhv_bbh_ctl_loop()
 {
+    if (gMarioStates->action == ACT_STAR_DANCE_WATER)
+    {
+        gMirrorTrigger = 0;
+        gMirrorVCAmount = 255;
+        gMarioStates->flags &= ~MARIO_VANISH_CAP;
+        return;
+    }
+
     if (!gMarioState->floor)
         return;
 
@@ -37,6 +45,10 @@ void bhv_bbh_ctl_loop()
             gMarioStates->pos[1] += gMirrorOffset[1];
             gMarioStates->pos[2] += gMirrorOffset[2];
             gMirrorVCAmount = 255;
+            o->oPosX = gMarioStates->pos[0];
+            o->oPosY = gMarioStates->pos[1];
+            o->oPosZ = gMarioStates->pos[2];
+            cur_obj_play_sound_2(SOUND_GENERAL2_ROTATING_BLOCK_CLICK);
             // reset_camera(gCamera);
         }
     }
