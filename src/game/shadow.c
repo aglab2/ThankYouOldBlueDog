@@ -188,7 +188,7 @@ static void add_shadow_to_display_list(Gfx *displayListHead, s8 shadowType) {
 Gfx *create_shadow_below_xyz(Vec3f pos, s16 shadowScale, u8 shadowSolidity, s8 shadowType, s8 shifted) {
     struct Object *obj = gCurGraphNodeObjectNode;
     // Check if the object exists.
-    if (obj == NULL) {
+    if (obj == NULL || !obj->activeFlags) {
         return NULL;
     }
 
@@ -207,6 +207,11 @@ Gfx *create_shadow_below_xyz(Vec3f pos, s16 shadowScale, u8 shadowSolidity, s8 s
         // The object is Mario and has a referenced floor.
         floor       = gMarioState->floor;
         floorHeight = gMarioState->floorHeight;
+
+        if (gMarioState->action == 0 || gMarioState->action == ACT_QUICKSAND_DEATH) {
+            return NULL;
+        }
+
     } else if (notHeldObj && (gCurGraphNodeObject != &gMirrorMario) && obj->oFloor) {
         // The object is not Mario but has a referenced floor.
         //! Some objects only get their oFloor from bhv_init_room, which skips dynamic floors.

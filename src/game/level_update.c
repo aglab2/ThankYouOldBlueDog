@@ -661,7 +661,7 @@ void initiate_warp(s16 destLevel, s16 destArea, s16 destWarpNode, s32 warpFlags)
         sWarpDest.type = WARP_TYPE_SAME_AREA;
     }
 
-    sWarpDest.levelNum = LEVEL_LLL;
+    sWarpDest.levelNum = LEVEL_HMC;
     sWarpDest.areaIdx = destArea;
     sWarpDest.nodeId = destWarpNode;
     sWarpDest.arg = warpFlags;

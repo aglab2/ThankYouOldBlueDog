@@ -1,4 +1,3 @@
-#define oWfTrajLength oF4
 #define oWfTrajProgress oFloatF8
 #define oWfTrajCurPoint oFC
 #define oWfMoveTrajIdx o100
@@ -11,7 +10,7 @@ extern const Trajectory wf_area_1_spline_traj1[];
 static void wf_traj_instantiate(const Trajectory* kTraj, int id)
 {
     const int amount = 30;
-    o->oWfTrajLength = 0.f;
+    f32 trajLength = 0.f;
     const Trajectory* traj = kTraj;
     while (traj[0] != -1)
     {
@@ -27,16 +26,29 @@ static void wf_traj_instantiate(const Trajectory* kTraj, int id)
         f32 dx = nextPoint[0] - currPoint[0];
         f32 dy = nextPoint[1] - currPoint[1];
         f32 dz = nextPoint[2] - currPoint[2];
-        o->oWfTrajLength += sqrtf(dx * dx + dy * dy + dz * dz);
+        trajLength += sqrtf(dx * dx + dy * dy + dz * dz);
 
         traj += 4;
     }
 
     o->oWfTrajProgress = 0.f;
     o->oWfTrajCurPoint = 0;
-    f32 vel = o->oWfTrajLength / (amount + 1);
+    f32 vel = trajLength / amount;
 
-    for (int i = 0; i < amount; i++)
+    {
+        struct Object* mov;
+        mov = spawn_object(o, MODEL_WF_MOVE_SAFE, bhvWfMoveSafe);
+        mov->oOpacity = 0;
+        mov->oPosX = kTraj[1];
+        mov->oPosY = kTraj[2];
+        mov->oPosZ = kTraj[3];
+        mov->oWfTrajProgress = o->oWfTrajProgress;
+        mov->oWfTrajCurPoint = o->oWfTrajCurPoint;
+        // mov->oForwardVel = 16.f;
+        mov->oWfMoveTrajIdx = id;
+    }
+
+    for (int i = 0; i < amount - 1; i++)
     {
         traj = &kTraj[4 * o->oWfTrajCurPoint];
         Vec3f trajCurrPoint = { traj[1], traj[2], traj[3] };
@@ -53,14 +65,33 @@ static void wf_traj_instantiate(const Trajectory* kTraj, int id)
         f32 dirMag = vec3_mag(trajDirection);
         
         f32 movAmt = vel / dirMag;
+        f32 preProgress = o->oWfTrajProgress;
         o->oWfTrajProgress += movAmt;
         if (o->oWfTrajProgress >= 1.f)
         {
-            o->oWfTrajProgress = o->oWfTrajProgress - 1.f;
+            f32 consumedProgress = 1.f - preProgress;
+            f32 consumedMag = consumedProgress * dirMag;
+            f32 remainingVel = vel - consumedMag;
+            
             o->oWfTrajCurPoint++;
-            if (-1 == traj[4])
             {
-                o->oWfTrajCurPoint = 0;
+                // now calculate the velocity for the next point using the same principle
+                // this assume vel isn't too big to skip multiple points
+                traj = &kTraj[4 * o->oWfTrajCurPoint];
+                Vec3f trajCurrPoint = { traj[1], traj[2], traj[3] };
+                Vec3f trajNextPoint = { traj[5], traj[6], traj[7] };
+                if (traj[4] == -1)
+                {
+                    trajNextPoint[0] = kTraj[1];
+                    trajNextPoint[1] = kTraj[2];
+                    trajNextPoint[2] = kTraj[3];
+                }
+
+                Vec3f trajDirection;
+                vec3f_diff(trajDirection, trajNextPoint, trajCurrPoint);
+                f32 dirMag2 = vec3_mag(trajDirection);
+
+                o->oWfTrajProgress = remainingVel / dirMag2;
             }
         }
         
@@ -95,7 +126,7 @@ static void wf_traj_instantiate(const Trajectory* kTraj, int id)
             mov->oPosZ = trajCurrPoint[2] + (trajDirection[2] * o->oWfTrajProgress);
             mov->oWfTrajProgress = o->oWfTrajProgress;
             mov->oWfTrajCurPoint = o->oWfTrajCurPoint;
-            mov->oForwardVel = 10.f;
+            // mov->oForwardVel = 16.f;
             mov->oWfMoveTrajIdx = id;
         }
     }
@@ -114,7 +145,7 @@ void bhv_wf_ctrl_loop()
 
 void bhv_wf_move_init()
 {
-    obj_scale(o, 0.3f);
+    obj_scale(o, 0.33f);
 }
 
 extern const Collision wf_movedeath_collision[];
@@ -151,7 +182,7 @@ void bhv_wf_move_loop()
     }
     else if (2 == o->oAction)
     {
-        if (o->oTimer > 60)
+        if (o->oTimer > 50)
         {
             int amt = o->oOpacity + 50;
             o->oOpacity = CLAMP(amt, 0, 255);
@@ -177,6 +208,25 @@ void bhv_wf_move_loop()
     vec3f_diff(trajDirection, trajNextPoint, trajCurrPoint);
     f32 dirMag = vec3_mag(trajDirection);
     
+    static f32 vl = 11.f;
+    #if 0
+    static int time = 0;
+    if (gPlayer1Controller->buttonPressed & R_JPAD)
+    {
+        vl += 0.00001f;
+    }
+    if (gPlayer1Controller->buttonPressed & L_JPAD)
+    {
+        vl -= 0.00001f;
+    }
+    if (time != gGlobalTimer)
+    {
+        print_text_fmt_int(20, 20, "%d", (int) (vl * 10000));
+        time = gGlobalTimer;
+    }
+    #endif
+
+    o->oForwardVel = vl;
     f32 movAmt = o->oForwardVel / dirMag;
     o->oWfTrajProgress += movAmt;
     if (o->oWfTrajProgress >= 1.f)

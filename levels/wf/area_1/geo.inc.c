@@ -3,7 +3,7 @@
 const GeoLayout wf_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, wf_dl_Plane_002_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, wf_dl_Circle_mesh_layer_5),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, wf_dl_Plane_005_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
@@ -15,7 +15,7 @@ const GeoLayout wf_area_1[] = {
 		GEO_OPEN_NODE(),
 			GEO_NODE_ORTHO(100.0000),
 			GEO_OPEN_NODE(),
-				GEO_BACKGROUND_COLOR(0x0001),
+				GEO_BACKGROUND(BACKGROUND_GREEN_SKY, geo_skybox_main),
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),
 		GEO_ZBUFFER(1),

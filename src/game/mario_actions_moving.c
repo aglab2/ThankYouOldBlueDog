@@ -93,6 +93,11 @@ s32 begin_walking_action(struct MarioState *m, f32 forwardVel, u32 action, u32 a
 }
 
 void check_ledge_climb_down(struct MarioState *m) {
+    if (gCurrCourseNum == COURSE_WF)
+    {
+        return;
+    }
+
     struct WallCollisionData wallCols;
     struct Surface *floor, *wall;
 
