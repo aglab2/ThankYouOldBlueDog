@@ -2340,7 +2340,42 @@ s32 render_course_complete_screen(void) {
     return MENU_OPT_NONE;
 }
 
+static void fancy_print_uncentered_colored(int align, int xoff, int y, const u8* line, u8 r, u8 g, u8 b, u8 a)
+{
+    int x = xoff;
+    gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, a);
+    print_generic_string(x, y, line);
+    gDPSetEnvColor(gDisplayListHead++, r, g, b, a);
+    print_generic_string(x + 2, y + 2, line);
+}
+
+static void fancy_print_uncentered(int x, int y, const u8* line, u8 a)
+{
+    return fancy_print_uncentered_colored(1, x, y, line, 255, 255, 255, a);
+}
+
+static void fancy_print_uncentered_unaligned(int x, int y, const u8* line, u8 a)
+{
+    return fancy_print_uncentered_colored(0, x, y, line, 255, 255, 255, a);
+}
+
+static void fancy_print(int y, const u8* line, int tr)
+{
+    fancy_print_uncentered(120, y, line, tr);
+}
+
+extern u8 gMirrorVCAmount;
 s32 render_menus_and_dialogs(void) {
+    if (0 == gMarioStates->action)
+    {
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+        gMarioStates->flags |= MARIO_METAL_CAP;
+        int mirrorAmount = CLAMP((int) gMirrorVCAmount - 10, 0, 255);
+        gMirrorVCAmount = mirrorAmount;
+        fancy_print(20, "Press L to reload", 255 - mirrorAmount);
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+    }
+
     s32 mode = MENU_OPT_NONE;
 
     create_dl_ortho_matrix();
