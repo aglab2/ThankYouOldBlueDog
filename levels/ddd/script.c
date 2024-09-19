@@ -42,13 +42,12 @@ const LevelScript level_ddd_entry[] = {
 		MARIO_POS(0x01, 0, -1511, 487, 50),
 		OBJECT(MODEL_PURPLE_SWITCH, 3002, 0, 1007, 0, 0, 0, 0x00000000, bhvFloorSwitchGrills),
 		OBJECT(MODEL_PURPLE_SWITCH, 3547, 0, 5578, 0, 0, 0, 0x00000000, bhvFloorSwitchGrills),
-		OBJECT(MODEL_PURPLE_SWITCH, -4719, 0, 5003, 0, 0, 0, 0x00000000, bhvFloorSwitchGrills),
-		OBJECT(MODEL_PURPLE_SWITCH, -4542, 1243, 2291, 0, 0, 0, 0x00000000, bhvFloorSwitchGrills),
-		OBJECT(MODEL_NONE, -1515, 493, 36, 0, 0, 0, 0x00000000, bhvInstantActiveWarp),
+		OBJECT(MODEL_STAR, -4719, 367, 5003, 0, 0, 0, 0x00000000, bhvStar),
+		OBJECT(MODEL_NONE, -1515, 493, 36, 0, 90, 0, (0xa << 16), bhvSpinAirborneWarp),
 		OBJECT(MODEL_DDD_MOVE, -254, -202, 0, 0, 0, 0, 0x00000000, bhvDddMove),
 		TERRAIN(ddd_area_1_collision),
 		MACRO_OBJECTS(ddd_area_1_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_ENERGY),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
