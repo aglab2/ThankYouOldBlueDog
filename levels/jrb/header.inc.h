@@ -31,7 +31,7 @@ extern Vtx jrb_dl_3_mesh_layer_1_vtx_1[21];
 extern Vtx jrb_dl_3_mesh_layer_1_vtx_2[48];
 extern Vtx jrb_dl_3_mesh_layer_1_vtx_3[104];
 extern Vtx jrb_dl_Circle_mesh_layer_1_vtx_cull[8];
-extern Vtx jrb_dl_Circle_mesh_layer_1_vtx_0[136];
+extern Vtx jrb_dl_Circle_mesh_layer_1_vtx_0[125];
 extern Vtx jrb_dl_Circle_mesh_layer_1_vtx_1[64];
 extern Vtx jrb_dl_Circle_mesh_layer_1_vtx_2[58];
 extern Vtx jrb_dl_Circle_002_mesh_layer_5_vtx_cull[8];
