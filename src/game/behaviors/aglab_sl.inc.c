@@ -36,7 +36,7 @@ void bhv_sl_ctl_loop()
             if (0 == o->oSlCtlTurnsAmount)
             {
                 o->oSlCtlCount++;
-                int cyclesAmount = (int) ((1 + random_float() * 4));
+                int cyclesAmount = (int) ((1 + random_float() * 3.5f));
                 o->oSlCtlTurnsAmount = (0x4000 / SL_SPEED) * cyclesAmount;
                 o->oSlCtlTurnsAmountBg = (0x4000 / SL_SPEED / 2) + (0x4000 / SL_SPEED) * (cyclesAmount - 1);
                 o->oSlCtlTurnsDirection = random_u16() & 1 ? -1 : 1;
