@@ -24,3 +24,4 @@
 #include "levels/sl/leveldata.inc.c"
 
 #include "levels/sl/ssl_spin/model.inc.c"
+#include "levels/sl/ssl_star/model.inc.c"

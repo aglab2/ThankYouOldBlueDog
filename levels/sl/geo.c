@@ -19,3 +19,4 @@
 #include "levels/sl/geo.inc.c"
 
 #include "levels/sl/ssl_spin/geo.inc.c"
+#include "levels/sl/ssl_star/geo.inc.c"

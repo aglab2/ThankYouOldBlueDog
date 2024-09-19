@@ -1264,7 +1264,7 @@ void update_mario_joystick_inputs(struct MarioState *m) {
 
     if (gCurrCourseNum == COURSE_SL)
     {
-        m->intendedYaw += 0x4000;
+        m->intendedYaw -= 0x4000;
     }
 }
 

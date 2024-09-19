@@ -28,6 +28,7 @@ const LevelScript level_sl_entry[] = {
 	ALLOC_LEVEL_POOL(),
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
 	LOAD_MODEL_FROM_GEO(MODEL_SL_SPIN, ssl_spin_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_SL_STAR, ssl_star_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -35,10 +36,10 @@ const LevelScript level_sl_entry[] = {
 	AREA(1, sl_area_1),
 		OBJECT(MODEL_SL_SPIN, 0, 0, 0, 0, 0, 0, 0x00000000, bhvSlCtl),
 		MARIO_POS(0x01, 0, 0, -1000, -5),
-		OBJECT(MODEL_NONE, -1, -998, -11, 0, 0, 0, 0x00000000, bhvInstantActiveWarp),
+		OBJECT(MODEL_NONE, -1, -998, -11, 0, 0, 0, (0xa << 16), bhvSpinAirborneWarp),
 		TERRAIN(sl_area_1_collision),
 		MACRO_OBJECTS(sl_area_1_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_NERVINE),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */

@@ -33,4 +33,6 @@ extern const LevelScript level_sl_entry[];
 
 #include "levels/sl/ssl_spin/geo_header.h"
 
+#include "levels/sl/ssl_star/geo_header.h"
+
 #endif
