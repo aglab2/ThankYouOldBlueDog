@@ -686,6 +686,10 @@ void initiate_warp(s16 destLevel, s16 destArea, s16 destWarpNode, s32 warpFlags)
         gSaveFileModified = 1;
         gMarioStates->numStars++;
     }
+    else
+    {        
+        gMarioState->numStars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
+    }
 
     tinymt32_init(&gGlobalRandomState, gSaveBuffer.files[gCurrSaveFileNum - 1][0].seed);
     for (int i = 0; i < sizeof(kLevelsOrderConst); i++)
