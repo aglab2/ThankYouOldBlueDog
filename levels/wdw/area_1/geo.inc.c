@@ -3,8 +3,10 @@
 const GeoLayout wdw_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, wdw_dl_Plane_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -1446, 308, -1381, wdw_dl_Grid_001_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, wdw_dl_Plane_001_mesh_layer_5),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, wdw_dl_Plane_001_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -658, -1966, -994, wdw_dl_Sphere_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -15,7 +17,7 @@ const GeoLayout wdw_area_1[] = {
 		GEO_OPEN_NODE(),
 			GEO_NODE_ORTHO(100.0000),
 			GEO_OPEN_NODE(),
-				GEO_BACKGROUND_COLOR(0x0001),
+				GEO_BACKGROUND(BACKGROUND_SNOW_MOUNTAINS, geo_skybox_main),
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),
 		GEO_ZBUFFER(1),

@@ -27,6 +27,7 @@ const LevelScript level_wdw_entry[] = {
 	LOAD_MIO0(0x7, _wdw_segment_7SegmentRomStart, _wdw_segment_7SegmentRomEnd), 
 	LOAD_YAY0(0x08, _common0_yay0SegmentRomStart, _common0_yay0SegmentRomEnd), 
 	LOAD_RAW(0x0F, _common0_geoSegmentRomStart, _common0_geoSegmentRomEnd), 
+	LOAD_MIO0(0xa, _ccm_skybox_mio0SegmentRomStart, _ccm_skybox_mio0SegmentRomEnd), 
 	ALLOC_LEVEL_POOL(),
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
 	JUMP_LINK(script_func_global_1), 
@@ -42,11 +43,11 @@ const LevelScript level_wdw_entry[] = {
 		WARP_NODE(0xf1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		MARIO_POS(0x01, 0, 0, 499, -14),
 		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, 0x00000000, bhvWdwCtl),
-		OBJECT(MODEL_NONE, -3, 506, -28, 0, 0, 0, 0x00000000, bhvInstantActiveWarp),
-		OBJECT(MODEL_STAR, -1457, 1803, -1008, 0, 0, 0, 0x00000000, bhvStar),
+		OBJECT(MODEL_NONE, -3, 506, -28, 0, -90, 0, (0xa << 16), bhvSpinAirborneWarp),
+		OBJECT(MODEL_STAR, -234, 2233, -774, 0, 0, 0, 0x00000000, bhvStar),
 		TERRAIN(wdw_area_1_collision),
 		MACRO_OBJECTS(wdw_area_1_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_WORKING),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
