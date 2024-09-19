@@ -1714,6 +1714,10 @@ void queue_rumble_particles(struct MarioState *m) {
 }
 #endif
 
+
+extern int sSafePosArea;
+extern int sSafePosLevel;
+
 /**
  * Main function for executing Mario's behavior. Returns particleFlags.
  */
@@ -1757,6 +1761,17 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 #endif
         if (0 == gMarioState->action) {
             return ACTIVE_PARTICLE_NONE;
+        }
+
+        if (sSafePosArea != gCurrAreaIndex || sSafePosLevel != gCurrLevelNum)
+        {
+            gMarioState->controller->buttonDown = 0;
+            gMarioState->controller->buttonPressed = 0;
+            gMarioState->controller->stickX = 0;
+            gMarioState->controller->stickY = 0;
+            gMarioState->controller->stickMag = 0;
+            gMarioState->controller->rawStickX = 0;
+            gMarioState->controller->rawStickY = 0;
         }
 
         mario_process_interactions(gMarioState);
@@ -1854,7 +1869,17 @@ void init_mario(void) {
     gMarioState->marioObj->header.gfx.animInfo.animID = -1;
     vec3s_copy(gMarioState->faceAngle, gMarioSpawnInfo->startAngle);
     vec3_zero(gMarioState->angleVel);
-    vec3s_to_vec3f(gMarioState->pos, gMarioSpawnInfo->startPos);
+    if (0 == gMarioStates->numStars)
+    {
+        gMarioStates->pos[0] = -3172.f;
+        gMarioStates->pos[1] = 618.f;
+        gMarioStates->pos[2] = 0.f;
+    }
+    else
+    {
+        vec3s_to_vec3f(gMarioState->pos, gMarioSpawnInfo->startPos);
+    }
+
     vec3f_copy(gMarioState->prevPos, gMarioState->pos);
     vec3_zero(gMarioState->vel);
     gMarioState->floorHeight =

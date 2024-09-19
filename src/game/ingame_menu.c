@@ -2365,8 +2365,9 @@ static void fancy_print(int y, const u8* line, int tr)
 }
 
 extern u8 gMirrorVCAmount;
+extern u8 gPressLToSave;
 s32 render_menus_and_dialogs(void) {
-    if (0 == gMarioStates->action)
+    if (0 == gMarioStates->action && gCurrLevelNum != 1)
     {
         gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
         gMarioStates->flags |= MARIO_METAL_CAP;
@@ -2375,6 +2376,13 @@ s32 render_menus_and_dialogs(void) {
         fancy_print(20, "Press L to reload", 255 - mirrorAmount);
         gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
     }
+    if (gPressLToSave)
+    {
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+        fancy_print(20, "Press L to save", 255);
+        gPressLToSave = 0;
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+    }    
 
     s32 mode = MENU_OPT_NONE;
 

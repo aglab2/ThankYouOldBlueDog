@@ -8,6 +8,7 @@
 #include "puppycam2.h"
 
 #include "course_table.h"
+#include "game/save_file.h"
 
 #if defined(SRAM)
     #define EEPROM_SIZE 0x8000
@@ -25,14 +26,8 @@ struct SaveBlockSignature {
 };
 
 struct SaveFile {
-    // Location of lost cap.
-    // Note: the coordinates get set, but are never actually used, since the
-    // cap can always be found in a fixed spot within the course
-    u8 capLevel;
-    u8 capArea;
-    // Note: the coordinates get set, but are never actually used, since the
-    // cap can always be found in a fixed spot within the course
-    Vec3s capPos; // 48 bits
+    u32 _pad;
+    u32 seed;
 
     u32 flags;
 
@@ -57,8 +52,7 @@ struct MainMenuSaveData {
     // Each save file has a 2 bit "age" for each course. The higher this value,
     // the older the high score is. This is used for tie-breaking when displaying
     // on the high score screen.
-    u32 coinScoreAges[NUM_SAVE_FILES - 1];
-    u32 randomNum;
+    u32 coinScoreAges[NUM_SAVE_FILES];
     u8 soundMode: 2;
 #ifdef WIDE
     u8 wideMode: 1;

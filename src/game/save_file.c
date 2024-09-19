@@ -217,7 +217,6 @@ static void add_save_block_signature(void *buffer, s32 size, u16 magic) {
 }
 
 static void save_main_menu_data(void) {
-    gSaveBuffer.menuData.randomNum = tinymt32_generate_u32(&gGlobalRandomState);
     if (gMainMenuDataModified) {
         // Compute checksum
         add_save_block_signature(&gSaveBuffer.menuData, sizeof(gSaveBuffer.menuData), MENU_DATA_MAGIC);
@@ -393,7 +392,6 @@ void save_file_load_all(void) {
     // Failsafe in case the language in the save file isn't defined.
     multilang_set_language(get_language_index(multilang_get_language()));
 #endif
-    tinymt32_init(&gGlobalRandomState, gSaveBuffer.menuData.randomNum);
 }
 
 #ifdef PUPPYCAM
@@ -682,24 +680,9 @@ void save_file_set_cannon_unlocked(void) {
     gSaveFileModified = TRUE;
 }
 
-void save_file_set_cap_pos(s16 x, s16 y, s16 z) {
-    struct SaveFile *saveFile = &gSaveBuffer.files[gCurrSaveFileNum - 1][0];
-
-    saveFile->capLevel = gCurrLevelNum;
-    saveFile->capArea = gCurrAreaIndex;
-    vec3s_set(saveFile->capPos, x, y, z);
-    save_file_set_flags(SAVE_FLAG_CAP_ON_GROUND);
-}
+void save_file_set_cap_pos(s16 x, s16 y, s16 z) { }
 
 s32 save_file_get_cap_pos(Vec3s capPos) {
-    struct SaveFile *saveFile = &gSaveBuffer.files[gCurrSaveFileNum - 1][0];
-    s32 flags = save_file_get_flags();
-
-    if (saveFile->capLevel == gCurrLevelNum && saveFile->capArea == gCurrAreaIndex
-        && (flags & SAVE_FLAG_CAP_ON_GROUND)) {
-        vec3s_copy(capPos, saveFile->capPos);
-        return TRUE;
-    }
     return FALSE;
 }
 
@@ -732,22 +715,7 @@ u32 save_file_get_sound_mode(void) {
     return gSaveBuffer.menuData.soundMode;
 }
 
-void save_file_move_cap_to_default_location(void) {
-    if (save_file_get_flags() & SAVE_FLAG_CAP_ON_GROUND) {
-        switch (gSaveBuffer.files[gCurrSaveFileNum - 1][0].capLevel) {
-            case LEVEL_SSL:
-                save_file_set_flags(SAVE_FLAG_CAP_ON_KLEPTO);
-                break;
-            case LEVEL_SL:
-                save_file_set_flags(SAVE_FLAG_CAP_ON_MR_BLIZZARD);
-                break;
-            case LEVEL_TTM:
-                save_file_set_flags(SAVE_FLAG_CAP_ON_UKIKI);
-                break;
-        }
-        save_file_clear_flags(SAVE_FLAG_CAP_ON_GROUND);
-    }
-}
+void save_file_move_cap_to_default_location(void) { }
 
 #ifdef MULTILANG
 void multilang_set_language(u32 language) {

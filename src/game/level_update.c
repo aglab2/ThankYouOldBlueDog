@@ -38,6 +38,8 @@
 
 #include "hacktice/main.h"
 
+#include "buffers/buffers.h"
+
 // TODO: Make these ifdefs better
 const char *credits01[] = { "1GAME DIRECTOR", "SHIGERU MIYAMOTO" };
 const char *credits02[] = { "2ASSISTANT DIRECTORS", "YOSHIAKI KOIZUMI", "TAKASHI TEZUKA" };
@@ -645,6 +647,20 @@ static uint8_t kLevelsOrder[] = {
     LEVEL_RR,
 };
 
+static const uint8_t kLevelsOrderConst[] = {
+    LEVEL_BOB,
+    LEVEL_WF,
+    LEVEL_JRB,
+    LEVEL_CCM,
+    LEVEL_BBH,
+    LEVEL_HMC,
+    LEVEL_LLL,
+    LEVEL_SSL,
+    LEVEL_DDD,
+    LEVEL_SL,
+    LEVEL_WDW,
+};
+
 /**
  * Set the current warp type and destination level/area/node.
  */
@@ -661,7 +677,35 @@ void initiate_warp(s16 destLevel, s16 destArea, s16 destWarpNode, s32 warpFlags)
         sWarpDest.type = WARP_TYPE_SAME_AREA;
     }
 
-    sWarpDest.levelNum = LEVEL_JRB;
+    uint32_t preRnd = tinymt32_generate_u32(&gGlobalRandomState);
+
+    if (0 == gMarioStates->numStars)
+    {
+        gSaveBuffer.files[gCurrSaveFileNum - 1][0].seed = tinymt32_generate_u32(&gGlobalRandomState);
+        save_file_collect_star_or_key(0, 0);
+        gSaveFileModified = 1;
+        gMarioStates->numStars++;
+    }
+
+    tinymt32_init(&gGlobalRandomState, gSaveBuffer.files[gCurrSaveFileNum - 1][0].seed);
+    for (int i = 0; i < sizeof(kLevelsOrderConst); i++)
+    {
+        kLevelsOrder[i] = kLevelsOrderConst[i];
+    }
+
+    for (int i = 0; i < sizeof(kLevelsOrderConst); i++)
+    {
+        int idx = random_u16() % sizeof(kLevelsOrderConst);
+        int tmp = kLevelsOrder[i];
+        kLevelsOrder[i] = kLevelsOrder[idx];
+        kLevelsOrder[idx] = tmp;
+    }
+
+    save_file_do_save(gCurrSaveFileNum - 1);
+
+    tinymt32_init(&gGlobalRandomState, preRnd);
+
+    sWarpDest.levelNum = kLevelsOrder[gMarioStates->numStars - 1];
     sWarpDest.areaIdx = destArea;
     sWarpDest.nodeId = destWarpNode;
     sWarpDest.arg = warpFlags;

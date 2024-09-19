@@ -13,18 +13,20 @@ extern s16 s8DirModeYawOffset;
 
 #define bool char
 
-static int sSafePosArea = 0;
-static int sSafePosLevel = 0;
+int sSafePosArea = 0;
+int sSafePosLevel = 0;
 static Vec3s sSafePos = {};
 static s16 sSafePosAngle;
 static s16 sSafePosCameraYaw;
 
 uint32_t gSafePosAllowedFrame = 0;
 
+u8 gPressLToSave = 0;
+
 static void fail_warp_set_safe_pos(struct MarioState *m, bool force)
 {
     gSafePosAllowedFrame = gGlobalTimer;
-    print_text_aligned(160, 20, "PRESS L TO SAVE", TEXT_ALIGN_CENTER);
+    gPressLToSave = !force;
     if (force || (gPlayer1Controller->buttonPressed & L_TRIG))
     {
         SaveState_Trigger();
