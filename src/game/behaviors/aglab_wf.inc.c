@@ -140,7 +140,7 @@ static void wf_traj_instantiate(const Trajectory* kTraj, int id)
         }
     }
 
-
+#if 0
     struct Pos* positions = segmented_to_virtual(kWfCoinPositions0);
     for (int i = 0; i < 36; i++)
     {
@@ -149,6 +149,7 @@ static void wf_traj_instantiate(const Trajectory* kTraj, int id)
         coin->oPosY = positions[i].y;
         coin->oPosZ = positions[i].z;
     }
+#endif
 }
 
 void bhv_wf_ctrl_init()
