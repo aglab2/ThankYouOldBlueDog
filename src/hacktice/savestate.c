@@ -55,6 +55,7 @@ static void resetCamera()
 }
 
 extern int sWfCursor;
+extern Vec3f sLastFailPosition;
 
 void SaveState_onNormal()
 {
@@ -77,6 +78,10 @@ void SaveState_onNormal()
             sMustLoadState = false;
             if (Hacktice_gState->area == gCurrAreaIndex && Hacktice_gState->level == gCurrLevelNum)
             {
+                sLastFailPosition[0] = gMarioStates->pos[0];
+                sLastFailPosition[1] = gMarioStates->pos[1];
+                sLastFailPosition[2] = gMarioStates->pos[2];
+
                 tinymt32_t rng = gGlobalRandomState;
                 memcpy(_hackticeStateDataStart0, Hacktice_gState->memory, _hackticeStateDataEnd0 - _hackticeStateDataStart0);
                 memcpy(_hackticeStateDataStart1, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0), _hackticeStateDataEnd1 - _hackticeStateDataStart1);

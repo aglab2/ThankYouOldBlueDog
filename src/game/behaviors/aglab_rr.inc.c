@@ -19,9 +19,10 @@ void bhv_rr_ctl_init()
     o->oPosZ = o->oRrBobCtrlCurr->oPosZ;
 }
 
+Vec3f sLastFailPosition;
+
 struct QuadrantDesc{ uint8_t x, z; };
-// remove quad { 1, 1 } and { 2, 2 }. initial one is { 2, 1 }
-static struct QuadrantDesc sSegmentsOrder[] = { { 0, 0 }, { 0, 2 }, { 1, 0 }, { 1, 2 }, { 2, 0 }, { 0, 1  } };
+static struct QuadrantDesc sSegmentsOrder[] = { { 0, 0 }, { 0, 2 }, { 2, 2 }, { 1, 2 }, { 2, 0 }, { 0, 1 }, { 2, 1 }, { 0, 0 } };
 
 static void rr_cubes_ctl_loop()
 {
@@ -31,7 +32,7 @@ static void rr_cubes_ctl_loop()
         {
             if (gMarioObject->platform == o->oRrBobCtrlCurr)
             {
-                o->oPosX -= 500.f;
+                o->oPosX -= 700.f;
                 o->oRrBobCtrlNext = spawn_object(o, MODEL_RR_CUBE, bhvRrCube);
                 o->oRrBobCtrlNext->oPosZ += random_f32_around_zero(1000.f);
                 o->oRrBobCtrlNext->oOpacity = 0;
@@ -131,30 +132,118 @@ void rr_water_ctl_loop()
     }
 }
 
+static int toSegmentIndex(f32 pos)
+{
+    return CLAMP((int) ((pos + 15000.f) / 10000.f), 0, 2);
+}
+
+static struct Object *cur_obj_find_spawner_in_section(const BehaviorScript *behavior, int x, int z) {
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+    struct Object *closestObj = NULL;
+
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            && obj != o
+        ) {
+            int objSegmentX = toSegmentIndex(obj->oPosX);
+            int objSegmentZ = toSegmentIndex(obj->oPosZ);
+            if (objSegmentX == x && objSegmentZ == z)
+            {
+                closestObj = obj;
+                break;
+            }
+        }
+
+        obj = (struct Object *) obj->header.next;
+    }
+
+    return closestObj;
+}
+
+void bhv_rr_cube_init()
+{
+    o->oF4  = random_u16() % 6;
+}
+
+void bhv_rr_cube_loop()
+{
+    switch (o->oF4)
+    {
+        case 0:
+            o->oFaceAngleYaw += 0x30;
+            break;
+        case 1:
+            o->oFaceAnglePitch += 0x30;
+            break;
+        case 2:
+            o->oFaceAngleRoll += 0x30;
+            break;
+        case 3:
+            o->oFaceAngleYaw -= 0x30;
+            break;
+        case 4:
+            o->oFaceAnglePitch -= 0x30;
+            break;
+        case 5:
+            o->oFaceAngleRoll -= 0x30;
+            break;
+    }
+}
+
 void bhv_rr_ctl_loop()
 {
-    int curSegmentX = CLAMP((int) ((gMarioStates->pos[0] + 15000.f) / 10000.f), 0, 2);
-    int curSegmentZ = CLAMP((int) ((gMarioStates->pos[2] + 15000.f) / 10000.f), 0, 2);
+    int curSegmentX = toSegmentIndex(gMarioStates->pos[0]);
+    int curSegmentZ = toSegmentIndex(gMarioStates->pos[2]);
 
     print_text_fmt_int(20, 20, "X %d", curSegmentX);
     print_text_fmt_int(20, 40, "Z %d", curSegmentZ);
-    if (2 == curSegmentX && 0 == curSegmentZ)
+    if (1 == curSegmentX && 0 == curSegmentZ)
     {
         // scramble the randomness a bit :)
         tinymt32_init(&gGlobalRandomState, tinymt32_generate_u32(&gGlobalRandomState) ^ (*(u32*) &gMarioStates->controller->rawStickX));
         tinymt32_init(&gGlobalRandomState, tinymt32_generate_u32(&gGlobalRandomState) ^ (*(u32*) &gMarioStates->controller->buttonDown));
-        if (gMarioStates->floor && gMarioStates->floor->type == SURFACE_TTM_VINES)
+    }
+
+    if (gMarioStates->floor && gMarioStates->floor->type == SURFACE_TTM_VINES)
+    {    
+        if (1 == curSegmentX && 0 == curSegmentZ)
         {
             // randomize order of stuff in sSegmentsOrder
-            for (int i = 0; i < sizeof(sSegmentsOrder) / sizeof(*sSegmentsOrder); i++)
+            for (int i = 0; i < sizeof(sSegmentsOrder) / sizeof(*sSegmentsOrder) - 1; i++)
             {
-                int j = tinymt32_generate_u32(&gGlobalRandomState) % (sizeof(sSegmentsOrder) / sizeof(*sSegmentsOrder));
+                int j = tinymt32_generate_u32(&gGlobalRandomState) % (sizeof(sSegmentsOrder) / sizeof(*sSegmentsOrder) - 1);
                 struct QuadrantDesc tmp = sSegmentsOrder[i];
                 sSegmentsOrder[i] = sSegmentsOrder[j];
                 sSegmentsOrder[j] = tmp;
             }
-            // let the game roll...
+
+            int failSegmentX = toSegmentIndex(sLastFailPosition[0]);
+            int failSegmentZ = toSegmentIndex(sLastFailPosition[2]);
+            for (int i = 0; i < sizeof(sSegmentsOrder) / sizeof(*sSegmentsOrder) - 1; i++)
+            {
+                if (sSegmentsOrder[i].x == failSegmentX && sSegmentsOrder[i].z == failSegmentZ)
+                {
+                    struct QuadrantDesc tmp = sSegmentsOrder[i];
+                    sSegmentsOrder[i] = sSegmentsOrder[0];
+                    sSegmentsOrder[0] = tmp;
+                    break;
+                }
+            }
         }
+
+        const struct QuadrantDesc* desc = &sSegmentsOrder[o->oRrCtlProgress];
+        const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, desc->x, desc->z);
+        o->oRrCtlProgress++;
+
+        gMarioStates->pos[0] = start->oPosX;
+        gMarioStates->pos[1] = start->oPosY;
+        gMarioStates->pos[2] = start->oPosZ;
+        gMarioStates->faceAngle[1] = start->oFaceAngleYaw;
+
+        play_sound(SOUND_MENU_COLLECT_RED_COIN + ((o->oRrCtlProgress) << 16), gGlobalSoundSource);
     }
 
     if (1 == curSegmentX && 2 == curSegmentZ)
