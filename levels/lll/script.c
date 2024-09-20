@@ -40,7 +40,7 @@ const LevelScript level_lll_entry[] = {
 		OBJECT(MODEL_LLL_72, 744, 0, -3613, 0, 0, 0, 0x00000000, bhvLll72),
 		MARIO_POS(0x01, 0, 752, 160, -3634),
 		OBJECT(MODEL_NONE, 752, 170, -3629, 0, 0, 0, (0xa << 16), bhvSpinAirborneWarp),
-		OBJECT(MODEL_STAR, -1296, 392, -3643, 0, 0, 0, 0x00000000, bhvStar),
+		OBJECT(MODEL_STAR, -1265, 392, -3677, 0, 0, 0, 0x00000000, bhvStar),
 		TERRAIN(lll_area_1_collision),
 		MACRO_OBJECTS(lll_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_SLAP),

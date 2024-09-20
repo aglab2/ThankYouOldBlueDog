@@ -24,7 +24,7 @@ extern Vtx lll_dl_Plane_mesh_layer_5_vtx_cull[8];
 extern Vtx lll_dl_Plane_mesh_layer_5_vtx_0[8];
 extern Gfx lll_dl_Plane_mesh_layer_5_tri_0[];
 extern Vtx lll_dl_Plane_002_mesh_layer_1_vtx_cull[8];
-extern Vtx lll_dl_Plane_002_mesh_layer_1_vtx_0[20];
+extern Vtx lll_dl_Plane_002_mesh_layer_1_vtx_0[40];
 extern Gfx lll_dl_Plane_002_mesh_layer_1_tri_0[];
 extern Gfx mat_lll_dl_f3dlite_material_002_layer1[];
 extern Gfx mat_revert_lll_dl_f3dlite_material_002_layer1[];
