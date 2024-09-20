@@ -6,6 +6,7 @@
 
 #include "game/area.h"
 #include "game/camera.h"
+#include "game/game_init.h"
 #include "game/print.h"
 #include "game/level_update.h"
 #include "game/object_list_processor.h"
@@ -67,6 +68,7 @@ void SaveState_onNormal()
         Hacktice_gState->size = sizeof(State);
         memcpy(Hacktice_gState->memory, _hackticeStateDataStart0, _hackticeStateDataEnd0 - _hackticeStateDataStart0);
         memcpy(Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0), _hackticeStateDataStart1, _hackticeStateDataEnd1 - _hackticeStateDataStart1);
+        memcpy(Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0) + (_hackticeStateDataEnd1 - _hackticeStateDataStart1), gMarioAnimsMemAlloc, MARIO_ANIMS_POOL_SIZE);
     }
     else
     {
@@ -78,13 +80,7 @@ void SaveState_onNormal()
                 tinymt32_t rng = gGlobalRandomState;
                 memcpy(_hackticeStateDataStart0, Hacktice_gState->memory, _hackticeStateDataEnd0 - _hackticeStateDataStart0);
                 memcpy(_hackticeStateDataStart1, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0), _hackticeStateDataEnd1 - _hackticeStateDataStart1);
-                
-                struct Animation *targetAnim = gMarioStates->animList->bufTarget;
-                if (load_patchable_table(gMarioStates->animList, gMarioObject->header.gfx.animInfo.animID)) {
-                    targetAnim->values = (void *) VIRTUAL_TO_PHYSICAL((u8 *) targetAnim + (uintptr_t) targetAnim->values);
-                    targetAnim->index = (void *) VIRTUAL_TO_PHYSICAL((u8 *) targetAnim + (uintptr_t) targetAnim->index);
-                }
-                gMarioObject->header.gfx.animInfo.curAnim = targetAnim;
+                memcpy(gMarioAnimsMemAlloc, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0) + (_hackticeStateDataEnd1 - _hackticeStateDataStart1), MARIO_ANIMS_POOL_SIZE);
 
                 gIsGravityFlipped = Hacktice_gState->flipped;
                 resetCamera();
