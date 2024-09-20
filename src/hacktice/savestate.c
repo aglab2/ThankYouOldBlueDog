@@ -8,6 +8,7 @@
 #include "game/camera.h"
 #include "game/print.h"
 #include "game/level_update.h"
+#include "game/object_list_processor.h"
 #include "engine/math_util.h"
 #include "libc/string.h"
 
@@ -77,6 +78,14 @@ void SaveState_onNormal()
                 tinymt32_t rng = gGlobalRandomState;
                 memcpy(_hackticeStateDataStart0, Hacktice_gState->memory, _hackticeStateDataEnd0 - _hackticeStateDataStart0);
                 memcpy(_hackticeStateDataStart1, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0), _hackticeStateDataEnd1 - _hackticeStateDataStart1);
+                
+                struct Animation *targetAnim = gMarioStates->animList->bufTarget;
+                if (load_patchable_table(gMarioStates->animList, gMarioObject->header.gfx.animInfo.animID)) {
+                    targetAnim->values = (void *) VIRTUAL_TO_PHYSICAL((u8 *) targetAnim + (uintptr_t) targetAnim->values);
+                    targetAnim->index = (void *) VIRTUAL_TO_PHYSICAL((u8 *) targetAnim + (uintptr_t) targetAnim->index);
+                }
+                gMarioObject->header.gfx.animInfo.curAnim = targetAnim;
+
                 gIsGravityFlipped = Hacktice_gState->flipped;
                 resetCamera();
                 gGlobalRandomState = rng;

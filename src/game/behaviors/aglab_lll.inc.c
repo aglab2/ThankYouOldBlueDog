@@ -41,6 +41,7 @@ void bhv_lll_72_loop()
     }
     else
     {
+        cur_obj_play_sound_2(SOUND_MOVING_LAVA_BURN);
         int amt = CLAMP(gMirrorVCAmount - 10, 0, 255);
         gMirrorVCAmount = amt;
         gMarioStates->flags |= MARIO_VANISH_CAP;
