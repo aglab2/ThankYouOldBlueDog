@@ -1139,6 +1139,9 @@ u32 common_air_knockback_step(struct MarioState *m, u32 landAction, u32 hardFall
 
 s32 check_wall_kick(struct MarioState *m) {
     if ((m->input & INPUT_A_PRESSED) && m->wallKickTimer != 0 && m->prevAction == ACT_AIR_HIT_WALL) {
+        if (m->forwardVel > 16.f)
+            mario_set_forward_vel(m, 16.f);
+
         m->faceAngle[1] += 0x8000;
         if (gCurrCourseNum == COURSE_CCM)
         {
