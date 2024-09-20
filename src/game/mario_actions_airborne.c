@@ -1289,6 +1289,9 @@ s32 act_air_hit_wall(struct MarioState *m) {
 
     if (++(m->actionTimer) <= 2) {
         if (m->input & INPUT_A_PRESSED) {
+            if (m->forwardVel > 16.f)
+                mario_set_forward_vel(m, 16.f);
+
             m->vel[1] = 52.0f;
             m->faceAngle[1] += 0x8000;
             if (gCurrCourseNum == COURSE_CCM)
