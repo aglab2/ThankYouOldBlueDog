@@ -4,6 +4,8 @@
 #define oRrCtlProgress o100
 #define oRrWdwCtlWasOnPlatformBefore o104
 
+extern s16 s8DirModeYawOffset;
+
 void bhv_rr_ctl_init()
 {
     o->oRrCtlPrevCombined = 0;
@@ -36,9 +38,9 @@ static void rr_cubes_ctl_loop()
                 o->oRrBobCtrlNext = spawn_object(o, MODEL_RR_CUBE, bhvRrCube);
                 o->oRrBobCtrlNext->oPosZ += random_f32_around_zero(1000.f);
                 o->oRrBobCtrlNext->oOpacity = 0;
-                o->oRrBobCtrlNext->oFaceAngleYaw   = random_u16();
-                o->oRrBobCtrlNext->oFaceAnglePitch = random_u16();
-                o->oRrBobCtrlNext->oFaceAngleRoll  = random_u16();
+                o->oRrBobCtrlNext->oFaceAngleYaw   = 0x1000 * random_u16();
+                o->oRrBobCtrlNext->oFaceAnglePitch = 0x1000 * random_u16();
+                o->oRrBobCtrlNext->oFaceAngleRoll  = 0x1000 * random_u16();
                 o->oAction = 1;
             }
             break;
@@ -242,8 +244,10 @@ void bhv_rr_ctl_loop()
         gMarioStates->pos[1] = start->oPosY;
         gMarioStates->pos[2] = start->oPosZ;
         gMarioStates->faceAngle[1] = start->oFaceAngleYaw;
+        reset_camera(gCamera);
+        s8DirModeYawOffset = 0xe000 & (gMarioStates->faceAngle[1] + 0x9000);
 
-        play_sound(SOUND_MENU_COLLECT_RED_COIN + ((o->oRrCtlProgress) << 16), gGlobalSoundSource);
+        play_sound(SOUND_MENU_COLLECT_RED_COIN + (o->oRrCtlProgress << 16), gGlobalSoundSource);
     }
 
     if (1 == curSegmentX && 2 == curSegmentZ)
@@ -300,7 +304,7 @@ void rr_move_ctl_loop()
 void rr_rotat_init()
 {
     o->oDrawingDistance = 10000.f;
-    obj_scale(o, 0.3f);
+    obj_scale(o, 0.4f);
 }
 
 extern const Collision rr_rotat_collision[];

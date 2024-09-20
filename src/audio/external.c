@@ -1123,6 +1123,11 @@ void audio_signal_game_loop_tick(void) {
 #endif
 }
 
+static f32 get_volume_menu(int bank, int soundIndex)
+{
+    return gCurrCourseNum == COURSE_RR ? 0.5f : 1.f; // ((sSoundBanks[bank][soundIndex].soundBits & 0xf0ff0000U) == (SOUND_MENU_COLLECT_RED_COIN & 0xf0ff0000U)) ? 0.3f : 1.f;
+}
+
 /**
  * Called from threads: thread4_sound, thread5_game_loop (EU and SH only)
  */
@@ -1244,7 +1249,7 @@ static void update_game_sound(void) {
                             func_802ad728(0x04020000 | ((channelIndex & 0xff) << 8),
                                           get_sound_freq_scale(bank, soundIndex));
 #else
-                            gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->volume = 1.0f;
+                            gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->volume = get_volume_menu(bank, soundIndex);
                             gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->pan = 0.5f;
                             gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->freqScale = gConfig.audioFrequency;
 #endif
@@ -1405,7 +1410,7 @@ static void update_game_sound(void) {
                             func_802ad728(0x04020000 | ((channelIndex & 0xff) << 8),
                                           get_sound_freq_scale(bank, soundIndex));
 #else
-                            gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->volume = 1.0f;
+                            gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->volume = get_volume_menu(bank, soundIndex);
                             gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->pan = 0.5f;
                             gSequencePlayers[SEQ_PLAYER_SFX].channels[channelIndex]->freqScale = gConfig.audioFrequency;
 #endif

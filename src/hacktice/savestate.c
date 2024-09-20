@@ -78,15 +78,15 @@ void SaveState_onNormal()
             sMustLoadState = false;
             if (Hacktice_gState->area == gCurrAreaIndex && Hacktice_gState->level == gCurrLevelNum)
             {
-                sLastFailPosition[0] = gMarioStates->pos[0];
-                sLastFailPosition[1] = gMarioStates->pos[1];
-                sLastFailPosition[2] = gMarioStates->pos[2];
-
+                Vec3f pos = { gMarioStates->pos[0], gMarioStates->pos[1], gMarioStates->pos[2]};
                 tinymt32_t rng = gGlobalRandomState;
                 memcpy(_hackticeStateDataStart0, Hacktice_gState->memory, _hackticeStateDataEnd0 - _hackticeStateDataStart0);
                 memcpy(_hackticeStateDataStart1, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0), _hackticeStateDataEnd1 - _hackticeStateDataStart1);
                 memcpy(gMarioAnimsMemAlloc, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0) + (_hackticeStateDataEnd1 - _hackticeStateDataStart1), MARIO_ANIMS_POOL_SIZE);
 
+                sLastFailPosition[0] = pos[0];
+                sLastFailPosition[1] = pos[1];
+                sLastFailPosition[2] = pos[2];
                 gIsGravityFlipped = Hacktice_gState->flipped;
                 resetCamera();
                 gGlobalRandomState = rng;

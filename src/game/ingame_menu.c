@@ -2373,7 +2373,7 @@ s32 render_menus_and_dialogs(void) {
         gMarioStates->flags |= MARIO_METAL_CAP;
         int mirrorAmount = CLAMP((int) gMirrorVCAmount - 10, 0, 255);
         gMirrorVCAmount = mirrorAmount;
-        fancy_print(20, "Press L to reload", 255 - mirrorAmount);
+        fancy_print(20, "Press L to reload", 255);
         gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
     }
     if (gPressLToSave)

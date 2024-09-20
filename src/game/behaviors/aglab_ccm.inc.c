@@ -2,7 +2,12 @@ extern u8 sDeferGravSwap;
 
 void bhv_ccm_flipper_loop()
 {
-    if (o->oDistanceToMario < 150.f)
+    f32 hbSize = 150.f;
+    if (gCurrCourseNum == COURSE_RR)
+    {
+        hbSize = 300.f;
+    }
+    if (o->oDistanceToMario < hbSize)
     {
         sDeferGravSwap = 1;
         o->activeFlags = 0;
