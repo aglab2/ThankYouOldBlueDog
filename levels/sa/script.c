@@ -32,17 +32,22 @@ const LevelScript level_sa_entry[] = {
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, sa_area_1),
-		MARIO_POS(0x01, 0, 0, 11, -14),
+		WARP_NODE(0x69, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_NONE, -327, -72, -86, 0, 0, 0, (0x69 << 16), bhvEndingPlayer),
+		MARIO_POS(0x01, 0, -321, -67, -77),
+		OBJECT(MODEL_NONE, -324, -72, -83, 0, 0, 0, (0x69 << 16), bhvInstantActiveWarp),
+		OBJECT(MODEL_NONE, -324, -72, -83, 0, 0, 0, (0xa << 16), bhvInstantActiveWarp),
 		TERRAIN(sa_area_1_collision),
 		MACRO_OBJECTS(sa_area_1_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_FRAGMENT),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 		/* Fast64 begin persistent block [area commands] */
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
 
 	FREE_LEVEL_POOL(),
-	MARIO_POS(0x01, 0, 0, 11, -14),
+	MARIO_POS(0x01, 0, -321, -67, -77),
 	CALL(0, lvl_init_or_update),
 	CALL_LOOP(1, lvl_init_or_update),
 	CLEAR_LEVEL(),

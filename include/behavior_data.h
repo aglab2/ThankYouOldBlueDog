@@ -579,4 +579,6 @@ extern const BehaviorScript bhvRrRotatCtl[];
 extern const BehaviorScript bhvRrJump[];
 extern const BehaviorScript bhvRrStart[];
 
+extern const BehaviorScript bhvEndingPlayer[];
+
 #endif // BEHAVIOR_DATA_H

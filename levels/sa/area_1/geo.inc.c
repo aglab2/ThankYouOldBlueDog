@@ -3,6 +3,8 @@
 const GeoLayout sa_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -360, -1, 62, 0, -90, -90, sa_dl_Plane_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -328, -132, -67, sa_dl_Plane_001_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
@@ -13,7 +15,7 @@ const GeoLayout sa_area_1[] = {
 		GEO_OPEN_NODE(),
 			GEO_NODE_ORTHO(100.0000),
 			GEO_OPEN_NODE(),
-				GEO_BACKGROUND_COLOR(0x0001),
+				GEO_BACKGROUND_COLOR(0xDDD7),
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),
 		GEO_ZBUFFER(1),

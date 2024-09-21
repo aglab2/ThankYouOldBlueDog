@@ -6359,3 +6359,13 @@ extern const BehaviorScript bhvRrJump[] = {
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };
+
+extern void bhv_ending_player_init();
+extern void bhv_ending_player_loop();
+extern const BehaviorScript bhvEndingPlayer[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    CALL_NATIVE(bhv_ending_player_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ending_player_loop),
+    END_LOOP(),
+};
