@@ -24,7 +24,7 @@ void bhv_rr_ctl_init()
 Vec3f sLastFailPosition;
 
 struct QuadrantDesc{ uint8_t x, z; };
-static struct QuadrantDesc sSegmentsOrder[] = { { 0, 0 }, { 0, 2 }, { 2, 2 }, { 1, 2 }, { 2, 0 }, { 0, 1 }, { 2, 1 }, { 0, 0 } };
+static struct QuadrantDesc sSegmentsOrder[] = { { 0, 0 }, { 0, 2 }, { 2, 2 }, { 1, 2 }, { 2, 0 }, { 0, 1 }, { 2, 1 }, { 1, 1 } };
 
 static void rr_cubes_ctl_loop()
 {
@@ -238,6 +238,7 @@ void bhv_rr_ctl_loop()
 
         const struct QuadrantDesc* desc = &sSegmentsOrder[o->oRrCtlProgress];
         const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, desc->x, desc->z);
+        // const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, 1,1);
         o->oRrCtlProgress++;
 
         gMarioStates->pos[0] = start->oPosX;

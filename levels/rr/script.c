@@ -58,7 +58,7 @@ const LevelScript level_rr_entry[] = {
 		OBJECT(MODEL_NONE, 15005, 85, 12933, 0, -90, 0, 0x00000000, bhvRrStart),
 		OBJECT(MODEL_NONE, 3479, 85, 12933, 0, -90, 0, 0x00000000, bhvRrStart),
 		OBJECT(MODEL_NONE, -9389, 85, 12933, 0, -90, 0, 0x00000000, bhvRrStart),
-		OBJECT(MODEL_NONE, 1127, -2544, -3426, 0, -90, 0, 0x00000000, bhvRrStart),
+		OBJECT(MODEL_NONE, 1127, -2985, -3426, 0, 0, 0, 0x00000000, bhvRrStart),
 		TERRAIN(rr_area_1_collision),
 		MACRO_OBJECTS(rr_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_NOVEL),
