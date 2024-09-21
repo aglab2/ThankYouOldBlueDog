@@ -2344,9 +2344,16 @@ static void fancy_print_uncentered_colored(int align, int xoff, int y, const u8*
 {
     int x = xoff;
     gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, a);
-    print_generic_string(x, y, line);
+    if (!align)
+        print_generic_string(x, y, line);
+    else
+        print_generic_string_aligned(x, y, line, TEXT_ALIGN_CENTER);
+
     gDPSetEnvColor(gDisplayListHead++, r, g, b, a);
-    print_generic_string(x + 2, y + 2, line);
+    if (!align)
+        print_generic_string(x + 2, y + 2, line);
+    else
+        print_generic_string_aligned(x + 2, y + 2, line, TEXT_ALIGN_CENTER);
 }
 
 static void fancy_print_uncentered(int x, int y, const u8* line, u8 a)
@@ -2361,13 +2368,19 @@ static void fancy_print_uncentered_unaligned(int x, int y, const u8* line, u8 a)
 
 static void fancy_print(int y, const u8* line, int tr)
 {
-    fancy_print_uncentered(120, y, line, tr);
+    fancy_print_uncentered(160, y, line, tr);
 }
 
 extern u8 gMirrorVCAmount;
 extern u8 gPressLToSave;
 s32 render_menus_and_dialogs(void) {
-    if (0 == gMarioStates->action && gCurrLevelNum != 1)
+    if (gCurrCourseNum == COURSE_SA)
+    {
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+        fancy_print(20, "Thank you!", 255);
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+    }
+    else if (0 == gMarioStates->action && gCurrLevelNum != 1)
     {
         gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
         gMarioStates->flags |= MARIO_METAL_CAP;
@@ -2382,7 +2395,7 @@ s32 render_menus_and_dialogs(void) {
         fancy_print(20, "Press L to save", 255);
         gPressLToSave = 0;
         gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
-    }    
+    }
 
     s32 mode = MENU_OPT_NONE;
 

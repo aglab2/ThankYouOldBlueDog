@@ -60,6 +60,7 @@ enum SeqId {
     SEQ_LEVEL_WORKING,
     SEQ_LEVEL_NOVEL,
     SEQ_EVENT_WEGF,
+    SEQ_LEVEL_FRAGMENT,
 
     SEQ_COUNT
 };
