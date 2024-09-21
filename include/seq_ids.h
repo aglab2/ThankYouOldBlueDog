@@ -59,6 +59,7 @@ enum SeqId {
     SEQ_LEVEL_NERVINE,
     SEQ_LEVEL_WORKING,
     SEQ_LEVEL_NOVEL,
+    SEQ_EVENT_WEGF,
 
     SEQ_COUNT
 };

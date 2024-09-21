@@ -1,8 +1,13 @@
+#include "seq_ids.h"
+
 #define oRrCtlPrevCombined oF4
 #define oRrBobCtrlCurr oObjF8
 #define oRrBobCtrlNext oObjFC
 #define oRrCtlProgress o100
 #define oRrWdwCtlWasOnPlatformBefore o104
+
+extern s16 gCameraMovementFlags;
+u8 gGoMode = 0;
 
 extern s16 s8DirModeYawOffset;
 
@@ -19,6 +24,8 @@ void bhv_rr_ctl_init()
     o->oPosX = o->oRrBobCtrlCurr->oPosX;
     o->oPosY = o->oRrBobCtrlCurr->oPosY;
     o->oPosZ = o->oRrBobCtrlCurr->oPosZ;
+
+    gGoMode = 0;
 }
 
 Vec3f sLastFailPosition;
@@ -200,13 +207,55 @@ void bhv_rr_ctl_loop()
     int curSegmentX = toSegmentIndex(gMarioStates->pos[0]);
     int curSegmentZ = toSegmentIndex(gMarioStates->pos[2]);
 
-    print_text_fmt_int(20, 20, "X %d", curSegmentX);
-    print_text_fmt_int(20, 40, "Z %d", curSegmentZ);
+    // print_text_fmt_int(20, 20, "X %d", curSegmentX);
+    // print_text_fmt_int(20, 40, "Z %d", curSegmentZ);
     if (1 == curSegmentX && 0 == curSegmentZ)
     {
         // scramble the randomness a bit :)
         tinymt32_init(&gGlobalRandomState, tinymt32_generate_u32(&gGlobalRandomState) ^ (*(u32*) &gMarioStates->controller->rawStickX));
         tinymt32_init(&gGlobalRandomState, tinymt32_generate_u32(&gGlobalRandomState) ^ (*(u32*) &gMarioStates->controller->buttonDown));
+    }
+
+    if (1 == curSegmentX && 1 == curSegmentZ)
+    {
+        if (!gGoMode)
+        {
+            if (gMarioStates->pos[1] > 2700.f)
+            {
+                gGoMode = 1;
+                o->oHomeX = gMarioStates->pos[0];
+                o->oHomeY = gMarioStates->pos[1];
+                o->oHomeZ = gMarioStates->pos[2];
+                set_cam_angle(2);
+                gCameraMovementFlags |= CAM_MOVE_ZOOMED_OUT;
+                seq_player_fade_out(0, 200);
+                seq_player_play_sequence(SEQ_PLAYER_ENV, SEQ_EVENT_WEGF, 0);
+            }
+        }
+
+        if (gGoMode)
+        {
+            gMarioStates->pos[0] = o->oHomeX;
+            gMarioStates->pos[1] = o->oHomeY;
+            if (gMarioStates->pos[1] < 6000.f)
+                o->oHomeY += 4.f + (6000.f - gMarioStates->pos[1]) / 1500.f;
+            else if (gMarioStates->pos[1] < 10000.f)
+                o->oHomeY += 4.f;
+            else
+                o->oHomeY += 3.f;
+
+            gMarioStates->pos[2] = o->oHomeZ;
+
+            gMarioStates->controller->rawStickX = 0;
+            gMarioStates->controller->rawStickY = 0;
+            gMarioStates->controller->stickX = 0;
+            gMarioStates->controller->stickY = 0;
+            gMarioStates->controller->stickMag = 0;
+            gMarioStates->controller->buttonDown &= ~(B_BUTTON | A_BUTTON | Z_TRIG | R_TRIG | L_TRIG | START_BUTTON);
+            gMarioStates->controller->buttonPressed &= ~(B_BUTTON | A_BUTTON | Z_TRIG | R_TRIG | L_TRIG | START_BUTTON);
+            gMarioStates->controller->buttonReleased &= ~(B_BUTTON | A_BUTTON | Z_TRIG | R_TRIG | L_TRIG | START_BUTTON);
+            return;
+        }
     }
 
     if (gMarioStates->floor && gMarioStates->floor->type == SURFACE_TTM_VINES)

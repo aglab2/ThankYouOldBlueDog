@@ -56,9 +56,13 @@ static void resetCamera()
 
 extern int sWfCursor;
 extern Vec3f sLastFailPosition;
+extern u8 gGoMode;
 
 void SaveState_onNormal()
 {
+    if (gGoMode)
+        return;
+
     if (sMustSaveState)
     {
         sMustSaveState = false;
