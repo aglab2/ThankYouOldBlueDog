@@ -237,13 +237,7 @@ void bhv_rr_ctl_loop()
         {
             gMarioStates->pos[0] = o->oHomeX;
             gMarioStates->pos[1] = o->oHomeY;
-            if (gMarioStates->pos[1] < 6000.f)
-                o->oHomeY += 4.f + (6000.f - gMarioStates->pos[1]) / 1500.f;
-            else if (gMarioStates->pos[1] < 10000.f)
-                o->oHomeY += 4.f;
-            else
-                o->oHomeY += 3.f;
-
+            o->oHomeY += 10.f;
             gMarioStates->pos[2] = o->oHomeZ;
 
             gMarioStates->controller->rawStickX = 0;
@@ -254,6 +248,17 @@ void bhv_rr_ctl_loop()
             gMarioStates->controller->buttonDown &= ~(B_BUTTON | A_BUTTON | Z_TRIG | R_TRIG | L_TRIG | START_BUTTON);
             gMarioStates->controller->buttonPressed &= ~(B_BUTTON | A_BUTTON | Z_TRIG | R_TRIG | L_TRIG | START_BUTTON);
             gMarioStates->controller->buttonReleased &= ~(B_BUTTON | A_BUTTON | Z_TRIG | R_TRIG | L_TRIG | START_BUTTON);
+
+            if (1 == gGoMode && gMarioStates->pos[1] > 11000.f)
+            {
+                save_file_collect_star_or_key(0, 0);
+                gMarioStates->numStars =
+                    save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
+                gMarioStates->usedObj = o;
+                SET_BPARAM2(o->oBehParams, 0xa);
+                level_trigger_warp(gMarioStates, WARP_OP_TELEPORT);
+                gGoMode = 2;
+            }
             return;
         }
     }

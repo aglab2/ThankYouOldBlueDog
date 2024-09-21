@@ -1,3 +1,4 @@
+extern void scroll_rr_dl_Circle_mesh_layer_4_vtx_0();
 extern void scroll_rr_dl_o_mesh_layer_5_vtx_0();
 extern void scroll_rr_dl_ow_001_mesh_layer_5_vtx_0();
 extern void scroll_rr_dl_ow_001_mesh_layer_5_vtx_1();
@@ -8,6 +9,7 @@ extern void scroll_rr_dl_ow_009_mesh_layer_5_vtx_0();
 extern void scroll_rr_dl_ow_011_mesh_layer_5_vtx_0();
 extern void scroll_rr_dl_ow_013_mesh_layer_5_vtx_0();
 extern void scroll_rr_dl_ow_015_mesh_layer_5_vtx_0();
+extern void scroll_rr_dl_ow_016_mesh_layer_4_vtx_0();
 extern void scroll_rr_dl_Plane_012_mesh_layer_5_vtx_0();
 extern void scroll_rr_dl_Plane_015_mesh_layer_5_vtx_0();
 extern void scroll_rr_dl_Plane_018_mesh_layer_1_vtx_0();
