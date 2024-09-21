@@ -35,7 +35,7 @@ extern Vtx sl_dl_Plane_002_mesh_layer_1_vtx_3[48];
 extern Vtx sl_dl_Plane_002_mesh_layer_5_vtx_cull[8];
 extern Vtx sl_dl_Plane_002_mesh_layer_5_vtx_0[20];
 extern Vtx sl_dl_Plane_003_mesh_layer_4_vtx_cull[8];
-extern Vtx sl_dl_Plane_003_mesh_layer_4_vtx_0[24];
+extern Vtx sl_dl_Plane_003_mesh_layer_4_vtx_0[16];
 extern Gfx sl_dl_Plane_mesh_layer_1[];
 extern Gfx sl_dl_Plane_001_mesh_layer_1[];
 extern Gfx sl_dl_Plane_002_mesh_layer_1[];

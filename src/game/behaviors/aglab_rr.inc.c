@@ -5,6 +5,7 @@
 #define oRrBobCtrlNext oObjFC
 #define oRrCtlProgress o100
 #define oRrWdwCtlWasOnPlatformBefore o104
+#define oRrBobCtlLimitCubes o108
 
 extern s16 gCameraMovementFlags;
 u8 gGoMode = 0;
@@ -25,6 +26,8 @@ void bhv_rr_ctl_init()
     o->oPosY = o->oRrBobCtrlCurr->oPosY;
     o->oPosZ = o->oRrBobCtrlCurr->oPosZ;
 
+    o->oRrBobCtlLimitCubes = 5;
+
     gGoMode = 0;
 }
 
@@ -39,15 +42,23 @@ static void rr_cubes_ctl_loop()
     {
         case 0:
         {
-            if (gMarioObject->platform == o->oRrBobCtrlCurr)
+            if (o->oRrBobCtrlCurr && gMarioObject->platform == o->oRrBobCtrlCurr)
             {
                 o->oPosX -= 700.f;
-                o->oRrBobCtrlNext = spawn_object(o, MODEL_RR_CUBE, bhvRrCube);
-                o->oRrBobCtrlNext->oPosZ += random_f32_around_zero(1000.f);
-                o->oRrBobCtrlNext->oOpacity = 0;
-                o->oRrBobCtrlNext->oFaceAngleYaw   = 0x1000 * random_u16();
-                o->oRrBobCtrlNext->oFaceAnglePitch = 0x1000 * random_u16();
-                o->oRrBobCtrlNext->oFaceAngleRoll  = 0x1000 * random_u16();
+                if (o->oRrBobCtlLimitCubes)
+                {
+                    o->oRrBobCtlLimitCubes--;
+                    o->oRrBobCtrlNext = spawn_object(o, MODEL_RR_CUBE, bhvRrCube);
+                    o->oRrBobCtrlNext->oPosZ += random_f32_around_zero(1000.f);
+                    o->oRrBobCtrlNext->oOpacity = 0;
+                    o->oRrBobCtrlNext->oFaceAngleYaw   = 0x1000 * random_u16();
+                    o->oRrBobCtrlNext->oFaceAnglePitch = 0x1000 * random_u16();
+                    o->oRrBobCtrlNext->oFaceAngleRoll  = 0x1000 * random_u16();
+                }
+                else
+                {
+                    o->oRrBobCtrlNext = NULL;
+                }
                 o->oAction = 1;
             }
             break;
@@ -55,7 +66,9 @@ static void rr_cubes_ctl_loop()
         case 1:
         {
             o->oRrBobCtrlCurr->oOpacity -= 5;
-            o->oRrBobCtrlNext->oOpacity += 5;
+            if (o->oRrBobCtrlNext)
+                o->oRrBobCtrlNext->oOpacity += 5;
+
             if (o->oRrBobCtrlCurr->oOpacity == 0)
             {
                 o->oRrBobCtrlCurr->activeFlags = 0;

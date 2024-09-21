@@ -27,7 +27,7 @@
 
 #include "hacktice/main.h"
 
-#define STARS_TO_ENABLE_HACKTICE 0
+#define STARS_TO_ENABLE_HACKTICE 100
 
 u16 gDialogColorFadeTimer;
 s8 gLastDialogLineNum;
@@ -1950,31 +1950,6 @@ void render_pause_castle_main_strings(s16 x, s16 y) {
     // if (Hacktice_gEnabled)
     //    Hacktice_onPause();
 
-    if (gDialogLineNum <= COURSE_NUM_TO_INDEX(COURSE_STAGES_MAX)) { // Main courses
-        courseName = segmented_to_virtual(courseNameTbl[gDialogLineNum]);
-        print_generic_string(x - 50, y + 35, courseName);
-
-        render_pause_castle_course_stars(x - 65, y, gCurrSaveFileNum - 1, gDialogLineNum);
-
-        format_int_to_string(countText, save_file_get_course_coin_score(gCurrSaveFileNum - 1, gDialogLineNum));
-        sprintf(str, LANG_ARRAY(textCoinX), countText);
-        print_generic_string(x - 22, y, str);
-
-        format_int_to_string(str, gDialogLineNum + 1);
-        print_generic_string_aligned(x - 55, y + 35, str, TEXT_ALIGN_RIGHT);
-    } else { // Castle secret stars
-        courseName = segmented_to_virtual(courseNameTbl[COURSE_MAX]);
-        print_generic_string_aligned(x, y + 35, courseName, TEXT_ALIGN_CENTER);
-
-        format_int_to_string(countText, save_file_get_total_star_count(gCurrSaveFileNum - 1,
-                                                             COURSE_NUM_TO_INDEX(COURSE_BONUS_STAGES),
-                                                             COURSE_NUM_TO_INDEX(COURSE_MAX)));
-        sprintf(str, LANG_ARRAY(textStarX), countText);
-        print_generic_string_aligned(x, y + 18, str, TEXT_ALIGN_CENTER);
-
-        render_hacktice_setting(x - 20, y + 120);
-    }
-
     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 }
 
@@ -1995,7 +1970,7 @@ s32 render_pause_courses_and_castle(void) {
             gDialogLineNum = MENU_OPT_DEFAULT;
             gDialogTextAlpha = 0;
             level_set_transition(-1, NULL);
-            play_sound(SOUND_MENU_PAUSE_OPEN, gGlobalSoundSource);
+            // play_sound(SOUND_MENU_PAUSE_OPEN, gGlobalSoundSource);
 
             if (gCurrCourseNum >= COURSE_MIN
              && gCurrCourseNum <= COURSE_MAX) {
@@ -2024,7 +1999,7 @@ s32 render_pause_courses_and_castle(void) {
 
             if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
                 level_set_transition(0, NULL);
-                play_sound(SOUND_MENU_PAUSE_CLOSE, gGlobalSoundSource);
+                // play_sound(SOUND_MENU_PAUSE_CLOSE, gGlobalSoundSource);
                 gDialogBoxState = DIALOG_STATE_OPENING;
                 gMenuMode = MENU_MODE_NONE;
 
@@ -2040,13 +2015,13 @@ s32 render_pause_courses_and_castle(void) {
 
         case DIALOG_STATE_HORIZONTAL:
             shade_screen();
-            print_hud_pause_colorful_str();
-            render_pause_castle_menu_box(160, 143);
+            // print_hud_pause_colorful_str();
+            // render_pause_castle_menu_box(160, 143);
             render_pause_castle_main_strings(SCREEN_CENTER_X, 55);
 
             if (gPlayer1Controller->buttonPressed & (A_BUTTON | START_BUTTON)) {
                 level_set_transition(0, NULL);
-                play_sound(SOUND_MENU_PAUSE_CLOSE, gGlobalSoundSource);
+                // play_sound(SOUND_MENU_PAUSE_CLOSE, gGlobalSoundSource);
                 gMenuMode = MENU_MODE_NONE;
                 gDialogBoxState = DIALOG_STATE_OPENING;
 

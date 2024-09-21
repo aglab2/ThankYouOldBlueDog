@@ -841,7 +841,7 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
 
         if (!noExit) {
             drop_queued_background_music();
-            fadeout_level_music(126);
+            fadeout_level_music(506);
         }
 
         // play_sound(SOUND_MENU_STAR_SOUND, m->marioObj->header.gfx.cameraToObject);

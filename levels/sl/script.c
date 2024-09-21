@@ -37,6 +37,8 @@ const LevelScript level_sl_entry[] = {
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xf0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xf1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_YELLOW_COIN, -1, 1295, -599, 0, 0, 0, (0xa << 16), bhvOneCoin),
+		OBJECT(MODEL_YELLOW_COIN, -1, 200, -90, 0, 0, 0, (0xa << 16), bhvOneCoin),
 		OBJECT(MODEL_SL_SPIN, 0, 0, 0, 0, 0, 0, 0x00000000, bhvSlCtl),
 		MARIO_POS(0x01, 0, 0, -1000, -5),
 		OBJECT(MODEL_NONE, -1, -998, -11, 0, 0, 0, (0xa << 16), bhvSpinAirborneWarp),

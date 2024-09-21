@@ -7,6 +7,7 @@ const GeoLayout ddd_area_1_geo[] = {
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, ddd_dl_Plane_mesh_layer_1),
 		GEO_TRANSLATE_NODE_WITH_DL(LAYER_ALPHA, 0, 489, 0, ddd_dl_Plane_001_mesh_layer_4),
 		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 0, 0, 4127, 0, 45, 0, ddd_dl_Plane_003_mesh_layer_1),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_ALPHA, 0, 489, 0, ddd_dl_Plane_004_mesh_layer_4),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

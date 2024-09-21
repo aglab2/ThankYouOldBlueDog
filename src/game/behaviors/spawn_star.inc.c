@@ -30,6 +30,7 @@ void bhv_collect_star_init(void) {
 }
 
 void bhv_collect_star_loop(void) {
+    o->oFloor = NULL;
     o->oFaceAngleYaw += 0x800;
 
     if (o->oInteractStatus & INT_STATUS_INTERACTED) {
