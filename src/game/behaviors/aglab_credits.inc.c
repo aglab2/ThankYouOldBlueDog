@@ -40,6 +40,20 @@ void bhv_ending_player_init()
     set_cam_angle(2); // lakitu cam
     gHudDisplay.flags = HUD_DISPLAY_NONE;
     o->oHealth = 0x880;
+    
+    o->oCreditsTraOpaObj = spawn_object(o, MODEL_SA_TRA_OPA, bhvStaticObject);
+    o->oCreditsTraOpaObj->oPosZ += 200.f;
+    o->oCreditsTraOpaObj->oPosY += 30.f;
+    o->oCreditsTraOpaObj->oPosX -= 220.f;
+    obj_scale(o->oCreditsTraOpaObj, 0.54f);
+    o->oCreditsTraOpaObj->oOpacity = 0;
+
+    o->oCreditsDecObj = spawn_object(o, MODEL_SA_DECAL, bhvStaticObject);
+    o->oCreditsDecObj->oPosZ += 200.f;
+    o->oCreditsDecObj->oPosY += 30.f;
+    o->oCreditsDecObj->oPosX -= 220.f;
+    obj_scale(o->oCreditsDecObj, 0.54f);
+    o->oCreditsDecObj->oOpacity = 0;
 }
 
 struct CreditEntry
@@ -294,23 +308,6 @@ void bhv_ending_player_loop()
     set_camera_mode_8_directions(camera);
     reset_camera(camera);
 #endif
-
-    if (0 == o->oTimer)
-    {
-        o->oCreditsTraOpaObj = spawn_object(o, MODEL_SA_TRA_OPA, bhvStaticObject);
-        o->oCreditsTraOpaObj->oPosZ += 200.f;
-        o->oCreditsTraOpaObj->oPosY += 30.f;
-        o->oCreditsTraOpaObj->oPosX -= 220.f;
-        obj_scale(o->oCreditsTraOpaObj, 0.54f);
-        o->oCreditsTraOpaObj->oOpacity = 0;
-
-        o->oCreditsDecObj = spawn_object(o, MODEL_SA_DECAL, bhvStaticObject);
-        o->oCreditsDecObj->oPosZ += 200.f;
-        o->oCreditsDecObj->oPosY += 30.f;
-        o->oCreditsDecObj->oPosX -= 220.f;
-        obj_scale(o->oCreditsDecObj, 0.54f);
-        o->oCreditsDecObj->oOpacity = 0;
-    }
 
     switch (o->oAction)
     {
