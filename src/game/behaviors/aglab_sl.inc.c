@@ -5,6 +5,8 @@
 
 #define SL_SPEED (0x78 + 8 * o->oSlCtlCount)
 
+static uint8_t kSlCyclesAmounts[] = { 1, 2, 2, 3, 4 };
+
 void bhv_sl_ctl_init()
 {
     o->oFaceAnglePitch = 0xA000;
@@ -27,6 +29,13 @@ void bhv_sl_ctl_loop()
             int cyclesAmount = ((random_u16() & 1) + 2);
             o->oSlCtlTurnsAmount = (0x4000 / SL_SPEED) * cyclesAmount;
             o->oSlCtlTurnsAmountBg = (0x4000 / SL_SPEED / 2) + (0x4000 / SL_SPEED) * (cyclesAmount - 1);
+            for (int i = 0; i < sizeof(kSlCyclesAmounts); i++)
+            {
+                int idx = random_u16() % sizeof(kSlCyclesAmounts);
+                uint8_t tmp = kSlCyclesAmounts[i];
+                kSlCyclesAmounts[i] = kSlCyclesAmounts[idx];
+                kSlCyclesAmounts[idx] = tmp;
+            }
         }
     }
     else
@@ -35,8 +44,8 @@ void bhv_sl_ctl_loop()
         {
             if (0 == o->oSlCtlTurnsAmount)
             {
+                int cyclesAmount = kSlCyclesAmounts[o->oSlCtlCount];
                 o->oSlCtlCount++;
-                int cyclesAmount = (int) ((1 + random_float() * 3.5f));
                 o->oSlCtlTurnsAmount = (0x4000 / SL_SPEED) * cyclesAmount;
                 o->oSlCtlTurnsAmountBg = (0x4000 / SL_SPEED / 2) + (0x4000 / SL_SPEED) * (cyclesAmount - 1);
                 o->oSlCtlTurnsDirection = random_u16() & 1 ? -1 : 1;
