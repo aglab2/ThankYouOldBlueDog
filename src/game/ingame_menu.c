@@ -2369,9 +2369,9 @@ s32 render_menus_and_dialogs(void) {
     if (gBlackBoxAlpha)
     {
         if (gBigBlackBoxAlpha)
-            render_black_box(64, SCREEN_WIDTH - 185, 6, 1.6f, gBigBlackBoxAlpha);
+            render_black_box(64, SCREEN_WIDTH - 175, 6, 1.6f, gBigBlackBoxAlpha);
         else
-            render_black_box(174, SCREEN_WIDTH - 185, 6, 1.1f, gSmallBlackBoxAlpha);
+            render_black_box(174, SCREEN_WIDTH - 175, 6, 1.1f, gSmallBlackBoxAlpha);
 
         create_dl_ortho_matrix();
         render_black_box(100, SCREEN_WIDTH - 105, 1, 1.1f, gBlackBoxAlpha);

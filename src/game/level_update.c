@@ -631,7 +631,7 @@ s16 music_unchanged_through_warp(s16 arg) {
     return unchanged;
 }
 
-static uint8_t kLevelsOrder[] = {
+uint8_t kLevelsOrder[] = {
     LEVEL_BOB,
     LEVEL_WF,
     LEVEL_JRB,
