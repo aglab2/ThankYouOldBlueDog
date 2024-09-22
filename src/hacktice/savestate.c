@@ -54,7 +54,7 @@ static void resetCamera()
     }
 }
 
-extern int sWfCursor;
+extern int sRecCursor;
 extern Vec3f sLastFailPosition;
 extern u8 gGoMode;
 
@@ -96,7 +96,7 @@ void SaveState_onNormal()
                 gGlobalRandomState = rng;
                 (void) random_u16();
 #if 0
-                sWfCursor = 0;
+                sRecCursor = 0;
 #endif
             }
         }

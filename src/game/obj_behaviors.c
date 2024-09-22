@@ -784,3 +784,4 @@ UNUSED s32 debug_sequence_tracker(s16 debugInputSequence[]) {
 #include "behaviors/aglab_wdw.inc.c"
 #include "behaviors/aglab_rr.inc.c"
 #include "behaviors/aglab_credits.inc.c"
+#include "behaviors/aglab_location_recorder.inc.c"

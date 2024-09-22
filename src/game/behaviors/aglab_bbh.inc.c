@@ -1,5 +1,13 @@
 #include "game/level_update.h"
 
+extern void record_on_frame();
+
+#if 1
+struct Pos{ f32 x, y, z; };
+#endif
+
+extern struct Pos sBbhCoinsLocations[];
+
 extern u8 gMirrorVCAmount;
 extern u8 gMirrorTrigger;
 extern Vec3f gMirrorOffset;
@@ -10,10 +18,25 @@ void bhv_bbh_ctl_init()
     gMirrorOffset[0] = 0.f;
     gMirrorOffset[1] = 0.f;
     gMirrorOffset[2] = 0.f;
+#if 1
+    {
+        struct Pos* positions = segmented_to_virtual(sBbhCoinsLocations);
+        for (int i = 17; i < 30; i++)
+        {
+            struct Object* coin = spawn_object(o, MODEL_YELLOW_COIN, bhvYellowCoin);
+            coin->oPosX = positions[i].x;
+            coin->oPosY = positions[i].y;
+            coin->oPosZ = positions[i].z;
+        }
+    }
+#endif
 }
 
 void bhv_bbh_ctl_loop()
 {
+#if 0
+    record_on_frame();
+#endif
     if (gMarioStates->action == ACT_STAR_DANCE_WATER)
     {
         gMirrorTrigger = 0;
