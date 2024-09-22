@@ -250,7 +250,7 @@ void bhv_rr_ctl_loop()
         {
             gMarioStates->pos[0] = o->oHomeX;
             gMarioStates->pos[1] = o->oHomeY;
-            o->oHomeY += 10.f;
+            o->oHomeY += 11.f;
             gMarioStates->pos[2] = o->oHomeZ;
 
             gMarioStates->controller->rawStickX = 0;
@@ -262,7 +262,7 @@ void bhv_rr_ctl_loop()
             gMarioStates->controller->buttonPressed &= ~(B_BUTTON | A_BUTTON | Z_TRIG | R_TRIG | L_TRIG | START_BUTTON);
             gMarioStates->controller->buttonReleased &= ~(B_BUTTON | A_BUTTON | Z_TRIG | R_TRIG | L_TRIG | START_BUTTON);
 
-            if (1 == gGoMode && gMarioStates->pos[1] > 11000.f)
+            if (1 == gGoMode && gMarioStates->pos[1] > 11500.f)
             {
                 save_file_collect_star_or_key(0, 0);
                 gMarioStates->numStars =
