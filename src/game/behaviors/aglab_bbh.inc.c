@@ -30,9 +30,9 @@ void bhv_bbh_ctl_loop()
         gMirrorTrigger = 1;
         gMarioStates->flags |= MARIO_VANISH_CAP;
         if (gMarioState->floor->type == SURFACE_TTM_VINES)
-            gMirrorOffset[2] = -500.f;
+            gMirrorOffset[2] = 50.f -500.f;
         if (gMarioState->floor->type == SURFACE_NOT_SLIPPERY)
-            gMirrorOffset[2] = 500.f;
+            gMirrorOffset[2] = -50.f + 500.f;
         if (gMarioState->floor->type == SURFACE_HARD_NOT_SLIPPERY)
             gMirrorOffset[2] = 1000.f;
         if (gMarioState->floor->type == SURFACE_SWITCH)

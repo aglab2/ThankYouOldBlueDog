@@ -7,6 +7,17 @@ extern u8 gDisableGravity;
 void bhv_hmc_ctl_loop()
 {
     gDisableGravity = 0;
+    if (gMarioStates->controller->buttonPressed & Z_TRIG)
+    {
+        if (o->oAction == 0)
+            play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+        
+        o->oAction = 1;
+    }
+    else
+    {
+        o->oAction = 0;
+    }
     gMarioStates->controller->buttonDown &= ~Z_TRIG;
     gMarioStates->controller->buttonPressed &= ~Z_TRIG;
 

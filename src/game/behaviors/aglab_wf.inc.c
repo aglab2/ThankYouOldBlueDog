@@ -176,6 +176,7 @@ void bhv_wf_ctrl_loop()
 void bhv_wf_move_init()
 {
     obj_scale(o, 0.33f);
+    o->oDrawingDistance = 10000.f;
 }
 
 extern const Collision wf_movedeath_collision[];
