@@ -6,3 +6,17 @@
 
 #include "make_const_nonconst.h"
 #include "levels/sa/leveldata.inc.c"
+
+#include "levels/sa/pic1/model.inc.c"
+#include "levels/sa/pic2/model.inc.c"
+#include "levels/sa/pic3/model.inc.c"
+#include "levels/sa/pic4/model.inc.c"
+// #include "levels/sa/pic5/model.inc.c"
+// #include "levels/sa/pic6/model.inc.c"
+// #include "levels/sa/pic7/model.inc.c"
+// #include "levels/sa/pic8/model.inc.c"
+// #include "levels/sa/pic9/model.inc.c"
+// #include "levels/sa/pic10/model.inc.c"
+// #include "levels/sa/pic11/model.inc.c"
+// #include "levels/sa/pic15/model.inc.c"
+// #include "levels/sa/pic16/model.inc.c"
