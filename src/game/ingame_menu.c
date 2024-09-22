@@ -2346,15 +2346,51 @@ static void fancy_print(int y, const u8* line, int tr)
     fancy_print_uncentered(160, y, line, tr);
 }
 
+u8 gBlackBoxAlpha = 0;
+u8 gBigBlackBoxAlpha = 0;
+u8 gSmallBlackBoxAlpha = 0;
+
+struct DeferredText gDeferredFancyText[8] = {0};
+
+static void render_black_box(int leftOffset, int width, int height, f32 scalingX, u8 alpha) {
+    create_dl_translation_matrix(MENU_MTX_NOPUSH, leftOffset, width, 0);
+    gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, alpha);
+    create_dl_translation_matrix(MENU_MTX_PUSH, BOX_TRANS_X, BOX_TRANS_Y, 0);
+    create_dl_scale_matrix(MENU_MTX_NOPUSH, scalingX, (((f32) height / BOX_SCALE) + 0.1f), 1.0f);
+
+    gSPDisplayList(gDisplayListHead++, dl_draw_text_bg_box);
+
+    gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+}
+
 extern u8 gMirrorVCAmount;
 extern u8 gPressLToSave;
 s32 render_menus_and_dialogs(void) {
-    if (gCurrCourseNum == COURSE_SA)
+    if (gBlackBoxAlpha)
+    {
+        if (gBigBlackBoxAlpha)
+            render_black_box(64, SCREEN_WIDTH - 185, 6, 1.6f, gBigBlackBoxAlpha);
+        else
+            render_black_box(174, SCREEN_WIDTH - 185, 6, 1.1f, gSmallBlackBoxAlpha);
+
+        create_dl_ortho_matrix();
+        render_black_box(100, SCREEN_WIDTH - 105, 1, 1.1f, gBlackBoxAlpha);
+    }
+
+    create_dl_ortho_matrix();
+
+    for (int i = 0; i < sizeof(gDeferredFancyText) / sizeof(*gDeferredFancyText); i++)
     {
         gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
-        fancy_print(20, "Thank you!", 255);
+        if (gDeferredFancyText[i].line)
+        {
+            fancy_print_uncentered_colored(gDeferredFancyText[i].aligned, gDeferredFancyText[i].x, gDeferredFancyText[i].y, gDeferredFancyText[i].line, 255, 255, 255, gDeferredFancyText[i].alpha);
+            gDeferredFancyText[i].line = NULL;
+        }
         gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
     }
+    if (gCurrCourseNum == COURSE_SA)
+    { }
     else if (0 == gMarioStates->action && gCurrLevelNum != 1)
     {
         gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
@@ -2373,8 +2409,6 @@ s32 render_menus_and_dialogs(void) {
     }
 
     s32 mode = MENU_OPT_NONE;
-
-    create_dl_ortho_matrix();
 
     if (gMenuMode != MENU_MODE_NONE) {
         switch (gMenuMode) {

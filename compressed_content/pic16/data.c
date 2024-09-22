@@ -6,4 +6,4 @@
 #include "types.h"
 #include "make_const_nonconst.h"
 
-#include "levels/sa/pic16/model.inc.c"
+#include "compressed_content/pic16/model.inc.c"

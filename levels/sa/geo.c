@@ -15,16 +15,5 @@
 
 #include "levels/sa/geo.inc.c"
 
-#include "levels/sa/pic1/geo.inc.c"
-#include "levels/sa/pic2/geo.inc.c"
-#include "levels/sa/pic3/geo.inc.c"
-#include "levels/sa/pic4/geo.inc.c"
-// #include "levels/sa/pic5/geo.inc.c"
-// #include "levels/sa/pic6/geo.inc.c"
-// #include "levels/sa/pic7/geo.inc.c"
-// #include "levels/sa/pic8/geo.inc.c"
-// #include "levels/sa/pic9/geo.inc.c"
-// #include "levels/sa/pic10/geo.inc.c"
-// #include "levels/sa/pic11/geo.inc.c"
-// #include "levels/sa/pic15/geo.inc.c"
-// #include "levels/sa/pic16/geo.inc.c"
+#include "levels/sa/pic_tr/geo.inc.c"
+#include "levels/sa/pic_dec/geo.inc.c"

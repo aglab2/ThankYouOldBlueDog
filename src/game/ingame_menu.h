@@ -301,4 +301,10 @@ void render_hud_cannon_reticle(void);
 void reset_red_coins_collected(void);
 s32 render_menus_and_dialogs(void);
 
+struct DeferredText
+{
+    int x; int y; u8 aligned; u8 alpha; const char* line;
+};
+extern struct DeferredText gDeferredFancyText[8];
+
 #endif // INGAME_MENU_H

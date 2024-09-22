@@ -6,4 +6,4 @@
 #include "types.h"
 #include "make_const_nonconst.h"
 
-#include "compressed_content/pic10/model.inc.c"
+#include "compressed_content/pic4/model.inc.c"
