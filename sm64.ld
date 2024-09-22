@@ -102,6 +102,15 @@ OUTPUT_ARCH (mips)
    END_NOLOAD(vo_##name##_geo) \
    _vo_##name##_mio0SegmentRomStart = _vo_##name##_yay0SegmentRomStart; \
    _vo_##name##_mio0SegmentRomEnd = _vo_##name##_yay0SegmentRomEnd;
+#define COMPRESSED_CONTENT(name) \
+   BEGIN_SEG(cc_##name##_yay0, 0x0e000000) \
+   { \
+      KEEP(BUILD_DIR/compressed_content/name/data.szp.o(.data*)); \
+      . = ALIGN(0x10); \
+   } \
+   END_SEG(cc_##name##_yay0) \
+   _cc_##name##_mio0SegmentRomStart = _cc_##name##_yay0SegmentRomStart; \
+   _cc_##name##_mio0SegmentRomEnd = _cc_##name##_yay0SegmentRomEnd;
 
 SECTIONS
 {
@@ -460,6 +469,16 @@ SECTIONS
    VANILLA_OBJECTS(vcutm)
    VANILLA_OBJECTS(castle_inside)
    VANILLA_OBJECTS(castle_grounds)
+
+   COMPRESSED_CONTENT(pic5)
+   COMPRESSED_CONTENT(pic6)
+   COMPRESSED_CONTENT(pic7)
+   COMPRESSED_CONTENT(pic8)
+   COMPRESSED_CONTENT(pic9)
+   COMPRESSED_CONTENT(pic10)
+   COMPRESSED_CONTENT(pic11)
+   COMPRESSED_CONTENT(pic15)
+   COMPRESSED_CONTENT(pic16)
 
    /* use segmented addressing for behaviors */
    BEGIN_SEG(behavior, 0x13000000)
