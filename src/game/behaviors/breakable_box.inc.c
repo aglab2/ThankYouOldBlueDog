@@ -67,9 +67,12 @@ void hidden_breakable_box_actions(void) {
     }
 }
 
+extern const Collision jrb_box_collision[];
 void hidden_unbreakable_box_actions(void) {
+    obj_scale(o, 0.9f);
+    o->oDrawingDistance = 30000.0f;
     struct Object *switchObj;
-    obj_set_collision_data(o, wdw_seg7_collision_hidden_platform);
+    obj_set_collision_data(o, jrb_box_collision);
     switch (o->oAction) {
         case BREAKABLE_BOX_ACT_HIDDEN:
             cur_obj_disable_rendering();

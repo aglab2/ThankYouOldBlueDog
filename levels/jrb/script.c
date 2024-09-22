@@ -31,6 +31,7 @@ const LevelScript level_jrb_entry[] = {
 	MARIO(MODEL_MARIO, 0x00000001, bhvMario), 
 	JUMP_LINK(script_func_global_1), 
 	LOAD_MODEL_FROM_GEO(MODEL_JRB_ROTAT, jrb_rotate_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_JRB_BOX, jrb_box_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -47,9 +48,7 @@ const LevelScript level_jrb_entry[] = {
 		OBJECT(MODEL_YELLOW_COIN, -188, 369, -614, 0, -180, 0, (0xa << 16), bhvOneCoin),
 		OBJECT(MODEL_YELLOW_COIN, -558, 152, 74, 0, -180, 0, (0xa << 16), bhvOneCoin),
 		OBJECT(MODEL_JRB_ROTAT, 0, 0, 0, 0, 0, 0, 0x00000000, bhvJrbRotat),
-		OBJECT(MODEL_BREAKABLE_BOX, 0, 0, -2808, 0, 0, 0, 0x00000000, bhvHiddenObject),
-		OBJECT(MODEL_BREAKABLE_BOX, 0, 0, -3498, 0, 0, 0, 0x00000000, bhvHiddenObject),
-		OBJECT(MODEL_BREAKABLE_BOX, 0, 0, -4094, 0, 0, 0, 0x00000000, bhvHiddenObject),
+		OBJECT(MODEL_JRB_BOX, 0, 0, -3498, 0, 0, 0, (1 << 16), bhvHiddenObject),
 		OBJECT(MODEL_STAR, 0, 600, -4093, 0, 0, 0, 0x00000000, bhvStar),
 		TERRAIN(jrb_area_1_collision),
 		MACRO_OBJECTS(jrb_area_1_macro_objs),

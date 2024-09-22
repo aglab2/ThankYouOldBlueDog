@@ -13,3 +13,5 @@
 
 #include "levels/jrb/jrb_rotate/model.inc.c"
 #include "levels/jrb/jrb_rotate/collision.inc.c"
+#include "levels/jrb/jrb_box/model.inc.c"
+#include "levels/jrb/jrb_box/collision.inc.c"
