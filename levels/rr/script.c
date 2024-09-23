@@ -43,7 +43,7 @@ const LevelScript level_rr_entry[] = {
 		OBJECT(MODEL_NONE, 184, 85, -3260, 0, 0, 0, 0x00000000, bhvRrCtl),
 		OBJECT(MODEL_NONE, 12672, -87, 12933, 0, 0, 0, 0x00000000, bhvCcmFlipper),
 		OBJECT(MODEL_NONE, 11368, 839, 12933, 0, 0, 0, 0x00000000, bhvCcmFlipper),
-		MARIO_POS(0x01, 0, 1799, 192, 925),
+		MARIO_POS(0x01, 0, -2690, 85, -13135),
 		OBJECT(MODEL_NONE, 3090, 897, -13100, 0, -90, 0, (0xa << 16), bhvSpinAirborneWarp),
 		OBJECT(MODEL_RR_MOVE, 13095, 0, -13127, 0, -90, 0, 0x00000000, bhvRrMove),
 		OBJECT(MODEL_RR_CUBE, 1985, -162, 12910, 0, 0, 0, 0x00000000, bhvRrCube),
@@ -68,7 +68,7 @@ const LevelScript level_rr_entry[] = {
 	END_AREA(),
 
 	FREE_LEVEL_POOL(),
-	MARIO_POS(0x01, 0, 1799, 192, 925),
+	MARIO_POS(0x01, 0, -2690, 85, -13135),
 	CALL(0, lvl_init_or_update),
 	CALL_LOOP(1, lvl_init_or_update),
 	CLEAR_LEVEL(),

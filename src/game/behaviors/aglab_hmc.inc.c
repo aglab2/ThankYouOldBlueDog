@@ -37,6 +37,18 @@ void bhv_hmc_ctl_loop()
 
     if (floorHeight - 40.f < gMarioStates->pos[1] && gMarioStates->pos[1] < ceilHeight)
     {
+        if (gMarioStates->controller->buttonPressed & B_BUTTON)
+        {
+            if (o->oF4 == 0)
+                play_sound(SOUND_OBJ_MIPS_RABBIT_WATER, gGlobalSoundSource);
+            
+            o->oF4 = 1;
+        }
+        else
+        {
+            o->oF4 = 0;
+        }
+
         gMarioStates->controller->buttonDown &= ~B_BUTTON;
         gMarioStates->controller->buttonPressed &= ~B_BUTTON;
         gDisableGravity = 1;

@@ -61,20 +61,8 @@ void bhv_ssl_loop()
     {
         if (0 == o->oAction)
         {
-            for (unsigned i = 0; i < 3; i++)
-            {
-                int j = random_u16() % 3;
-                int tmp = sSslOrder[i];
-                sSslOrder[i] = sSslOrder[j];
-                sSslOrder[j] = tmp;
-            }
-            for (unsigned i = 0; i < 3; i++)
-            {
-                int j = random_u16() % 3;
-                int tmp = sSslOrder[i + 3];
-                sSslOrder[i + 3] = sSslOrder[j + 3];
-                sSslOrder[j + 3] = tmp;
-            }
+            shuffle_u8(sSslOrder, 3);
+            shuffle_u8(sSslOrder + 3, 3);
         }
 
         for (unsigned i = 0; i < sizeof(sSslOrder); i++)

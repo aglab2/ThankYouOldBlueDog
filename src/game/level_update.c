@@ -698,14 +698,7 @@ void initiate_warp(s16 destLevel, s16 destArea, s16 destWarpNode, s32 warpFlags)
         kLevelsOrder[i] = kLevelsOrderConst[i];
     }
 
-    for (int i = 0; i < sizeof(kLevelsOrderConst); i++)
-    {
-        int idx = random_u16() % sizeof(kLevelsOrderConst);
-        int tmp = kLevelsOrder[i];
-        kLevelsOrder[i] = kLevelsOrder[idx];
-        kLevelsOrder[idx] = tmp;
-    }
-
+    shuffle_u8(kLevelsOrder, sizeof(kLevelsOrderConst));
     save_file_do_save(gCurrSaveFileNum - 1);
 
     tinymt32_init(&gGlobalRandomState, preRnd);

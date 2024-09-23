@@ -29,13 +29,7 @@ void bhv_sl_ctl_loop()
             int cyclesAmount = ((random_u16() & 1) + 2);
             o->oSlCtlTurnsAmount = (0x4000 / SL_SPEED) * cyclesAmount;
             o->oSlCtlTurnsAmountBg = (0x4000 / SL_SPEED / 2) + (0x4000 / SL_SPEED) * (cyclesAmount - 1);
-            for (int i = 0; i < sizeof(kSlCyclesAmounts); i++)
-            {
-                int idx = random_u16() % sizeof(kSlCyclesAmounts);
-                uint8_t tmp = kSlCyclesAmounts[i];
-                kSlCyclesAmounts[i] = kSlCyclesAmounts[idx];
-                kSlCyclesAmounts[idx] = tmp;
-            }
+            shuffle_u8(kSlCyclesAmounts, sizeof(kSlCyclesAmounts));
         }
     }
     else

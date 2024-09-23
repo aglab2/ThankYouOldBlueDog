@@ -655,6 +655,8 @@ ALWAYS_INLINE s32 roundf(f32 in) {
 u16 random_u16(void);
 f32 random_float(void);
 s32 random_sign(void);
+void shuffle_u8(u8 *array, s32 count);
+void shuffle_u16(u16 *array, s32 count);
 
 void mtxf_copy(Mat4 dest, Mat4 src);
 void mtxf_identity(Mat4 mtx);

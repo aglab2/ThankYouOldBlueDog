@@ -33,8 +33,17 @@ void bhv_rr_ctl_init()
 
 Vec3f sLastFailPosition;
 
-struct QuadrantDesc{ uint8_t x, z; };
-static struct QuadrantDesc sSegmentsOrder[] = { { 0, 0 }, { 0, 2 }, { 2, 2 }, { 1, 2 }, { 2, 0 }, { 0, 1 }, { 2, 1 }, { 1, 1 } };
+typedef union
+{
+    struct
+    {
+        u8 x, z;
+    };
+    // i need alignment for shuffling
+    u16 align;
+} QuadrantDesc;
+
+static QuadrantDesc sSegmentsOrder[] = { { 0, 0 }, { 0, 2 }, { 2, 2 }, { 1, 2 }, { 2, 0 }, { 0, 1 }, { 2, 1 }, { 1, 1 } };
 
 static void rr_cubes_ctl_loop()
 {
@@ -280,22 +289,14 @@ void bhv_rr_ctl_loop()
     {    
         if (1 == curSegmentX && 0 == curSegmentZ)
         {
-            // randomize order of stuff in sSegmentsOrder
-            for (int i = 0; i < sizeof(sSegmentsOrder) / sizeof(*sSegmentsOrder) - 1; i++)
-            {
-                int j = tinymt32_generate_u32(&gGlobalRandomState) % (sizeof(sSegmentsOrder) / sizeof(*sSegmentsOrder) - 1);
-                struct QuadrantDesc tmp = sSegmentsOrder[i];
-                sSegmentsOrder[i] = sSegmentsOrder[j];
-                sSegmentsOrder[j] = tmp;
-            }
-
+            shuffle_u16((u16*) sSegmentsOrder, (sizeof(sSegmentsOrder) / sizeof(*sSegmentsOrder)) - 1);
             int failSegmentX = toSegmentIndex(sLastFailPosition[0]);
             int failSegmentZ = toSegmentIndex(sLastFailPosition[2]);
             for (int i = 0; i < sizeof(sSegmentsOrder) / sizeof(*sSegmentsOrder) - 1; i++)
             {
                 if (sSegmentsOrder[i].x == failSegmentX && sSegmentsOrder[i].z == failSegmentZ)
                 {
-                    struct QuadrantDesc tmp = sSegmentsOrder[i];
+                    QuadrantDesc tmp = sSegmentsOrder[i];
                     sSegmentsOrder[i] = sSegmentsOrder[0];
                     sSegmentsOrder[0] = tmp;
                     break;
@@ -303,7 +304,7 @@ void bhv_rr_ctl_loop()
             }
         }
 
-        const struct QuadrantDesc* desc = &sSegmentsOrder[o->oRrCtlProgress];
+        const QuadrantDesc* desc = &sSegmentsOrder[o->oRrCtlProgress];
         const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, desc->x, desc->z);
         // const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, 1,1);
         o->oRrCtlProgress++;
@@ -367,6 +368,11 @@ void rr_move_ctl_loop()
     }
 
     cur_obj_move_using_fvel_and_gravity();
+
+    if (o->oPosY < -30000.f)
+    {
+        o->activeFlags = 0;
+    }
 }
 
 void rr_rotat_init()

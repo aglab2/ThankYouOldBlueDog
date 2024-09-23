@@ -42,4 +42,9 @@ void bhv_ddd_move_loop()
     }
 
     cur_obj_move_using_fvel_and_gravity();
+
+    if (absf(o->oPosX) > 30000.f || absf(o->oPosZ) > 30000.f || absf(o->oPosY) > 30000.f)
+    {
+        o->activeFlags = 0;
+    }
 }
