@@ -1,4 +1,5 @@
 #include "game/ingame_menu.h"
+#include "game/emutest.h"
 
 #define oCreditsDecObj oObjF4
 #define oCreditsTraOpaObj oObjF8
@@ -11,6 +12,7 @@
 extern u8 gBlackBoxAlpha;
 extern u8 gBigBlackBoxAlpha;
 extern u8 gSmallBlackBoxAlpha;
+extern u8 gBottomBlackBoxAlpha;
 extern uint8_t kLevelsOrder[];
 extern void load_decompress(const u8* srcStart, const u8* srcEnd, u8* dst);
 
@@ -79,15 +81,15 @@ static const struct CreditEntry sCredits[] = {
     { LEVEL_JRB, 0, PIC(pic3) , "Explosive Ring"        , { "Pomplamoose", "Felicitations!" }, },
     { LEVEL_CCM, 0, PIC(pic4) , "Fearful Flippers"      , { "Super Paper Mario", "Whoa Zone" }, },
     { LEVEL_BBH, 0, PIC(pic5) , "Treacherous Arrows"    , { kWitchOnTheHolyNight, "Imbalance/Blue" } },
-    { LEVEL_HMC, 5, PIC(pic6) , "Uppies Glacier"        , { "The Sekimeiya: Spun Glass", "Nyah\nLooming" } },
-    { LEVEL_LLL, 5, PIC(pic7) , "Fizzle Labyrinth"      , { "Charles Berthoud", "Giacomo Turra\nSLAPOCALYPSE" } },
-    { LEVEL_SSL, 0, PIC(pic8) , "Cosmic Teamwork"       , { "Castlevania", "Legacy of Darkness\nArt Tower" } },
+    { LEVEL_HMC, 9, PIC(pic6) , "Uppies Glacier"        , { "The Sekimeiya: Spun Glass", "Nyah\nLooming" } },
+    { LEVEL_LLL, 9, PIC(pic7) , "Fizzle Labyrinth"      , { "Charles Berthoud", "Giacomo Turra\nSLAPOCALYPSE" } },
+    { LEVEL_SSL, 9, PIC(pic8) , "Cosmic Teamwork"       , { "Castlevania", "Legacy of Darkness\nArt Tower" } },
     { LEVEL_DDD, 0, PIC(pic9) , "Quadrivium Adventure"  , { "ROBOTICS NOTES", "ENERGETIC FORCE" } },
-    { LEVEL_SL,  5, PIC(pic10), "The Vice Paradise"     , { kAiSomniumFiles, "nirvanA Initiative\nQuiz Nervine" } },
+    { LEVEL_SL,  9, PIC(pic10), "The Vice Paradise"     , { kAiSomniumFiles, "nirvanA Initiative\nQuiz Nervine" } },
     { LEVEL_WDW, 0, PIC(pic11), "Midwinter Clickin'"    , { kWitchOnTheHolyNight, "Working!!" } },
 
-    { LEVEL_RR,  5, PIC(pic15), kTheSomnium             , { kAiSomniumFiles, "nirvanA Initiative\nNovel Ingress" } },
-    { LEVEL_SA,  5, PIC(pic16), kTheSomnium             , { "World's End Girlfriend", "Scorpius Circus" } },
+    { LEVEL_RR,  9, PIC(pic15), kTheSomnium             , { kAiSomniumFiles, "nirvanA Initiative\nNovel Ingress" } },
+    { LEVEL_SA,  9, PIC(pic16), kTheSomnium             , { "World's End Girlfriend", "Scorpius Circus" } },
 };
 
 #undef PIC
@@ -146,19 +148,19 @@ static void renderSpecialThanksText(u8 a)
 static void renderCreditEntry(const struct CreditEntry* entry, u8 a, int off)
 {
     gDeferredFancyText[off + 1].x = 170;
-    gDeferredFancyText[off + 1].y = 115 - entry->shift;
+    gDeferredFancyText[off + 1].y = 115 + entry->shift;
     gDeferredFancyText[off + 1].aligned = 0;
     gDeferredFancyText[off + 1].alpha = a;
     gDeferredFancyText[off + 1].line = entry->name;
 
     gDeferredFancyText[off + 2].x = 170;
-    gDeferredFancyText[off + 2].y = 76 - entry->shift;
+    gDeferredFancyText[off + 2].y = 76 + entry->shift;
     gDeferredFancyText[off + 2].aligned = 0;
     gDeferredFancyText[off + 2].alpha = a;
     gDeferredFancyText[off + 2].line = entry->lines[0];
 
     gDeferredFancyText[off + 3].x = 170;
-    gDeferredFancyText[off + 3].y = 60 - entry->shift;
+    gDeferredFancyText[off + 3].y = 60 + entry->shift;
     gDeferredFancyText[off + 3].aligned = 0;
     gDeferredFancyText[off + 3].alpha = a;
     gDeferredFancyText[off + 3].line = entry->lines[1];
@@ -232,7 +234,7 @@ static void credits_fade_special_thanks()
 }
 
 const int kFadeInCredits = 64;
-const int kCreditsEntryWait = 100;
+#define kCreditsEntryWait (gIsConsole ? 120 : 200)
 static void credits_show_first_entry()
 {
     renderTopText(255);
@@ -263,7 +265,6 @@ static void credits_switch_entry()
             }
         }
 
-        o->oCreditsCurrEntry = &sCredits[o->oCreditsProgress];
         const struct CreditEntry* entry = (const struct CreditEntry*) o->oCreditsCurrEntry;
         load_decompress(entry->picRomStart, entry->picRomEnd, segmented_to_virtual(pic_dec_a_rgba16));
     }
@@ -288,7 +289,52 @@ static void credits_entry_render()
     if (o->oTimer == kCreditsEntryWait)
     {
         o->oCreditsProgress++;
-        o->oAction--;
+        if (13 == o->oCreditsProgress)
+            o->oAction++;
+        else
+            o->oAction--;
+    }
+}
+
+static void credits_hide()
+{
+    int textFadeSpeed = (kFadeout - o->oTimer) * 255 / kFadeout;
+    int alphaBoxFadeSpeed = (kFadeout - o->oTimer) * 200 / kFadeout;
+    renderTopText(textFadeSpeed);
+    gSmallBlackBoxAlpha = alphaBoxFadeSpeed;
+    gBlackBoxAlpha = alphaBoxFadeSpeed;
+    renderCreditEntry((const struct CreditEntry*) o->oCreditsCurrEntry, textFadeSpeed, 0);
+    o->oCreditsTraOpaObj->oOpacity = textFadeSpeed;
+    if (o->oTimer == kFadeout)
+        o->oAction++;
+}
+
+static void credits_thanks()
+{
+    gDeferredFancyText[0].x = 160;
+    gDeferredFancyText[0].y = 200;
+    gDeferredFancyText[0].aligned = 1;
+    gDeferredFancyText[0].alpha = CLAMP(-20 + o->oTimer * 3, 0, 255);
+    gDeferredFancyText[0].line = "Thank You!";
+
+    static const char kEntry[] = "Credits Theme:\nThe House in Fata Morgana - A Requiem for Innocence\nSerie de Fragmento (instrumental)";
+    if (o->oTimer > 900)
+    {
+        gDeferredFancyText[1].x = 30;
+        gDeferredFancyText[1].y = 40;
+        gDeferredFancyText[1].aligned = 0;
+        gDeferredFancyText[1].alpha = CLAMP(255 - (o->oTimer - 900) * 3, 0, 255);
+        gDeferredFancyText[1].line = kEntry;
+        gBottomBlackBoxAlpha = CLAMP(gDeferredFancyText[1].alpha, 0, 200);
+    }
+    else if (o->oTimer > 300)
+    {
+        gDeferredFancyText[1].x = 30;
+        gDeferredFancyText[1].y = 40;
+        gDeferredFancyText[1].aligned = 0;
+        gDeferredFancyText[1].alpha = CLAMP((o->oTimer - 300) * 3, 0, 255);
+        gDeferredFancyText[1].line = kEntry;
+        gBottomBlackBoxAlpha = CLAMP(gDeferredFancyText[1].alpha, 0, 200);
     }
 }
 
@@ -340,6 +386,12 @@ void bhv_ending_player_loop()
         break;
     case 9:
         credits_entry_render();
+        break;
+    case 10:
+        credits_hide();
+        break;
+    case 11:
+        credits_thanks();
         break;
     }
 }

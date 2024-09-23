@@ -62,6 +62,8 @@ void SaveState_onNormal()
 {
     if (gGoMode)
         return;
+    if (gMarioStates->action == ACT_STAR_DANCE_WATER)
+        return;
 
     if (sMustSaveState)
     {

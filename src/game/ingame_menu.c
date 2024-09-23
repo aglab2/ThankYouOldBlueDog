@@ -2349,6 +2349,7 @@ static void fancy_print(int y, const u8* line, int tr)
 u8 gBlackBoxAlpha = 0;
 u8 gBigBlackBoxAlpha = 0;
 u8 gSmallBlackBoxAlpha = 0;
+u8 gBottomBlackBoxAlpha = 0;
 
 struct DeferredText gDeferredFancyText[8] = {0};
 
@@ -2376,6 +2377,9 @@ s32 render_menus_and_dialogs(void) {
         create_dl_ortho_matrix();
         render_black_box(100, SCREEN_WIDTH - 105, 1, 1.1f, gBlackBoxAlpha);
     }
+
+    if (gBottomBlackBoxAlpha)
+        render_black_box(0, SCREEN_WIDTH - 260, 5, 2.6f, gBottomBlackBoxAlpha);
 
     create_dl_ortho_matrix();
 
