@@ -19,7 +19,7 @@ extern u8 wdw_dl_tex1_64x64_750C9E7049E2055D_13_pal_rgba16[];
 extern Vtx wdw_dl_Grid_001_mesh_layer_1_vtx_cull[8];
 extern Vtx wdw_dl_Grid_001_mesh_layer_1_vtx_0[1468];
 extern Vtx wdw_dl_Plane_001_mesh_layer_5_vtx_cull[8];
-extern Vtx wdw_dl_Plane_001_mesh_layer_5_vtx_0[32];
+extern Vtx wdw_dl_Plane_001_mesh_layer_5_vtx_0[42];
 extern Vtx wdw_dl_Plane_001_mesh_layer_1_vtx_cull[8];
 extern Vtx wdw_dl_Plane_001_mesh_layer_1_vtx_0[40];
 extern Vtx wdw_dl_Plane_001_mesh_layer_1_vtx_1[4];

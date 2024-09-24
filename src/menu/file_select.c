@@ -427,7 +427,7 @@ void render_menu_buttons(s32 selectedButtonID) {
     sMainMenuButtons[idx + 4]->oMenuButtonScale = MENU_BUTTON_SCALE;
     // Switch to copy menu button
     sMainMenuButtons[idx + 5] =
-        spawn_object_rel_with_rot(button, selectedButtonID == MENU_BUTTON_SCORE ? MODEL_MAIN_MENU_BLUE_COPY_BUTTON : MODEL_MAIN_MENU_GREEN_SCORE_BUTTON,
+        spawn_object_rel_with_rot(button, selectedButtonID == MENU_BUTTON_SCORE ? MODEL_MAIN_MENU_BLUE_COPY_BUTTON : 0,
                                   bhvMenuButton,    0, -388, -100, 0x0, -0x8000, 0x0);
     sMainMenuButtons[idx + 5]->oMenuButtonScale = MENU_BUTTON_SCALE;
     // Switch to erase menu button
@@ -581,8 +581,11 @@ void check_copy_menu_clicked_buttons(struct Object *copyButton) {
             s16 buttonY = sMainMenuButtons[buttonID]->oPosY;
 
             if (check_clicked_button(buttonX, buttonY, 22.0f) == TRUE) {
+                if (buttonID == MENU_BUTTON_COPY_CHECK_SCORE)
+                    break;
+
                 // If menu button clicked, select it
-                if (buttonID == MENU_BUTTON_COPY_RETURN || buttonID == MENU_BUTTON_COPY_CHECK_SCORE
+                if (buttonID == MENU_BUTTON_COPY_RETURN
                     || buttonID == MENU_BUTTON_COPY_ERASE_FILE) {
                     if (copyButton->oMenuButtonActionPhase == COPY_PHASE_MAIN) {
                         play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
@@ -678,8 +681,11 @@ void check_erase_menu_clicked_buttons(struct Object *eraseButton) {
             s16 buttonY = sMainMenuButtons[buttonID]->oPosY;
 
             if (check_clicked_button(buttonX, buttonY, 22.0f) == TRUE) {
+                if (buttonID == MENU_BUTTON_ERASE_CHECK_SCORE)
+                    break;
+
                 // If menu button clicked, select it
-                if (buttonID == MENU_BUTTON_ERASE_RETURN || buttonID == MENU_BUTTON_ERASE_CHECK_SCORE
+                if (buttonID == MENU_BUTTON_ERASE_RETURN
                     || buttonID == MENU_BUTTON_ERASE_COPY_FILE) {
                     if (eraseButton->oMenuButtonActionPhase == ERASE_PHASE_MAIN) {
                         play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
@@ -927,7 +933,7 @@ void bhv_menu_button_manager_init(void) {
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_D]->oMenuButtonScale = 1.0f;
     // Score menu button
     sMainMenuButtons[MENU_BUTTON_SCORE] =
-        spawn_object_rel_with_rot(o, MODEL_MAIN_MENU_GREEN_SCORE_BUTTON,
+        spawn_object_rel_with_rot(o, 0,
                                   bhvMenuButton, -6400, -3500, 0, 0x0, 0x0, 0x0);
     sMainMenuButtons[MENU_BUTTON_SCORE]->oMenuButtonScale = 1.0f;
     // Copy menu button
@@ -969,6 +975,9 @@ void check_main_menu_clicked_buttons(void) {
             s16 buttonY = sMainMenuButtons[buttonID]->oPosY;
 
             if (check_clicked_button(buttonX, buttonY, 200.0f)) {
+                if (buttonID == MENU_BUTTON_SCORE)
+                    continue;
+
                 // If menu button clicked, select it
                 sMainMenuButtons[buttonID]->oMenuButtonState = MENU_BUTTON_STATE_GROWING;
                 sSelectedButtonID = buttonID;
@@ -1250,6 +1259,7 @@ LangArray textNew = DEFINE_LANGUAGE_ARRAY(
     "NUEVO");
 
 void print_save_file_star_count(s8 fileIndex, s16 x, s16 y) {
+    return;
     char starCountText[10];
 
     if (save_file_exists(fileIndex)) {
@@ -1374,7 +1384,7 @@ void print_main_menu_strings(void) {
     // Print "SELECT FILE" text
     gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
-    print_hud_lut_string_aligned(SCREEN_CENTER_X, 35, LANG_ARRAY(textSelectFile), TEXT_ALIGN_CENTER);
+    // print_hud_lut_string_aligned(SCREEN_CENTER_X, 35, LANG_ARRAY(textSelectFile), TEXT_ALIGN_CENTER);
     // Print file star counts
     print_save_file_star_count(SAVE_FILE_A, 92, 78);
     print_save_file_star_count(SAVE_FILE_B, 209, 78);
@@ -1384,7 +1394,7 @@ void print_main_menu_strings(void) {
     // Print menu names
     gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
     set_text_color(255, 255, 255);
-    print_generic_string_aligned(67, 39, LANG_ARRAY(textScore), TEXT_ALIGN_CENTER);
+    // print_generic_string_aligned(67, 39, LANG_ARRAY(textScore), TEXT_ALIGN_CENTER);
     print_generic_string_aligned(130, 39, LANG_ARRAY(textCopy), TEXT_ALIGN_CENTER);
     print_generic_string_aligned(191, 39, LANG_ARRAY(textErase), TEXT_ALIGN_CENTER);
 #ifdef MULTILANG
@@ -1396,10 +1406,10 @@ void print_main_menu_strings(void) {
     // Print file names
     gSPDisplayList(gDisplayListHead++, dl_menu_ia8_text_begin);
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
-    print_menu_generic_string(92, 65, LANG_ARRAY(textMarioA));
-    print_menu_generic_string(207, 65, LANG_ARRAY(textMarioB));
-    print_menu_generic_string(92, 105, LANG_ARRAY(textMarioC));
-    print_menu_generic_string(207, 105, LANG_ARRAY(textMarioD));
+    // print_menu_generic_string(92, 65, LANG_ARRAY(textMarioA));
+    // print_menu_generic_string(207, 65, LANG_ARRAY(textMarioB));
+    // print_menu_generic_string(92, 105, LANG_ARRAY(textMarioC));
+    // print_menu_generic_string(207, 105, LANG_ARRAY(textMarioD));
     gSPDisplayList(gDisplayListHead++, dl_menu_ia8_text_end);
 }
 
@@ -1498,10 +1508,10 @@ void print_score_menu_strings(void) {
     // Print file names
     gSPDisplayList(gDisplayListHead++, dl_menu_ia8_text_begin);
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
-    print_menu_generic_string(89, 62, LANG_ARRAY(textMarioA));
-    print_menu_generic_string(211, 62, LANG_ARRAY(textMarioB));
-    print_menu_generic_string(89, 105, LANG_ARRAY(textMarioC));
-    print_menu_generic_string(211, 105, LANG_ARRAY(textMarioD));
+    // print_menu_generic_string(89, 62, LANG_ARRAY(textMarioA));
+    // print_menu_generic_string(211, 62, LANG_ARRAY(textMarioB));
+    // print_menu_generic_string(89, 105, LANG_ARRAY(textMarioC));
+    // print_menu_generic_string(211, 105, LANG_ARRAY(textMarioD));
     gSPDisplayList(gDisplayListHead++, dl_menu_ia8_text_end);
 }
 
@@ -1641,16 +1651,16 @@ void print_copy_menu_strings(void) {
     gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
     set_text_color(255, 255, 255);
     print_generic_string_aligned(SUBMENU_LEFT_BUTTON_X, 35, LANG_ARRAY(textReturn), TEXT_ALIGN_CENTER);
-    print_generic_string_aligned(SUBMENU_MIDDLE_BUTTON_X, 35, LANG_ARRAY(textViewScore), TEXT_ALIGN_CENTER);
+    // print_generic_string_aligned(SUBMENU_MIDDLE_BUTTON_X, 35, LANG_ARRAY(textViewScore), TEXT_ALIGN_CENTER);
     print_generic_string_aligned(SUBMENU_RIGHT_BUTTON_X, 35, LANG_ARRAY(textEraseFileButton), TEXT_ALIGN_CENTER);
     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
     // Print file names
     gSPDisplayList(gDisplayListHead++, dl_menu_ia8_text_begin);
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
-    print_menu_generic_string(89, 62, LANG_ARRAY(textMarioA));
-    print_menu_generic_string(211, 62, LANG_ARRAY(textMarioB));
-    print_menu_generic_string(89, 105, LANG_ARRAY(textMarioC));
-    print_menu_generic_string(211, 105, LANG_ARRAY(textMarioD));
+    // print_menu_generic_string(89, 62, LANG_ARRAY(textMarioA));
+    // print_menu_generic_string(211, 62, LANG_ARRAY(textMarioB));
+    // print_menu_generic_string(89, 105, LANG_ARRAY(textMarioC));
+    // print_menu_generic_string(211, 105, LANG_ARRAY(textMarioD));
     gSPDisplayList(gDisplayListHead++, dl_menu_ia8_text_end);
 }
 
@@ -1849,17 +1859,17 @@ void print_erase_menu_strings(void) {
     gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
     set_text_color(255, 255, 255);
     print_generic_string_aligned(SUBMENU_LEFT_BUTTON_X, 35, LANG_ARRAY(textReturn), TEXT_ALIGN_CENTER);
-    print_generic_string_aligned(SUBMENU_MIDDLE_BUTTON_X, 35, LANG_ARRAY(textViewScore), TEXT_ALIGN_CENTER);
+    // print_generic_string_aligned(SUBMENU_MIDDLE_BUTTON_X, 35, LANG_ARRAY(textViewScore), TEXT_ALIGN_CENTER);
     print_generic_string_aligned(SUBMENU_RIGHT_BUTTON_X, 35, LANG_ARRAY(textCopyFileButton), TEXT_ALIGN_CENTER);
     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 
     // Print file names
     gSPDisplayList(gDisplayListHead++, dl_menu_ia8_text_begin);
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
-    print_menu_generic_string(89, 62, LANG_ARRAY(textMarioA));
-    print_menu_generic_string(211, 62, LANG_ARRAY(textMarioB));
-    print_menu_generic_string(89, 105, LANG_ARRAY(textMarioC));
-    print_menu_generic_string(211, 105, LANG_ARRAY(textMarioD));
+    // print_menu_generic_string(89, 62, LANG_ARRAY(textMarioA));
+    // print_menu_generic_string(211, 62, LANG_ARRAY(textMarioB));
+    // print_menu_generic_string(89, 105, LANG_ARRAY(textMarioC));
+    // print_menu_generic_string(211, 105, LANG_ARRAY(textMarioD));
     gSPDisplayList(gDisplayListHead++, dl_menu_ia8_text_end);
 }
 

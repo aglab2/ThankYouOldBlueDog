@@ -41,6 +41,42 @@ Gfx *geo_update_projectile_pos_from_parent(s32 callContext, UNUSED struct GraphN
     return NULL;
 }
 
+Gfx* geo_flower_leaves(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    Gfx *dlStart = NULL;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        struct Object *objectGraphNode = (struct Object *) gCurGraphNodeObject; // TODO: change this to object pointer?
+        struct GraphNodeGenerated *currentGraphNode = (struct GraphNodeGenerated *) node;
+        s32 parameter = currentGraphNode->parameter;
+
+        if (gCurGraphNodeHeldObject != NULL) {
+            objectGraphNode = gCurGraphNodeHeldObject->objNode;
+        }
+
+        dlStart = alloc_display_list(sizeof(Gfx) * 3);
+        SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_OPAQUE);
+
+        Gfx *dlHead = dlStart;
+        // gsDPSetPrimColor(0, 0, 17, 15, 68, 255),
+        // gsDPSetEnvColor(31, 48, 97, 255),
+        if (parameter == 12)
+        {
+            gDPSetEnvColor(dlHead++, 255, 255, 255, 255);
+            gDPSetPrimColor(dlHead++, 0, 0, 255, 255, 255, 255);
+        }
+        else
+        {
+            gDPSetEnvColor(dlHead++, 255, 255, 255, 255);
+            gDPSetPrimColor(dlHead++, 0, 0, 0, 0, 0, 0);
+        }
+
+        // gsDPSetPrimColor(0, 0, 229, 173, 62, 255),
+        gSPEndDisplayList(dlHead);
+    }
+
+    return dlStart;
+}
+
 Gfx *geo_update_layer_transparency(s32 callContext, struct GraphNode *node, UNUSED void *context) {
     Gfx *dlStart = NULL;
 
