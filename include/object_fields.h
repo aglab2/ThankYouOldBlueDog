@@ -728,6 +728,7 @@
 #define /*0x104*/ oMenuButtonOrigPosZ    OBJECT_FIELD_F32(O_MENU_BUTTON_ORIG_POS_Z_INDEX)
 #define /*0x108*/ oMenuButtonScale       OBJECT_FIELD_F32(0x20)
 #define /*0x10C*/ oMenuButtonActionPhase OBJECT_FIELD_S32(0x21)
+#define oMenuButtonSelectedFile OBJECT_FIELD_S32(0x22)
 
 /* Manta Ray */
 #define /*0x0F4*/ O_MANTA_TARGET_ANGLE_INDEX 0x1B

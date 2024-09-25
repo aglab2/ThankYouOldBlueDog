@@ -314,6 +314,9 @@ void bhv_menu_button_init(void) {
  * object scale for each button.
  */
 void bhv_menu_button_loop(void) {
+    if (o->oMenuButtonSelectedFile)
+        o->oFaceAngleRoll += 0x50;
+
     switch (gCurrentObject->oMenuButtonState) {
         case MENU_BUTTON_STATE_DEFAULT: // Button state
             gCurrentObject->oMenuButtonOrigPosZ = gCurrentObject->oPosZ;
@@ -329,6 +332,7 @@ void bhv_menu_button_loop(void) {
             sCursorClickingTimer = 4;
             break;
         case MENU_BUTTON_STATE_FULLSCREEN: // Menu state
+            o->oFaceAngleRoll = 0;
             break;
         case MENU_BUTTON_STATE_SHRINKING: // Switching from menu to button state
             if (sCurrentMenuLevel == MENU_LAYER_MAIN) {
@@ -410,15 +414,19 @@ void render_menu_buttons(s32 selectedButtonID) {
     // File A
     sMainMenuButtons[idx + 0] = SPAWN_FILE_SELECT_FILE_BUTTON(button, SAVE_FILE_A);
     sMainMenuButtons[idx + 0]->oMenuButtonScale = MENU_BUTTON_SCALE;
+    sMainMenuButtons[idx + 0]->oMenuButtonSelectedFile = 1;
     // File B
     sMainMenuButtons[idx + 1] = SPAWN_FILE_SELECT_FILE_BUTTON(button, SAVE_FILE_B);
     sMainMenuButtons[idx + 1]->oMenuButtonScale = MENU_BUTTON_SCALE;
+    sMainMenuButtons[idx + 1]->oMenuButtonSelectedFile = 2;
     // File C
     sMainMenuButtons[idx + 2] = SPAWN_FILE_SELECT_FILE_BUTTON(button, SAVE_FILE_C);
     sMainMenuButtons[idx + 2]->oMenuButtonScale = MENU_BUTTON_SCALE;
+    sMainMenuButtons[idx + 2]->oMenuButtonSelectedFile = 3;
     // File D
     sMainMenuButtons[idx + 3] = SPAWN_FILE_SELECT_FILE_BUTTON(button, SAVE_FILE_D);
     sMainMenuButtons[idx + 3]->oMenuButtonScale = MENU_BUTTON_SCALE;
+    sMainMenuButtons[idx + 3]->oMenuButtonSelectedFile = 4;
 
     // Return to main menu button
     sMainMenuButtons[idx + 4] =
@@ -898,10 +906,10 @@ void load_erase_menu_from_submenu(s16 prevMenuButtonID, struct Object *sourceBut
 
 
 static const Vec3s sSaveFileButtonInitPositions[] = {
-    { -6400, 2800, 0 }, // SAVE_FILE_A
-    {  1500, 2800, 0 }, // SAVE_FILE_B
-    { -6400,    0, 0 }, // SAVE_FILE_C
-    {  1500,    0, 0 }, // SAVE_FILE_D
+    { -7500 + 5000 * 0, 1500, 0 }, // SAVE_FILE_A
+    { -7500 + 5000 * 1, 1500, 0 }, // SAVE_FILE_B
+    { -7500 + 5000 * 2, 1500, 0 }, // SAVE_FILE_C
+    { -7500 + 5000 * 3, 1500, 0 }, // SAVE_FILE_D
 };
 
 #define SPAWN_FILE_SELECT_FILE_BUTTON_INIT(saveFile)                                                                                            \
@@ -922,15 +930,19 @@ void bhv_menu_button_manager_init(void) {
     // File A
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_A] = SPAWN_FILE_SELECT_FILE_BUTTON_INIT(SAVE_FILE_A);
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_A]->oMenuButtonScale = 1.0f;
+    sMainMenuButtons[MENU_BUTTON_PLAY_FILE_A]->oMenuButtonSelectedFile = 1;
     // File B
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_B] = SPAWN_FILE_SELECT_FILE_BUTTON_INIT(SAVE_FILE_B);
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_B]->oMenuButtonScale = 1.0f;
+    sMainMenuButtons[MENU_BUTTON_PLAY_FILE_B]->oMenuButtonSelectedFile = 2;
     // File C
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_C] = SPAWN_FILE_SELECT_FILE_BUTTON_INIT(SAVE_FILE_C);
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_C]->oMenuButtonScale = 1.0f;
+    sMainMenuButtons[MENU_BUTTON_PLAY_FILE_C]->oMenuButtonSelectedFile = 3;
     // File D
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_D] = SPAWN_FILE_SELECT_FILE_BUTTON_INIT(SAVE_FILE_D);
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_D]->oMenuButtonScale = 1.0f;
+    sMainMenuButtons[MENU_BUTTON_PLAY_FILE_D]->oMenuButtonSelectedFile = 4;
     // Score menu button
     sMainMenuButtons[MENU_BUTTON_SCORE] =
         spawn_object_rel_with_rot(o, 0,

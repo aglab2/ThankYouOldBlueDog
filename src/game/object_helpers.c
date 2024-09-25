@@ -13,6 +13,7 @@
 #include "engine/surface_collision.h"
 #include "game_init.h"
 #include "game/emutest.h"
+#include "game/save_file.h"
 #include "helper_macros.h"
 #include "ingame_menu.h"
 #include "interaction.h"
@@ -52,25 +53,43 @@ Gfx* geo_flower_leaves(s32 callContext, struct GraphNode *node, UNUSED void *con
         if (gCurGraphNodeHeldObject != NULL) {
             objectGraphNode = gCurGraphNodeHeldObject->objNode;
         }
+        int saveFileNum = objectGraphNode->oMenuButtonSelectedFile;
+        if (saveFileNum == 0) {
+            saveFileNum = 1;
+        }
+
+        int flags = save_file_get_star_flags(saveFileNum - 1, parameter - 1);
 
         dlStart = alloc_display_list(sizeof(Gfx) * 3);
         SET_GRAPH_NODE_LAYER(currentGraphNode->fnNode.node.flags, LAYER_OPAQUE);
 
         Gfx *dlHead = dlStart;
-        // gsDPSetPrimColor(0, 0, 17, 15, 68, 255),
-        // gsDPSetEnvColor(31, 48, 97, 255),
-        if (parameter == 12)
+        if (parameter == 15)
         {
             gDPSetEnvColor(dlHead++, 255, 255, 255, 255);
-            gDPSetPrimColor(dlHead++, 0, 0, 255, 255, 255, 255);
+            if (flags)
+            {
+                gDPSetPrimColor(dlHead++, 0, 0, 229, 173, 62, 255);
+            }
+            else
+            {
+                gDPSetPrimColor(dlHead++, 0, 0, 104, 96, 89, 255);
+            }
         }
         else
         {
-            gDPSetEnvColor(dlHead++, 255, 255, 255, 255);
-            gDPSetPrimColor(dlHead++, 0, 0, 0, 0, 0, 0);
+            if (flags)
+            {
+                gDPSetEnvColor(dlHead++, 17, 15, 68, 255);
+                gDPSetPrimColor(dlHead++, 0, 0, 31, 48, 97, 255);
+            }
+            else
+            {
+                gDPSetEnvColor(dlHead++, 60, 55, 45, 255);
+                gDPSetPrimColor(dlHead++, 0, 0, 82, 77, 65, 255);
+            }
         }
 
-        // gsDPSetPrimColor(0, 0, 229, 173, 62, 255),
         gSPEndDisplayList(dlHead);
     }
 
