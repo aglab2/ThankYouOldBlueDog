@@ -497,6 +497,8 @@
 #define G_ACMUX_1		        6
 #define G_ACMUX_0		        7
 
+#define	G_CC_MODULATE_AGLAB         TEXEL0, 0, SHADE_ALPHA, 0, 0, 0, 0, SHADE
+
 /* typical CC cycle 1 modes */
 #define	G_CC_PRIMITIVE              0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE
 #define	G_CC_SHADE                  0, 0, 0, SHADE, 0, 0, 0, SHADE
