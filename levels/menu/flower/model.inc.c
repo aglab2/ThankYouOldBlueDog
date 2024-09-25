@@ -976,7 +976,6 @@ Gfx flower_middle_mesh_layer_1_tri_0[] = {
 Gfx mat_flower_Material_36_f3d_layer1[] = {
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(ENVIRONMENT, 0, TEXEL0, PRIMITIVE, 0, 0, 0, ENVIRONMENT, COMBINED, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
-	gsSPGeometryMode(G_CULL_BACK, 0),
 	gsDPSetCycleType(G_CYC_2CYCLE),
 	gsDPSetRenderMode(G_RM_PASS, G_RM_AA_ZB_OPA_SURF2),
 	gsSPTexture(65535, 65535, 0, 0, 1),
@@ -994,7 +993,6 @@ Gfx mat_flower_Material_36_f3d_layer1[] = {
 
 Gfx mat_revert_flower_Material_36_f3d_layer1[] = {
 	gsDPPipeSync(),
-	gsSPGeometryMode(0, G_CULL_BACK),
 	gsDPSetCycleType(G_CYC_1CYCLE),
 	gsDPSetRenderMode(G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2),
 	gsSPEndDisplayList(),
@@ -1003,17 +1001,10 @@ Gfx mat_revert_flower_Material_36_f3d_layer1[] = {
 Gfx mat_flower_f3dlite_material[] = {
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(PRIMITIVE, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, PRIMITIVE, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
-	gsSPGeometryMode(G_CULL_BACK, 0),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	// gsDPSetPrimColor(0, 0, 104, 96, 89, 255),
     gsSPLightColor(LIGHT_1, 0xffffffff),
     gsSPLightColor(LIGHT_2, 0x7f7f7fff),
-	gsSPEndDisplayList(),
-};
-
-Gfx mat_revert_flower_f3dlite_material[] = {
-	gsDPPipeSync(),
-	gsSPGeometryMode(0, G_CULL_BACK),
 	gsSPEndDisplayList(),
 };
 
@@ -1156,7 +1147,6 @@ Gfx flower_middle_mesh_layer_1[] = {
 	gsSPCullDisplayList(0, 7),
 	gsSPDisplayList(mat_flower_f3dlite_material),
 	gsSPDisplayList(flower_middle_mesh_layer_1_tri_0),
-	gsSPDisplayList(mat_revert_flower_f3dlite_material),
 	gsDPPipeSync(),
 	gsSPSetGeometryMode(G_LIGHTING),
 	gsSPClearGeometryMode(G_TEXTURE_GEN),

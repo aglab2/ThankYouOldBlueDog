@@ -44,7 +44,6 @@ extern Gfx flower_middle_mesh_layer_1_tri_0[];
 extern Gfx mat_flower_Material_36_f3d_layer1[];
 extern Gfx mat_revert_flower_Material_36_f3d_layer1[];
 extern Gfx mat_flower_f3dlite_material[];
-extern Gfx mat_revert_flower_f3dlite_material[];
 extern Gfx flower_leaves_000_mesh_layer_1[];
 extern Gfx flower_leaves_001_mesh_layer_1[];
 extern Gfx flower_leaves_002_mesh_layer_1[];
