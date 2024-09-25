@@ -906,10 +906,10 @@ void load_erase_menu_from_submenu(s16 prevMenuButtonID, struct Object *sourceBut
 
 
 static const Vec3s sSaveFileButtonInitPositions[] = {
-    { -7500 + 5000 * 0, 1500, 0 }, // SAVE_FILE_A
-    { -7500 + 5000 * 1, 1500, 0 }, // SAVE_FILE_B
-    { -7500 + 5000 * 2, 1500, 0 }, // SAVE_FILE_C
-    { -7500 + 5000 * 3, 1500, 0 }, // SAVE_FILE_D
+    { -7500 + 5000 * 0, 1900, 0 }, // SAVE_FILE_A
+    { -7500 + 5000 * 1, 1900, 0 }, // SAVE_FILE_B
+    { -7500 + 5000 * 2, 1900, 0 }, // SAVE_FILE_C
+    { -7500 + 5000 * 3, 1900, 0 }, // SAVE_FILE_D
 };
 
 #define SPAWN_FILE_SELECT_FILE_BUTTON_INIT(saveFile)                                                                                            \
@@ -1271,23 +1271,22 @@ LangArray textNew = DEFINE_LANGUAGE_ARRAY(
     "NUEVO");
 
 void print_save_file_star_count(s8 fileIndex, s16 x, s16 y) {
-    return;
-    char starCountText[10];
+    const char *starCountText0;
+    const char *starCountText1;
 
-    if (save_file_exists(fileIndex)) {
+    if (save_file_exists(fileIndex))
+    {
         s16 starCount = save_file_get_total_star_count(fileIndex,
                                                        COURSE_NUM_TO_INDEX(COURSE_MIN),
                                                        COURSE_NUM_TO_INDEX(COURSE_MAX));
 
-        if (starCount < 100) {
-            sprintf(starCountText, "★×%d", starCount);
-        } else {
-            sprintf(starCountText, "★%d", starCount);
+        if (starCount == 13)
+        {
+            starCountText0 = "THANK";
+            starCountText1 = "YOU!";
+            print_hud_lut_string(10 + fileIndex * 79, 10, starCountText0);
+            print_hud_lut_string(20 + fileIndex * 79, 30, starCountText1);
         }
-        print_hud_lut_string(x, y, starCountText);
-    } else {
-        // Print "new" text
-        print_hud_lut_string(x, y, LANG_ARRAY(textNew));
     }
 }
 
