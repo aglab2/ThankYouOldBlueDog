@@ -27,6 +27,8 @@
 
 #include "hacktice/main.h"
 
+#include "actors/flower_main/geo_header.h"
+
 #define STARS_TO_ENABLE_HACKTICE 100
 
 u16 gDialogColorFadeTimer;
@@ -2364,9 +2366,61 @@ static void render_black_box(int leftOffset, int width, int height, f32 scalingX
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 }
 
+static const Gfx* sGfxPetals[] = {
+    flower_main_middle_mesh_layer_1,
+    flower_main_leaves_000_mesh_layer_1,
+    flower_main_leaves_001_mesh_layer_1,
+    flower_main_leaves_002_mesh_layer_1,
+    flower_main_leaves_003_mesh_layer_1,
+    flower_main_leaves_004_mesh_layer_1,
+    flower_main_leaves_005_mesh_layer_1,
+    flower_main_leaves_006_mesh_layer_1,
+    flower_main_leaves_007_mesh_layer_1,
+    flower_main_leaves_008_mesh_layer_1,
+    flower_main_leaves_009_mesh_layer_1,
+    flower_main_leaves_010_mesh_layer_1,
+    flower_main_leaves_011_mesh_layer_1,
+};
+
+static void render_flower()
+{
+    create_dl_ortho_matrix();
+    create_dl_translation_matrix(MENU_MTX_NOPUSH, 280, 190, 0);
+    create_dl_translation_matrix(MENU_MTX_PUSH, BOX_TRANS_X, BOX_TRANS_Y, 0);
+    create_dl_rotation_matrix(MENU_MTX_NOPUSH, gGlobalTimer * 0.2f, 0, 0, 1.0f);
+
+    // GEO_ASM(0, geo_flower_leaves),
+    for (int i = 0; i < sizeof(sGfxPetals) / sizeof(*sGfxPetals); i++)
+    {
+        if (0 == i)
+        {
+            gDPSetPrimColor(gDisplayListHead++, 0, 0, 104, 96, 89, 255);
+        }
+        else
+        {
+            if (i == 1 || save_file_get_star_flags(gCurrSaveFileNum - 1, i - 2))
+            {
+                gDPSetEnvColor(gDisplayListHead++, 17, 15, 68, 255);
+                gDPSetPrimColor(gDisplayListHead++, 0, 0, 31, 48, 97, 255);
+            }
+            else
+            {
+                gDPSetEnvColor(gDisplayListHead++, 60 + 10, 55 + 10, 45, 255);
+                gDPSetPrimColor(gDisplayListHead++, 0, 0, 82 + 10, 77 + 10, 65, 255);
+            }
+        }
+        gSPDisplayList(gDisplayListHead++, sGfxPetals[i]);
+    }
+    
+    gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+}
+
 extern u8 gMirrorVCAmount;
 extern u8 gPressLToSave;
 s32 render_menus_and_dialogs(void) {
+    if (gMarioStates->action == ACT_STAR_DANCE_WATER || gMarioStates->action == ACT_PULLING_DOOR || gMarioStates->action == ACT_PUSHING_DOOR)
+        render_flower();
+
     if (gBlackBoxAlpha)
     {
         if (gBigBlackBoxAlpha)

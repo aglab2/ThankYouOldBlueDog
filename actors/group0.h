@@ -333,4 +333,6 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "mario/geo_header.h"
 
+#include "flower_main/geo_header.h"
+
 #endif
