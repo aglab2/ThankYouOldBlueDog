@@ -2367,7 +2367,6 @@ static void render_black_box(int leftOffset, int width, int height, f32 scalingX
 }
 
 static const Gfx* sGfxPetals[] = {
-    flower_main_middle_mesh_layer_1,
     flower_main_leaves_000_mesh_layer_1,
     flower_main_leaves_001_mesh_layer_1,
     flower_main_leaves_002_mesh_layer_1,
@@ -2389,29 +2388,28 @@ static void render_flower()
     create_dl_translation_matrix(MENU_MTX_PUSH, BOX_TRANS_X, BOX_TRANS_Y, 0);
     create_dl_rotation_matrix(MENU_MTX_NOPUSH, gGlobalTimer * 0.2f, 0, 0, 1.0f);
 
+    gDPSetPrimColor(gDisplayListHead++, 0, 0, 104, 96, 89, 255);
+    gSPDisplayList(gDisplayListHead++, flower_main_middle_mesh_layer_1);
+
     // GEO_ASM(0, geo_flower_leaves),
     for (int i = 0; i < sizeof(sGfxPetals) / sizeof(*sGfxPetals); i++)
     {
-        if (0 == i)
+        if (i == 0 || save_file_get_star_flags(gCurrSaveFileNum - 1, i - 1))
         {
-            gDPSetPrimColor(gDisplayListHead++, 0, 0, 104, 96, 89, 255);
+            gDPSetEnvColor(gDisplayListHead++, 17, 15, 68, 255);
+            gDPSetPrimColor(gDisplayListHead++, 0, 0, 31, 48, 97, 255);
         }
         else
         {
-            if (i == 1 || save_file_get_star_flags(gCurrSaveFileNum - 1, i - 2))
-            {
-                gDPSetEnvColor(gDisplayListHead++, 17, 15, 68, 255);
-                gDPSetPrimColor(gDisplayListHead++, 0, 0, 31, 48, 97, 255);
-            }
-            else
-            {
-                gDPSetEnvColor(gDisplayListHead++, 60 + 10, 55 + 10, 45, 255);
-                gDPSetPrimColor(gDisplayListHead++, 0, 0, 82 + 10, 77 + 10, 65, 255);
-            }
+            gDPSetEnvColor(gDisplayListHead++, 60 + 10, 55 + 10, 45, 255);
+            gDPSetPrimColor(gDisplayListHead++, 0, 0, 82 + 10, 77 + 10, 65, 255);
         }
         gSPDisplayList(gDisplayListHead++, sGfxPetals[i]);
     }
     
+    gDPSetPrimColor(gDisplayListHead++, 0, 0, 104, 96, 89, 255);
+    gSPDisplayList(gDisplayListHead++, flower_main_middle_mesh_layer_1);
+
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
 }
 
