@@ -383,10 +383,10 @@ void exit_score_file_to_score_menu(struct Object *scoreFileButton, s8 scoreButto
 }
 
 static const Vec3s sSaveFileButtonPositions[] = {
-    {  711, 311, -100 }, // SAVE_FILE_A
-    { -166, 311, -100 }, // SAVE_FILE_B
-    {  711,   0, -100 }, // SAVE_FILE_C
-    { -166,   0, -100 }, // SAVE_FILE_D
+    { 770 - 510 * 0, 190, -100 }, // SAVE_FILE_A
+    { 770 - 510 * 1, 190, -100 }, // SAVE_FILE_B
+    { 770 - 510 * 2, 190, -100 }, // SAVE_FILE_C
+    { 770 - 510 * 3, 190, -100 }, // SAVE_FILE_D
 };
 
 #define SPAWN_FILE_SELECT_FILE_BUTTON(parent, saveFile)                                                 \
@@ -415,18 +415,22 @@ void render_menu_buttons(s32 selectedButtonID) {
     sMainMenuButtons[idx + 0] = SPAWN_FILE_SELECT_FILE_BUTTON(button, SAVE_FILE_A);
     sMainMenuButtons[idx + 0]->oMenuButtonScale = MENU_BUTTON_SCALE;
     sMainMenuButtons[idx + 0]->oMenuButtonSelectedFile = 1;
+    sMainMenuButtons[idx + 0]->oFaceAngleRoll = 0x0;
     // File B
     sMainMenuButtons[idx + 1] = SPAWN_FILE_SELECT_FILE_BUTTON(button, SAVE_FILE_B);
     sMainMenuButtons[idx + 1]->oMenuButtonScale = MENU_BUTTON_SCALE;
     sMainMenuButtons[idx + 1]->oMenuButtonSelectedFile = 2;
+    sMainMenuButtons[idx + 0]->oFaceAngleRoll = 0x4000;
     // File C
     sMainMenuButtons[idx + 2] = SPAWN_FILE_SELECT_FILE_BUTTON(button, SAVE_FILE_C);
     sMainMenuButtons[idx + 2]->oMenuButtonScale = MENU_BUTTON_SCALE;
     sMainMenuButtons[idx + 2]->oMenuButtonSelectedFile = 3;
+    sMainMenuButtons[idx + 0]->oFaceAngleRoll = 0x8000;
     // File D
     sMainMenuButtons[idx + 3] = SPAWN_FILE_SELECT_FILE_BUTTON(button, SAVE_FILE_D);
     sMainMenuButtons[idx + 3]->oMenuButtonScale = MENU_BUTTON_SCALE;
     sMainMenuButtons[idx + 3]->oMenuButtonSelectedFile = 4;
+    sMainMenuButtons[idx + 0]->oFaceAngleRoll = 0xC000;
 
     // Return to main menu button
     sMainMenuButtons[idx + 4] =
@@ -931,18 +935,22 @@ void bhv_menu_button_manager_init(void) {
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_A] = SPAWN_FILE_SELECT_FILE_BUTTON_INIT(SAVE_FILE_A);
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_A]->oMenuButtonScale = 1.0f;
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_A]->oMenuButtonSelectedFile = 1;
+    sMainMenuButtons[MENU_BUTTON_PLAY_FILE_A]->oFaceAngleRoll = 0x0;
     // File B
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_B] = SPAWN_FILE_SELECT_FILE_BUTTON_INIT(SAVE_FILE_B);
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_B]->oMenuButtonScale = 1.0f;
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_B]->oMenuButtonSelectedFile = 2;
+    sMainMenuButtons[MENU_BUTTON_PLAY_FILE_A]->oFaceAngleRoll = 0x4000;
     // File C
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_C] = SPAWN_FILE_SELECT_FILE_BUTTON_INIT(SAVE_FILE_C);
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_C]->oMenuButtonScale = 1.0f;
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_C]->oMenuButtonSelectedFile = 3;
+    sMainMenuButtons[MENU_BUTTON_PLAY_FILE_A]->oFaceAngleRoll = 0x8000;
     // File D
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_D] = SPAWN_FILE_SELECT_FILE_BUTTON_INIT(SAVE_FILE_D);
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_D]->oMenuButtonScale = 1.0f;
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_D]->oMenuButtonSelectedFile = 4;
+    sMainMenuButtons[MENU_BUTTON_PLAY_FILE_A]->oFaceAngleRoll = 0xC000;
     // Score menu button
     sMainMenuButtons[MENU_BUTTON_SCORE] =
         spawn_object_rel_with_rot(o, 0,
@@ -1445,7 +1453,7 @@ void score_menu_display_message(s8 messageID) {
 
     switch (messageID) {
         case SCORE_MSG_CHECK_FILE:
-            print_hud_lut_string_fade(SCREEN_CENTER_X, 35, LANG_ARRAY(textCheckFile), TEXT_ALIGN_CENTER);
+            print_generic_string_fade(SCREEN_CENTER_X, 35, LANG_ARRAY(textCheckFile), TEXT_ALIGN_CENTER);
             break;
         case SCORE_MSG_NOSAVE_DATA:
             print_generic_string_fade(SCREEN_CENTER_X, 190, LANG_ARRAY(textNoSavedDataExists), TEXT_ALIGN_CENTER);
@@ -1569,9 +1577,9 @@ void copy_menu_display_message(s8 messageID) {
     switch (messageID) {
         case COPY_MSG_MAIN_TEXT:
             if (sAllFilesExist) {
-                print_generic_string_fade(SCREEN_CENTER_X, 190, LANG_ARRAY(textNoFileToCopyFrom), TEXT_ALIGN_CENTER);
+                print_generic_string_fade(SCREEN_CENTER_X, 85, LANG_ARRAY(textNoFileToCopyFrom), TEXT_ALIGN_CENTER);
             } else {
-                print_hud_lut_string_fade(SCREEN_CENTER_X, 35, LANG_ARRAY(textCopyFile), TEXT_ALIGN_CENTER);
+                print_generic_string_fade(SCREEN_CENTER_X, 85, LANG_ARRAY(textCopyFile), TEXT_ALIGN_CENTER);
             }
             break;
         case COPY_MSG_COPY_WHERE:
@@ -1699,13 +1707,13 @@ void print_erase_menu_prompt(s16 x, s16 y) {
     s16 cursorY = sCursorPos[1] + 120.0f;
 
     if (cursorX < 169 && cursorX >= 140 &&
-        cursorY < 210 && cursorY >= 191) {
+        cursorY < 85+20 && cursorY >= 85) {
         // Fade "YES" string color but keep "NO" gray
         sYesNoColor[0] = sins(colorFade) * 50.0f + 205.0f;
         sYesNoColor[1] = 150;
         sEraseYesNoHoverState = MENU_ERASE_HOVER_YES;
     } else if (cursorX < 218 && cursorX >= 189
-        && cursorY < 210 && cursorY >= 191) {
+        && cursorY < 85+20 && cursorY >= 85) {
         // Fade "NO" string color but keep "YES" gray
         sYesNoColor[0] = 150;
         sYesNoColor[1] = sins(colorFade) * 50.0f + 205.0f;
@@ -1785,21 +1793,21 @@ void erase_menu_display_message(s8 messageID) {
     char str[50];
     switch (messageID) {
         case ERASE_MSG_MAIN_TEXT:
-            print_hud_lut_string_fade(SCREEN_CENTER_X, 35, LANG_ARRAY(textEraseFile), TEXT_ALIGN_CENTER);
+            print_generic_string_fade(SCREEN_CENTER_X, 85, LANG_ARRAY(textEraseFile), TEXT_ALIGN_CENTER);
             break;
         case ERASE_MSG_PROMPT:
-            print_generic_string_fade(90, 190, LANG_ARRAY(textSure), TEXT_ALIGN_LEFT);
-            print_erase_menu_prompt(90, 190); // YES NO, has functions for it too
+            print_generic_string_fade(90, 85, LANG_ARRAY(textSure), TEXT_ALIGN_LEFT);
+            print_erase_menu_prompt(90, 85); // YES NO, has functions for it too
             break;
         case ERASE_MSG_NOSAVE_EXISTS:
-            print_generic_string_fade(SCREEN_CENTER_X, 190, LANG_ARRAY(textNoSavedDataExists), TEXT_ALIGN_CENTER);
+            print_generic_string_fade(SCREEN_CENTER_X, 85, LANG_ARRAY(textNoSavedDataExists), TEXT_ALIGN_CENTER);
             break;
         case ERASE_MSG_MARIO_ERASED:
             string_format_file_letter(str, LANG_ARRAY(textMarioXJustErased), sSelectedFileIndex);
-            print_generic_string_fade(SCREEN_CENTER_X, 190, str, TEXT_ALIGN_CENTER);
+            print_generic_string_fade(SCREEN_CENTER_X, 85, str, TEXT_ALIGN_CENTER);
             break;
         case ERASE_MSG_SAVE_EXISTS: // unused
-            print_generic_string_fade(SCREEN_CENTER_X, 190, LANG_ARRAY(textSavedDataExists), TEXT_ALIGN_CENTER);
+            print_generic_string_fade(SCREEN_CENTER_X, 85, LANG_ARRAY(textSavedDataExists), TEXT_ALIGN_CENTER);
             break;
     }
 }
@@ -1828,7 +1836,7 @@ void erase_menu_update_message(void) {
                     sStatusMessageID = ERASE_MSG_PROMPT;
                 }
                 sCursorPos[0] = 43.0f;
-                sCursorPos[1] = 80.0f;
+                sCursorPos[1] = -20.0f;
             }
             break;
         case ERASE_PHASE_MARIO_ERASED:
