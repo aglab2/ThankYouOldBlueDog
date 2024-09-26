@@ -1908,7 +1908,6 @@
 "sound/samples/instruments/41_pan_flute.aiff": [0,{"jp":["@sound",185],"us":["@sound",206],"eu":["@sound",206],"sh":["@sound",208]}],
 "sound/samples/instruments/42_vibraphone.aiff": [0,{"jp":["@sound",186],"us":["@sound",207],"eu":["@sound",207],"sh":["@sound",209]}],
 "sound/samples/instruments/43_harmonica.aiff": [0,{"jp":["@sound",187],"us":["@sound",208],"eu":["@sound",208],"sh":["@sound",210]}],
-"sound/samples/instruments/44_grand_piano.aiff": [0,{"jp":["@sound",188],"us":["@sound",209],"eu":["@sound",209],"sh":["@sound",211]}],
 "sound/samples/instruments/45_french_horns_lq.aiff": [0,{"jp":["@sound",189],"us":["@sound",210],"eu":["@sound",210],"sh":["@sound",212]}],
 "sound/samples/instruments/45b_la.aiff": [0,{"sh":["@sound",213]}],
 "sound/samples/instruments/46_pizzicato_strings_1.aiff": [0,{"jp":["@sound",190],"us":["@sound",211],"eu":["@sound",211],"sh":["@sound",214]}],
