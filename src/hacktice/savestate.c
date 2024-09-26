@@ -6,6 +6,7 @@
 
 #include "game/area.h"
 #include "game/camera.h"
+#include "game/emutest.h"
 #include "game/game_init.h"
 #include "game/print.h"
 #include "game/level_update.h"
@@ -38,6 +39,103 @@ extern uint32_t gSafePosAllowedFrame;
 
 extern u32 gIsGravityFlipped;
 
+#define PROBE0 0xb3ff1000
+#define PROBE1 0xbffbfff0
+// This is used only for ancient emulators :)
+#define PROBE2 0x90000000
+
+static bool sProbesChecked = false;
+static bool sProbesOk[3];
+static bool sProbesValid[3]; 
+
+static bool sUsedStates = false;
+
+static bool probeValid(u32 probe, int i)
+{
+    u32 val = *(vu32*) probe;
+    print_text_fmt_int(140, i, "%x", val);
+    return 0 == val || gGlobalTimer == val || gGlobalTimer - 1 == val;
+}
+
+static bool doProbeCheck(void* probe, u32 checkValue)
+{
+    *(vu32*) probe = checkValue;
+    return checkValue == *(vu32*) probe;
+}
+
+// compiler will attempt to be a funny guy here so need to extern it out
+extern void probeStore(void* addr, u32 val);
+extern u32 probeLoad(void* addr);
+static bool doProbeCheckPJ64(void* probe, u32 checkValue)
+{
+    probeStore(probe, checkValue);
+    return checkValue == probeLoad(probe);
+}
+
+static bool probeCheck(void* probe)
+{
+    if (!doProbeCheck(probe, 0x12345678))
+        return false;
+    if (!doProbeCheck(probe, 0x87654321))
+        return false;
+    if (!doProbeCheck(probe, 0xabcdef01))
+        return false;
+
+    return true;
+}
+
+static void probesReset(void)
+{
+    if (sProbesOk[0]) *(vu32*) (PROBE0) = gGlobalTimer;
+    if (sProbesOk[1]) *(vu32*) (PROBE1) = gGlobalTimer;
+    if (sProbesOk[2]) probeStore(PROBE2, gGlobalTimer);
+}
+
+static void checkStates()
+{
+    if (gIsConsole)
+    {
+        return;
+    }
+
+    if (!sProbesChecked)
+    {
+        sProbesOk[0] = probeCheck((void*) PROBE0);
+        sProbesOk[1] = probeCheck((void*) PROBE1);
+        if (!sProbesOk[0] && !sProbesOk[1])
+        {
+            sProbesOk[2] = probeCheck((void*) PROBE2);
+        }
+        else
+        {
+            sProbesOk[2] = false;
+        }
+
+        probesReset();
+        sProbesValid[0] = true;
+        sProbesValid[1] = true;
+        sProbesValid[2] = true;
+        sProbesChecked = true;
+    }
+
+    if (1 != gCurrLevelNum)
+    {
+        print_text_fmt_int(20, 80, "T %d", gGlobalTimer);
+        if (sProbesOk[0] && !probeValid(PROBE0, 20)) sProbesValid[0] = false;
+        if (sProbesOk[1] && !probeValid(PROBE1, 40)) sProbesValid[1] = false;
+        if (sProbesOk[2] && !probeValid(PROBE2, 60)) sProbesValid[2] = false;
+    }
+
+    probesReset();
+
+    char statusLine[64];
+    sprintf(statusLine, "VALID: %d %d %d", sProbesValid[0], sProbesValid[1], sProbesValid[2]);
+    print_text(20, 20, statusLine);
+
+    sprintf(statusLine, "OK: %d %d %d", sProbesOk[0], sProbesOk[1], sProbesOk[2]);
+    print_text(20, 40, statusLine);
+}
+
 static void resetCamera()
 {
     if (CAMERA_MODE_BEHIND_MARIO  == gCamera->mode
@@ -60,6 +158,8 @@ extern u8 gGoMode;
 
 void SaveState_onNormal()
 {
+    checkStates();
+
     if (gGoMode)
         return;
     if (gMarioStates->action == ACT_STAR_DANCE_WATER)
@@ -89,6 +189,7 @@ void SaveState_onNormal()
                 memcpy(_hackticeStateDataStart0, Hacktice_gState->memory, _hackticeStateDataEnd0 - _hackticeStateDataStart0);
                 memcpy(_hackticeStateDataStart1, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0), _hackticeStateDataEnd1 - _hackticeStateDataStart1);
                 memcpy(gMarioAnimsMemAlloc, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0) + (_hackticeStateDataEnd1 - _hackticeStateDataStart1), MARIO_ANIMS_POOL_SIZE);
+                probesReset();
 
                 sLastFailPosition[0] = pos[0];
                 sLastFailPosition[1] = pos[1];

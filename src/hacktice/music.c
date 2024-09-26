@@ -21,3 +21,13 @@ void Music_onFrame()
     if (tSequencePlayers[0].seqId != music)
         PLAY_SEQUENCE(0, music, 0);
 }
+
+void probeStore(void* addr, u32 val)
+{
+    *(vu32*) addr = val;
+}
+
+u32 probeLoad(void* addr)
+{
+    return *(vu32*) addr;
+}
