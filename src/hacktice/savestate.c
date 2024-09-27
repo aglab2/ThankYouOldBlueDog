@@ -143,7 +143,15 @@ void SaveState_check()
     if (!sProbesChecked)
     {
         sProbesOk[0] = probeCheck((void*) PROBE0);
-        sProbesOk[1] = probeCheck((void*) PROBE1);
+        if (!sProbesOk[0])
+        {
+            sProbesOk[1] = probeCheck((void*) PROBE1);
+        }
+        else
+        {
+            sProbesOk[1] = false;
+        }
+
         if (!sProbesOk[0] && !sProbesOk[1])
         {
             sProbesOk[2] = probeCheckPJ64((void*) PROBE2);
