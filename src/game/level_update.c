@@ -679,6 +679,8 @@ void initiate_warp(s16 destLevel, s16 destArea, s16 destWarpNode, s32 warpFlags)
         sWarpDest.type = WARP_TYPE_SAME_AREA;
     }
 
+    save_file_seal_check(gCurrSaveFileNum - 1);
+
     uint32_t preRnd = tinymt32_generate_u32(&gGlobalRandomState);
 
     if (0 == gMarioStates->numStars)

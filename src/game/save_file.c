@@ -177,6 +177,180 @@ static s32 write_eeprom_data(void *buffer, s32 size) {
 }
 #endif
 
+struct SHA1
+{
+    uint32_t H[5];
+};
+
+// Implementation by teeny sha1
+static struct SHA1 sha1digest(const uint8_t *data, size_t databytes)
+{
+#define SHA1ROTATELEFT(value, bits) (((value) << (bits)) | ((value) >> (32 - (bits))))
+
+  uint32_t W[80];
+  struct SHA1 result;
+  uint32_t* H = result.H;
+  H[0] = 0x67452301;
+  H[1] = 0xEFCDAB89;
+  H[2] = 0x98BADCFE;
+  H[3] = 0x10325476;
+  H[4] = 0xC3D2E1F0;
+  uint32_t a;
+  uint32_t b;
+  uint32_t c;
+  uint32_t d;
+  uint32_t e;
+  uint32_t f = 0;
+  uint32_t k = 0;
+
+  uint32_t idx;
+  uint32_t lidx;
+  uint32_t widx;
+  uint32_t didx = 0;
+
+  int32_t wcount;
+  uint32_t temp;
+  // patched to use 32bit arithmetic only
+  uint32_t databits = ((uint32_t)databytes) * 8;
+  uint32_t loopcount = (databytes + 8) / 64 + 1;
+  uint32_t tailbytes = 64 * loopcount - databytes;
+  uint8_t datatail[128] = {0};
+
+  /* Pre-processing of data tail (includes padding to fill out 512-bit chunk):
+     Add bit '1' to end of message (big-endian)
+     Add 64-bit message length in bits at very end (big-endian) */
+  datatail[0] = 0x80;
+  datatail[tailbytes - 8] = (uint8_t) (databits >> 56 & 0xFF);
+  datatail[tailbytes - 7] = (uint8_t) (databits >> 48 & 0xFF);
+  datatail[tailbytes - 6] = (uint8_t) (databits >> 40 & 0xFF);
+  datatail[tailbytes - 5] = (uint8_t) (databits >> 32 & 0xFF);
+  datatail[tailbytes - 4] = (uint8_t) (databits >> 24 & 0xFF);
+  datatail[tailbytes - 3] = (uint8_t) (databits >> 16 & 0xFF);
+  datatail[tailbytes - 2] = (uint8_t) (databits >> 8 & 0xFF);
+  datatail[tailbytes - 1] = (uint8_t) (databits >> 0 & 0xFF);
+
+  /* Process each 512-bit chunk */
+  for (lidx = 0; lidx < loopcount; lidx++)
+  {
+    /* Compute all elements in W */
+    memset (W, 0, 80 * sizeof (uint32_t));
+
+    /* Break 512-bit chunk into sixteen 32-bit, big endian words */
+    for (widx = 0; widx <= 15; widx++)
+    {
+      wcount = 24;
+
+      /* Copy byte-per byte from specified buffer */
+      while (didx < databytes && wcount >= 0)
+      {
+        W[widx] += (((uint32_t)data[didx]) << wcount);
+        didx++;
+        wcount -= 8;
+      }
+      /* Fill out W with padding as needed */
+      while (wcount >= 0)
+      {
+        W[widx] += (((uint32_t)datatail[didx - databytes]) << wcount);
+        didx++;
+        wcount -= 8;
+      }
+    }
+
+    /* Extend the sixteen 32-bit words into eighty 32-bit words, with potential optimization from:
+       "Improving the Performance of the Secure Hash Algorithm (SHA-1)" by Max Locktyukhin */
+    for (widx = 16; widx <= 31; widx++)
+    {
+      W[widx] = SHA1ROTATELEFT ((W[widx - 3] ^ W[widx - 8] ^ W[widx - 14] ^ W[widx - 16]), 1);
+    }
+    for (widx = 32; widx <= 79; widx++)
+    {
+      W[widx] = SHA1ROTATELEFT ((W[widx - 6] ^ W[widx - 16] ^ W[widx - 28] ^ W[widx - 32]), 2);
+    }
+
+    /* Main loop */
+    a = H[0];
+    b = H[1];
+    c = H[2];
+    d = H[3];
+    e = H[4];
+
+    for (idx = 0; idx <= 79; idx++)
+    {
+      if (idx <= 19)
+      {
+        f = (b & c) | ((~b) & d);
+        k = 0x5A827999;
+      }
+      else if (idx >= 20 && idx <= 39)
+      {
+        f = b ^ c ^ d;
+        k = 0x6ED9EBA1;
+      }
+      else if (idx >= 40 && idx <= 59)
+      {
+        f = (b & c) | (b & d) | (c & d);
+        k = 0x8F1BBCDC;
+      }
+      else if (idx >= 60 && idx <= 79)
+      {
+        f = b ^ c ^ d;
+        k = 0xCA62C1D6;
+      }
+      temp = SHA1ROTATELEFT (a, 5) + f + e + k + W[idx];
+      e = d;
+      d = c;
+      c = SHA1ROTATELEFT (b, 30);
+      b = a;
+      a = temp;
+    }
+
+    H[0] += a;
+    H[1] += b;
+    H[2] += c;
+    H[3] += d;
+    H[4] += e;
+  }
+
+  return result;
+}
+
+static void save_file_seal_set(int fileIndex, int slot) {
+    uint8_t* dataStart = &gSaveBuffer.files[fileIndex][slot].seed;
+    uint8_t* dataEnd = &gSaveBuffer.files[fileIndex][slot].tampers + 1;
+
+    struct SHA1 digest = sha1digest(dataStart, dataEnd - dataStart);
+    for (int i = 0; i < 3; i++) {
+        gSaveBuffer.files[fileIndex][slot].seals[i] = digest.H[i];
+    }
+}
+
+void save_file_seal_check(int fileIndex) {
+    if (gSaveBuffer.files[fileIndex][0].tampers & TAMPER_FLAG_SEAL) {
+        return;
+    }
+
+    uint8_t* dataStart = &gSaveBuffer.files[fileIndex][0].seed;
+    uint8_t* dataEnd = &gSaveBuffer.files[fileIndex][0].tampers + 1;
+
+    struct SHA1 digest = sha1digest(dataStart, dataEnd - dataStart);
+    for (int i = 0; i < 3; i++) {
+        if (gSaveBuffer.files[fileIndex][0].seals[i] != digest.H[i]) {
+            save_file_tamper(fileIndex, TAMPER_FLAG_SEAL);
+            break;
+        }
+    }
+}
+
+void save_file_tamper(int fileIndex, int flag)
+{
+    if (gSaveBuffer.files[fileIndex][0].tampers & flag) {
+        return;
+    }
+
+    gSaveBuffer.files[fileIndex][0].tampers |= flag;
+    gSaveFileModified = TRUE;
+    save_file_do_save(fileIndex);
+}
 
 /**
  * Sum the bytes in data to data + size - 2. The last two bytes are ignored
@@ -290,6 +464,7 @@ static void restore_save_file_data(s32 fileIndex, s32 srcSlot) {
     s32 destSlot = srcSlot ^ 1;
 
     // Compute checksum on source data
+    save_file_seal_set(fileIndex, srcSlot);
     add_save_block_signature(&gSaveBuffer.files[fileIndex][srcSlot],
                              sizeof(gSaveBuffer.files[fileIndex][srcSlot]), SAVE_FILE_MAGIC);
 
@@ -304,6 +479,7 @@ static void restore_save_file_data(s32 fileIndex, s32 srcSlot) {
 
 void save_file_do_save(s32 fileIndex) {
     if (gSaveFileModified) {
+        save_file_seal_set(fileIndex, 0);
         // Compute checksum
         add_save_block_signature(&gSaveBuffer.files[fileIndex][0],
                                  sizeof(gSaveBuffer.files[fileIndex][0]), SAVE_FILE_MAGIC);
@@ -387,6 +563,9 @@ void save_file_load_all(void) {
                 break;
         }
     }
+
+    for (int i = 0; i < 4; i++)
+        save_file_seal_check(i);
 
 #ifdef MULTILANG
     // Failsafe in case the language in the save file isn't defined.
@@ -572,11 +751,13 @@ s32 save_file_get_total_star_count(s32 fileIndex, s32 minCourse, s32 maxCourse) 
 }
 
 void save_file_set_flags(u32 flags) {
+    save_file_seal_check(gCurrSaveFileNum - 1);
     gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags |= (flags | SAVE_FLAG_FILE_EXISTS);
     gSaveFileModified = TRUE;
 }
 
 void save_file_clear_flags(u32 flags) {
+    save_file_seal_check(gCurrSaveFileNum - 1);
     gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags &= ~flags;
     gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags |= SAVE_FLAG_FILE_EXISTS;
     gSaveFileModified = TRUE;
@@ -639,6 +820,7 @@ u32 save_file_get_star_flags(s32 fileIndex, s32 courseIndex) {
  * If course is COURSE_NONE, add to the bitset of obtained castle secret stars.
  */
 void save_file_set_star_flags(s32 fileIndex, s32 courseIndex, u32 starFlags) {
+    save_file_seal_check(gCurrSaveFileNum - 1);
     if (courseIndex == COURSE_NUM_TO_INDEX(COURSE_NONE)) {
         gSaveBuffer.files[fileIndex][0].flags |= STAR_FLAG_TO_SAVE_FLAG(starFlags);
     } else {
@@ -674,6 +856,7 @@ s32 save_file_is_cannon_unlocked(void) {
  * Sets the cannon status to unlocked in the current course.
  */
 void save_file_set_cannon_unlocked(void) {
+    save_file_seal_check(gCurrSaveFileNum - 1);
     gSaveBuffer.files[gCurrSaveFileNum - 1][0].courseStars[gCurrCourseNum] |= COURSE_FLAG_CANNON_UNLOCKED;
     gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags |= SAVE_FLAG_FILE_EXISTS;
     gSaveFileModified = TRUE;

@@ -38,7 +38,7 @@ struct SaveFile {
 
     u8 tampers;
     u8 _pad2[2];
-    u32 hash[3];
+    u32 seals[3];
 
     struct SaveBlockSignature signature; // 32 bits
 };
@@ -139,6 +139,12 @@ enum StarFlags {
     STAR_FLAG_LAST          = STAR_FLAG_ACT_100_COINS
 };
 
+enum TamperFlags {
+    TAMPER_FLAG_STATE = (1 << 0),
+    TAMPER_FLAG_LOAD  = (1 << 1),
+    TAMPER_FLAG_SEAL  = (1 << 2),
+};
+
 #define SAVE_FLAG_TO_STAR_FLAG(cmd) (((cmd) >> 24) & 0x7F)
 #define STAR_FLAG_TO_SAVE_FLAG(cmd) ((cmd) << 24)
 
@@ -185,6 +191,9 @@ u32 save_file_get_widescreen_mode(void);
 void save_file_set_widescreen_mode(u8 mode);
 #endif
 void save_file_move_cap_to_default_location(void);
+
+void save_file_seal_check(int fileIndex);
+void save_file_tamper(int fileIndex, int flag);
 
 void disable_warp_checkpoint(void);
 void check_if_should_set_warp_checkpoint(struct WarpNode *warpNode);

@@ -5,11 +5,13 @@
 #include "text_manager.h"
 
 #include "game/area.h"
+#include "buffers/buffers.h"
 #include "game/camera.h"
 #include "game/game_init.h"
 #include "game/print.h"
 #include "game/level_update.h"
 #include "game/object_list_processor.h"
+#include "game/save_file.h"
 #include "engine/math_util.h"
 #include "libc/string.h"
 
@@ -89,6 +91,8 @@ void SaveState_onNormal()
                 memcpy(_hackticeStateDataStart0, Hacktice_gState->memory, _hackticeStateDataEnd0 - _hackticeStateDataStart0);
                 memcpy(_hackticeStateDataStart1, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0), _hackticeStateDataEnd1 - _hackticeStateDataStart1);
                 memcpy(gMarioAnimsMemAlloc, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0) + (_hackticeStateDataEnd1 - _hackticeStateDataStart1), MARIO_ANIMS_POOL_SIZE);
+                if (gCurrCourseNum != COURSE_NONE)
+                    save_file_tamper(gCurrSaveFileNum - 1, TAMPER_FLAG_LOAD);
 
                 sLastFailPosition[0] = pos[0];
                 sLastFailPosition[1] = pos[1];
