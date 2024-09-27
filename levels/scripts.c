@@ -200,6 +200,7 @@ const LevelScript script_func_global_1[] = {
     RETURN(),
 };
 
+#if 0
 const LevelScript script_func_global_2[] = {
     LOAD_MODEL_FROM_GEO(MODEL_BULLET_BILL,             bullet_bill_geo),
     LOAD_MODEL_FROM_GEO(MODEL_YELLOW_SPHERE,           yellow_sphere_geo),
@@ -265,6 +266,7 @@ const LevelScript script_func_global_9[] = {
     LOAD_MODEL_FROM_DL( MODEL_CAP_SWITCH_BASE,         cap_switch_base_seg5_dl_05003120,        LAYER_OPAQUE),
     RETURN(),
 };
+#endif
 
 const LevelScript script_func_global_10[] = {
     LOAD_MODEL_FROM_GEO(MODEL_BOO,                     boo_geo),
@@ -329,6 +331,7 @@ const LevelScript script_func_global_15[] = {
     RETURN(),
 };
 
+#if 0
 const LevelScript script_func_global_16[] = {
     LOAD_MODEL_FROM_GEO(MODEL_MIPS,                    mips_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BOO_CASTLE,              boo_castle_geo),
@@ -353,3 +356,4 @@ const LevelScript script_func_global_18[] = {
     LOAD_MODEL_FROM_GEO(MODEL_SNUFIT,                  snufit_geo),
     RETURN(),
 };
+#endif
