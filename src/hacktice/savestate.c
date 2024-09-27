@@ -7,6 +7,7 @@
 #include "game/area.h"
 #include "buffers/buffers.h"
 #include "game/camera.h"
+#include "game/emutest.h"
 #include "game/game_init.h"
 #include "game/print.h"
 #include "game/level_update.h"
@@ -14,6 +15,8 @@
 #include "game/save_file.h"
 #include "engine/math_util.h"
 #include "libc/string.h"
+
+// #define DEBUG_EMU
 
 void set_play_mode(s16 playMode);
 
@@ -40,6 +43,139 @@ extern uint32_t gSafePosAllowedFrame;
 
 extern u32 gIsGravityFlipped;
 
+#define PROBE0 0xb3ff1000
+#define PROBE1 0xbffbfff0
+// This is used only for ancient emulators :)
+#define PROBE2 0x90000000
+
+static bool sProbesChecked = false;
+static bool sProbesOk[3];
+
+#ifdef DEBUG_EMU
+static char sDebugLine[64] = {};
+#endif
+
+// compiler will attempt to be a funny guy here so need to extern it out
+extern void probeStore(void* addr, u32 val);
+extern u32 probeLoad(void* addr);
+
+static bool probeValid(u32 probe, int i)
+{
+    u32 val = *(vu32*) probe;
+    bool valid = 0 == val || gGlobalTimer == val || gGlobalTimer - 1 == val;
+#ifdef DEBUG_EMU
+    if (!valid)
+    {
+        sprintf(sDebugLine, "%x %x", gGlobalTimer, val);
+    }
+#endif
+    return valid;
+}
+
+static bool probeValidPJ64(u32 probe, int i)
+{
+    u32 val = probeLoad(probe);
+    u32 val1 = probeLoad(probe);
+    bool valid = 0 == val || gGlobalTimer == val || gGlobalTimer - 1 == val;
+#ifdef DEBUG_EMU
+    if (!valid)
+    {
+        sprintf(sDebugLine, "%x %x %x", gGlobalTimer, val, val1);
+    }
+#endif
+    return valid;
+}
+
+static bool doProbeCheck(void* probe, u32 checkValue)
+{
+    *(vu32*) probe = checkValue;
+    return checkValue == *(vu32*) probe;
+}
+
+static bool doProbeCheckPJ64(void* probe, u32 checkValue)
+{
+    probeStore(probe, checkValue);
+    return checkValue == probeLoad(probe);
+}
+
+static bool probeCheck(void* probe)
+{
+    if (!doProbeCheck(probe, 0x12345678))
+        return false;
+    if (!doProbeCheck(probe, 0x87654321))
+        return false;
+    if (!doProbeCheck(probe, 0xabcdef01))
+        return false;
+
+    return true;
+}
+
+static bool probeCheckPJ64(void* probe)
+{
+    if (!doProbeCheckPJ64(probe, 0x12345678))
+        return false;
+    if (!doProbeCheckPJ64(probe, 0x87654321))
+        return false;
+    if (!doProbeCheckPJ64(probe, 0xabcdef01))
+        return false;
+
+    return true;
+}
+
+static void probesReset(void)
+{
+    if (sProbesOk[0]) *(vu32*) (PROBE0) = gGlobalTimer;
+    if (sProbesOk[1]) *(vu32*) (PROBE1) = gGlobalTimer;
+    if (sProbesOk[2])
+    {
+        (void) probeLoad(PROBE2);
+        probeStore(PROBE2, gGlobalTimer);
+    }
+}
+
+void SaveState_check()
+{
+    if (gIsConsole)
+    {
+        return;
+    }
+
+    if (!sProbesChecked)
+    {
+        sProbesOk[0] = probeCheck((void*) PROBE0);
+        sProbesOk[1] = probeCheck((void*) PROBE1);
+        if (!sProbesOk[0] && !sProbesOk[1])
+        {
+            sProbesOk[2] = probeCheckPJ64((void*) PROBE2);
+        }
+        else
+        {
+            sProbesOk[2] = false;
+        }
+
+        probesReset();
+        sProbesChecked = true;
+    }
+
+    if (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].tampers & TAMPER_FLAG_EMU))
+    {
+        if (1 != gCurrLevelNum)
+        {
+            if (sProbesOk[0] && !probeValid(PROBE0, 20)) save_file_tamper(gCurrSaveFileNum - 1, TAMPER_FLAG_EMU);
+            if (sProbesOk[1] && !probeValid(PROBE1, 40)) save_file_tamper(gCurrSaveFileNum - 1, TAMPER_FLAG_EMU);
+            if (sProbesOk[2] && !probeValidPJ64(PROBE2, 60)) save_file_tamper(gCurrSaveFileNum - 1, TAMPER_FLAG_EMU);
+        }
+
+        probesReset();
+    }
+
+#ifdef DEBUG_EMU
+    char statusLine[64];
+    sprintf(statusLine, "OK: %d %d %d", sProbesOk[0], sProbesOk[1], sProbesOk[2]);
+    print_text(20, 100, statusLine);
+#endif
+}
+
 static void resetCamera()
 {
     if (CAMERA_MODE_BEHIND_MARIO  == gCamera->mode
@@ -62,10 +198,14 @@ extern u8 gGoMode;
 
 void SaveState_onNormal()
 {
+#ifdef DEBUG_EMU
     print_text_fmt_int(20, 20, "%d", gSaveBuffer.files[0][0].tampers);
     print_text_fmt_int(20, 40, "%d", gSaveBuffer.files[1][0].tampers);
     print_text_fmt_int(20, 60, "%d", gSaveBuffer.files[2][0].tampers);
     print_text_fmt_int(20, 80, "%d", gSaveBuffer.files[3][0].tampers);
+
+    print_text(20, 120, sDebugLine);
+#endif
 
     if (gGoMode)
         return;
@@ -102,6 +242,7 @@ void SaveState_onNormal()
                 if (starCount == 0)
                     save_file_tamper_weak(gCurrSaveFileNum - 1, TAMPER_FLAG_LOAD);
 
+                probesReset();
                 sLastFailPosition[0] = pos[0];
                 sLastFailPosition[1] = pos[1];
                 sLastFailPosition[2] = pos[2];

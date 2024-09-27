@@ -31,6 +31,7 @@
 
 void Hacktice_onFrame()
 {
+    SaveState_check();
     // SoftReset_onFrame();
 
     HackticeSetStatus(HACKTICE_STATUS_ACTIVE);

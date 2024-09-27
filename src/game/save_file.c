@@ -352,6 +352,7 @@ void save_file_tamper(int fileIndex, int flag)
     }
 
     gSaveBuffer.files[fileIndex][0].tampers |= flag;
+    gSaveBuffer.files[fileIndex][0].flags |= SAVE_FLAG_FILE_EXISTS;
     gSaveFileModified = TRUE;
     save_file_do_save(fileIndex);
 }
@@ -579,6 +580,12 @@ void save_file_load_all(void) {
         int starCount = save_file_get_total_star_count(i, COURSE_MIN - 1, COURSE_MAX - 1);
         if (starCount && starCount != 13)
             save_file_tamper(i, TAMPER_FLAG_RELOAD);
+        
+        if (0 == starCount)
+        {
+            gSaveBuffer.files[i][0].tampers = 0;
+            save_file_seal_set(i, 0);
+        }
     }
 
 #ifdef MULTILANG
