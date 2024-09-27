@@ -62,6 +62,11 @@ extern u8 gGoMode;
 
 void SaveState_onNormal()
 {
+    print_text_fmt_int(20, 20, "%d", gSaveBuffer.files[0][0].tampers);
+    print_text_fmt_int(20, 40, "%d", gSaveBuffer.files[1][0].tampers);
+    print_text_fmt_int(20, 60, "%d", gSaveBuffer.files[2][0].tampers);
+    print_text_fmt_int(20, 80, "%d", gSaveBuffer.files[3][0].tampers);
+
     if (gGoMode)
         return;
     if (gMarioStates->action == ACT_STAR_DANCE_WATER)
@@ -91,8 +96,11 @@ void SaveState_onNormal()
                 memcpy(_hackticeStateDataStart0, Hacktice_gState->memory, _hackticeStateDataEnd0 - _hackticeStateDataStart0);
                 memcpy(_hackticeStateDataStart1, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0), _hackticeStateDataEnd1 - _hackticeStateDataStart1);
                 memcpy(gMarioAnimsMemAlloc, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0) + (_hackticeStateDataEnd1 - _hackticeStateDataStart1), MARIO_ANIMS_POOL_SIZE);
-                if (gCurrCourseNum != COURSE_NONE)
+                int starCount = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
+                if (starCount != 0 && starCount != 13)
                     save_file_tamper(gCurrSaveFileNum - 1, TAMPER_FLAG_LOAD);
+                if (starCount == 0)
+                    save_file_tamper_weak(gCurrSaveFileNum - 1, TAMPER_FLAG_LOAD);
 
                 sLastFailPosition[0] = pos[0];
                 sLastFailPosition[1] = pos[1];

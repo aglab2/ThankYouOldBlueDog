@@ -314,7 +314,7 @@ static struct SHA1 sha1digest(const uint8_t *data, size_t databytes)
   return result;
 }
 
-static void save_file_seal_set(int fileIndex, int slot) {
+void save_file_seal_set(int fileIndex, int slot) {
     uint8_t* dataStart = &gSaveBuffer.files[fileIndex][slot].seed;
     uint8_t* dataEnd = &gSaveBuffer.files[fileIndex][slot].tampers + 1;
 
@@ -325,6 +325,10 @@ static void save_file_seal_set(int fileIndex, int slot) {
 }
 
 void save_file_seal_check(int fileIndex) {
+    if (0 == save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1)) {
+        return;
+    }
+
     if (gSaveBuffer.files[fileIndex][0].tampers & TAMPER_FLAG_SEAL) {
         return;
     }
@@ -350,6 +354,11 @@ void save_file_tamper(int fileIndex, int flag)
     gSaveBuffer.files[fileIndex][0].tampers |= flag;
     gSaveFileModified = TRUE;
     save_file_do_save(fileIndex);
+}
+
+void save_file_tamper_weak(int fileIndex, int flag)
+{
+    gSaveBuffer.files[fileIndex][0].tampers |= flag;
 }
 
 /**
@@ -565,7 +574,12 @@ void save_file_load_all(void) {
     }
 
     for (int i = 0; i < 4; i++)
+    {
         save_file_seal_check(i);
+        int starCount = save_file_get_total_star_count(i, COURSE_MIN - 1, COURSE_MAX - 1);
+        if (starCount && starCount != 13)
+            save_file_tamper(i, TAMPER_FLAG_RELOAD);
+    }
 
 #ifdef MULTILANG
     // Failsafe in case the language in the save file isn't defined.
@@ -753,6 +767,7 @@ s32 save_file_get_total_star_count(s32 fileIndex, s32 minCourse, s32 maxCourse) 
 void save_file_set_flags(u32 flags) {
     save_file_seal_check(gCurrSaveFileNum - 1);
     gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags |= (flags | SAVE_FLAG_FILE_EXISTS);
+    save_file_seal_set(gCurrSaveFileNum - 1, 0);
     gSaveFileModified = TRUE;
 }
 
@@ -760,6 +775,7 @@ void save_file_clear_flags(u32 flags) {
     save_file_seal_check(gCurrSaveFileNum - 1);
     gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags &= ~flags;
     gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags |= SAVE_FLAG_FILE_EXISTS;
+    save_file_seal_set(gCurrSaveFileNum - 1, 0);
     gSaveFileModified = TRUE;
 }
 
@@ -828,6 +844,7 @@ void save_file_set_star_flags(s32 fileIndex, s32 courseIndex, u32 starFlags) {
     }
 
     gSaveBuffer.files[fileIndex][0].flags |= SAVE_FLAG_FILE_EXISTS;
+    save_file_seal_set(gCurrSaveFileNum - 1, 0);
     gSaveFileModified = TRUE;
 }
 
@@ -859,6 +876,7 @@ void save_file_set_cannon_unlocked(void) {
     save_file_seal_check(gCurrSaveFileNum - 1);
     gSaveBuffer.files[gCurrSaveFileNum - 1][0].courseStars[gCurrCourseNum] |= COURSE_FLAG_CANNON_UNLOCKED;
     gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags |= SAVE_FLAG_FILE_EXISTS;
+    save_file_seal_set(gCurrSaveFileNum - 1, 0);
     gSaveFileModified = TRUE;
 }
 

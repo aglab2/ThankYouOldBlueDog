@@ -686,6 +686,7 @@ void initiate_warp(s16 destLevel, s16 destArea, s16 destWarpNode, s32 warpFlags)
     if (0 == gMarioStates->numStars)
     {
         gSaveBuffer.files[gCurrSaveFileNum - 1][0].seed = tinymt32_generate_u32(&gGlobalRandomState);
+        save_file_seal_set(gCurrSaveFileNum - 1, 0);
         save_file_collect_star_or_key(0, 0);
         gSaveFileModified = 1;
         gMarioStates->numStars++;

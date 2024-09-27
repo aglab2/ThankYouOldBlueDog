@@ -140,9 +140,10 @@ enum StarFlags {
 };
 
 enum TamperFlags {
-    TAMPER_FLAG_STATE = (1 << 0),
-    TAMPER_FLAG_LOAD  = (1 << 1),
-    TAMPER_FLAG_SEAL  = (1 << 2),
+    TAMPER_FLAG_EMU    = (1 << 0),
+    TAMPER_FLAG_LOAD   = (1 << 1),
+    TAMPER_FLAG_SEAL   = (1 << 2),
+    TAMPER_FLAG_RELOAD = (1 << 3),
 };
 
 #define SAVE_FLAG_TO_STAR_FLAG(cmd) (((cmd) >> 24) & 0x7F)
@@ -192,8 +193,10 @@ void save_file_set_widescreen_mode(u8 mode);
 #endif
 void save_file_move_cap_to_default_location(void);
 
+void save_file_seal_set(int fileIndex, int slot);
 void save_file_seal_check(int fileIndex);
 void save_file_tamper(int fileIndex, int flag);
+void save_file_tamper_weak(int fileIndex, int flag);
 
 void disable_warp_checkpoint(void);
 void check_if_should_set_warp_checkpoint(struct WarpNode *warpNode);
