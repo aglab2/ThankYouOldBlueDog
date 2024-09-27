@@ -53,7 +53,11 @@ void play_warp_door_open_noise(void) {
     }
 }
 
+u8 gOverrideWarps = 1;
 void bhv_door_loop(void) {
+    if (gMarioStates->numStars == 13)
+        gOverrideWarps = 0;
+
     // scramble the randomness a bit :)
     tinymt32_init(&gGlobalRandomState, tinymt32_generate_u32(&gGlobalRandomState) ^ (*(u32*) &gMarioStates->controller->rawStickX));
     tinymt32_init(&gGlobalRandomState, tinymt32_generate_u32(&gGlobalRandomState) ^ (*(u32*) &gMarioStates->controller->buttonDown));

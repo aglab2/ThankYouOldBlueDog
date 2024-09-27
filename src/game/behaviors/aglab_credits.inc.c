@@ -320,7 +320,7 @@ static void credits_thanks()
     static const char kEntry[] = "Credits Theme:\nThe House in Fata Morgana - A Requiem for Innocence\nSerie de Fragmento (instrumental)";
     if (o->oTimer > 900)
     {
-        gDeferredFancyText[1].x = 30;
+        gDeferredFancyText[1].x = 25;
         gDeferredFancyText[1].y = 40;
         gDeferredFancyText[1].aligned = 0;
         gDeferredFancyText[1].alpha = CLAMP(255 - (o->oTimer - 900) * 3, 0, 255);
@@ -329,7 +329,7 @@ static void credits_thanks()
     }
     else if (o->oTimer > 300)
     {
-        gDeferredFancyText[1].x = 30;
+        gDeferredFancyText[1].x = 25;
         gDeferredFancyText[1].y = 40;
         gDeferredFancyText[1].aligned = 0;
         gDeferredFancyText[1].alpha = CLAMP((o->oTimer - 300) * 3, 0, 255);

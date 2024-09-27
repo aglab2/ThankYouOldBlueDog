@@ -33,7 +33,7 @@ const LevelScript level_ccm_entry[] = {
 
 	AREA(1, ccm_area_1),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(0xf0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xf0, LEVEL_WMOTR, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xf1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_NONE, -3, 952, 64, 0, -90, 0, (0xa << 16), bhvSpinAirborneWarp),
 		OBJECT(MODEL_NONE, -12, -3242, -2429, 0, 0, 0, 0x00000000, bhvCcmFlipper),

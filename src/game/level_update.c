@@ -662,6 +662,7 @@ static const uint8_t kLevelsOrderConst[] = {
     LEVEL_WDW,
 };
 
+extern u8 gOverrideWarps;
 /**
  * Set the current warp type and destination level/area/node.
  */
@@ -703,7 +704,7 @@ void initiate_warp(s16 destLevel, s16 destArea, s16 destWarpNode, s32 warpFlags)
 
     tinymt32_init(&gGlobalRandomState, preRnd);
 
-    sWarpDest.levelNum = kLevelsOrder[gMarioStates->numStars - 1];
+    sWarpDest.levelNum = gOverrideWarps ? kLevelsOrder[gMarioStates->numStars - 1] : destLevel;
     sWarpDest.areaIdx = destArea;
     sWarpDest.nodeId = destWarpNode;
     sWarpDest.arg = warpFlags;

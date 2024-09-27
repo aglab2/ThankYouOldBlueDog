@@ -1777,7 +1777,7 @@ LangArray textCameraAngleR = DEFINE_LANGUAGE_ARRAY(
     "MODO DE CÁMARA CON Ⓡ");
 
 void render_pause_course_options(s16 x, s16 y, s8 *index, s16 yIndex) {
-    handle_menu_scrolling(MENU_SCROLL_VERTICAL, index, 1, 3);
+    handle_menu_scrolling(MENU_SCROLL_VERTICAL, index, 1, 2);
 
     gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
 
@@ -1786,7 +1786,6 @@ void render_pause_course_options(s16 x, s16 y, s8 *index, s16 yIndex) {
     print_generic_string(x, y - 15, LANG_ARRAY(textExitCourse));
 
     if (*index != MENU_OPT_CAMERA_ANGLE_R) {
-        print_generic_string(x, y - 31, LANG_ARRAY(textCameraAngleR));
         gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 
         create_dl_translation_matrix(MENU_MTX_PUSH, x - 14, (y - ((*index - 1) * yIndex)), 0);
@@ -1794,10 +1793,6 @@ void render_pause_course_options(s16 x, s16 y, s8 *index, s16 yIndex) {
         gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, gDialogTextAlpha);
         gSPDisplayList(gDisplayListHead++, dl_draw_triangle);
         gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
-    }
-
-    if (*index == MENU_OPT_CAMERA_ANGLE_R) {
-        render_pause_camera_options(x - 52, y - 38, &gDialogCameraAngleIndex, 110);
     }
 }
 
@@ -1960,6 +1955,7 @@ s32 gCourseDoneMenuTimer = 0;
 s32 gCourseCompleteCoins = 0;
 s8 gHudFlash = HUD_FLASH_NONE;
 
+extern u8 gOverrideWarps;
 s32 render_pause_courses_and_castle(void) {
     s16 index;
 
@@ -1993,7 +1989,7 @@ s32 render_pause_courses_and_castle(void) {
             if ((gMarioStates[0].action & (ACT_FLAG_SWIMMING | ACT_FLAG_METAL_WATER | ACT_FLAG_PAUSE_EXIT))
              || (gMarioStates[0].pos[1] <= gMarioStates[0].floorHeight)) {
 #else
-            if (0) {
+            if (!gOverrideWarps && gCurrCourseNum != COURSE_WMOTR) {
 #endif
                 render_pause_course_options(109, 91, &gDialogLineNum, 15);
             }

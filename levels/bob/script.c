@@ -36,8 +36,8 @@ const LevelScript level_bob_entry[] = {
 	/* Fast64 end persistent block [level commands] */
 
 	AREA(1, bob_area_1),
-		WARP_NODE(0x0A, LEVEL_THI, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(0xf0, LEVEL_SSL, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0x0a, LEVEL_WMOTR, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xf0, LEVEL_WMOTR, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xf1, LEVEL_TOTWC, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, 0x00000000, bhvBobCtrl),
 		MARIO_POS(0x01, 0, -4, 476, 1503),

@@ -6,6 +6,8 @@ const GeoLayout wmotr_area_1_geo[] = {
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, wmotr_dl_leaves_000_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, wmotr_dl_middle_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, wmotr_dl_Plane_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, wmotr_dl_Sphere_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, wmotr_dl_Sphere_001_mesh_layer_1),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
