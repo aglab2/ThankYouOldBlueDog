@@ -581,4 +581,6 @@ extern const BehaviorScript bhvRrStart[];
 
 extern const BehaviorScript bhvEndingPlayer[];
 
+extern const BehaviorScript bhvWmotr[];
+
 #endif // BEHAVIOR_DATA_H

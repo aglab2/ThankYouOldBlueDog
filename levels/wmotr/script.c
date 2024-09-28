@@ -61,6 +61,7 @@ const LevelScript level_wmotr_entry[] = {
 		OBJECT(MODEL_NONE, -1360, 701, 1617, 0, 0, 0, (0x2A << 16), bhvWarp),
 		OBJECT(MODEL_NONE, -1982, 701, 854, 0, 0, 0, (0x2B << 16), bhvWarp),
 		OBJECT(MODEL_NONE, -2464, 734, -284, 0, 0, 0, (0x2C << 16), bhvWarp),
+		OBJECT(MODEL_NONE, -2464, 734, -284, 0, 0, 0, (0x2C << 16), bhvWmotr),
 		TERRAIN(wmotr_area_1_collision),
 		MACRO_OBJECTS(wmotr_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),

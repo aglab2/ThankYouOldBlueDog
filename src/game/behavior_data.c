@@ -6370,3 +6370,10 @@ extern const BehaviorScript bhvEndingPlayer[] = {
         CALL_NATIVE(bhv_ending_player_loop),
     END_LOOP(),
 };
+
+extern void bhv_wmotr_init();
+const BehaviorScript bhvWmotr[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    CALL_NATIVE(bhv_wmotr_init),
+    BREAK(),
+};
