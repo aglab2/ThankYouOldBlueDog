@@ -35,7 +35,7 @@ void bhv_hmc_ctl_loop()
     f32 ceilHeight = find_ceil(gMarioStates->pos[0], floorHeight, gMarioStates->pos[2], &ceil);
     gCollisionFlags &= ~COLLISION_FLAG_WATER;
 
-    if (floorHeight - 40.f < gMarioStates->pos[1] && gMarioStates->pos[1] < ceilHeight)
+    if (floorHeight - 50.f < gMarioStates->pos[1] && gMarioStates->pos[1] < ceilHeight)
     {
         if (gMarioStates->controller->buttonPressed & B_BUTTON)
         {
@@ -53,8 +53,12 @@ void bhv_hmc_ctl_loop()
         gMarioStates->controller->buttonPressed &= ~B_BUTTON;
         gDisableGravity = 1;
         gMarioStates->action = ACT_JUMP;
-        gMarioStates->vel[1] += 4.f;
-        if (gMarioStates->vel[1] > 60.f)
-            gMarioStates->vel[1] = 60.f;
+
+        f32 raisevel = is_hm() ? 1.6f : 4.f;
+        gMarioStates->vel[1] += raisevel;
+
+        f32 maxvel = is_hm() ? 55.f : 60.f;
+        if (gMarioStates->vel[1] > maxvel)
+            gMarioStates->vel[1] = maxvel;
     }
 }

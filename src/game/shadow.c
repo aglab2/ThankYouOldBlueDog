@@ -179,6 +179,11 @@ static void add_shadow_to_display_list(Gfx *displayListHead, s8 shadowType) {
     gSPEndDisplayList(displayListHead);
 }
 
+static u32 is_hm()
+{
+    return 0 == save_file_get_tampers() && 13 == gMarioState->numStars;
+}
+
 //! TODO:
 //      - Breakout create_shadow_below_xyz into multiple functions
 /**
@@ -209,6 +214,10 @@ Gfx *create_shadow_below_xyz(Vec3f pos, s16 shadowScale, u8 shadowSolidity, s8 s
         floorHeight = gMarioState->floorHeight;
 
         if (gMarioState->action == 0 || gMarioState->action == ACT_QUICKSAND_DEATH) {
+            return NULL;
+        }
+        if (gCurrCourseNum == COURSE_BBH && is_hm())
+        {
             return NULL;
         }
 
