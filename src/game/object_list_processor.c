@@ -280,7 +280,7 @@ void bhv_mario_update(void) {
         i++;
     }
 
-    if (gGravityMode) gMarioObject->header.gfx.angle[2] += 0x8000; // Turn Mario upside down
+    if (gGravityMode && gMarioStates->action) gMarioObject->header.gfx.angle[2] += 0x8000; // Turn Mario upside down
     gGravityMode = FALSE; // Gravity must only be flipped when checking Mario's collision, not other objects.
 }
 

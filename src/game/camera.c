@@ -3056,7 +3056,7 @@ void update_camera(struct Camera *c) {
             // Lakitu will fly to his next position as normal whenever R_TRIG is released.
             gLakituState.posHSpeed = 0.f;
             gLakituState.posVSpeed = 0.f;
-
+            
             vec3f_get_yaw(gLakituState.focus, gLakituState.pos, &c->nextYaw);
             c->yaw = c->nextYaw;
             gCameraMovementFlags &= ~CAM_MOVE_FIX_IN_PLACE;
@@ -3412,11 +3412,20 @@ void create_camera(struct GraphNodeCamera *gc) {
     vec3f_copy(c->focus, gc->focus);
 }
 
+static u32 is_hm()
+{
+    return 0 == save_file_get_tampers() && 13 == gMarioState->numStars;
+}
+
 /**
  * Copy Lakitu's pos and foc into `gc`
  */
 void update_graph_node_camera(struct GraphNodeCamera *gc) {
     gc->rollScreen = gLakituState.roll;
+    if (is_hm() && gCurrCourseNum == COURSE_CCM)
+    {
+        gc->rollScreen = 0x4000;
+    }
     vec3f_copy(gc->pos, gLakituState.pos);
     vec3f_copy(gc->focus, gLakituState.focus);
     zoom_out_if_paused_and_outside(gc);
