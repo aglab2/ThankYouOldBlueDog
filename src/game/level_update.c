@@ -662,6 +662,28 @@ static const uint8_t kLevelsOrderConst[] = {
     LEVEL_WDW,
 };
 
+static u32 is_hm()
+{
+    return 0 == save_file_get_tampers() && 13 == gMarioState->numStars;
+}
+
+static int get_area_num(s16 destLevel)
+{
+    if (!is_hm())
+    {
+        return 1;
+    }
+
+    if (LEVEL_WF == destLevel)
+    {
+        return 2;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
 extern u8 gOverrideWarps;
 /**
  * Set the current warp type and destination level/area/node.
@@ -708,7 +730,7 @@ void initiate_warp(s16 destLevel, s16 destArea, s16 destWarpNode, s32 warpFlags)
     tinymt32_init(&gGlobalRandomState, preRnd);
 
     sWarpDest.levelNum = gOverrideWarps ? kLevelsOrder[gMarioStates->numStars - 1] : destLevel;
-    sWarpDest.areaIdx = destArea;
+    sWarpDest.areaIdx = get_area_num(destLevel);
     sWarpDest.nodeId = destWarpNode;
     sWarpDest.arg = warpFlags;
 #ifdef PUPPYCAM

@@ -166,6 +166,7 @@ void bhv_wf_move_loop()
         if (255 == o->oOpacity && gMarioObject->platform == o)
         {
             o->oAction = 1;
+            cur_obj_play_sound_2(SOUND_GENERAL_MOVING_IN_SAND);
         }
     }
     else if (1 == o->oAction)
