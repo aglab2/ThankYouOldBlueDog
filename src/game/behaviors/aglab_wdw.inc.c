@@ -43,6 +43,17 @@ static void wdw_switch()
     }
 }
 
+static void print_death_timer_left(int time)
+{
+    static char line[10];
+    gDeferredFancyText[0].x = 20;
+    gDeferredFancyText[0].y = 20;
+    gDeferredFancyText[0].aligned = 0;
+    gDeferredFancyText[0].alpha = 255;
+    gDeferredFancyText[0].line = line;
+    sprintf(line, "%d.%02d", time / 30, 3 * (time % 30));
+}
+
 void bhv_wdw_ctl_loop()
 {
     int onPlatform = gMarioObject->platform == o;
@@ -60,13 +71,7 @@ void bhv_wdw_ctl_loop()
 
     if (is_hm())
     {
-        static char line[10];
-        gDeferredFancyText[0].x = 20;
-        gDeferredFancyText[0].y = 20;
-        gDeferredFancyText[0].aligned = 0;
-        gDeferredFancyText[0].alpha = 255;
-        gDeferredFancyText[0].line = line;
-        sprintf(line, "%d.%02d", o->oWdwDeathTime / 30, 3 * (o->oWdwDeathTime % 30));
+        print_death_timer_left(o->oWdwDeathTime);
         if (gMarioStates->floor && gMarioStates->floor->type == SURFACE_NOISE_DEFAULT)
             return;
 

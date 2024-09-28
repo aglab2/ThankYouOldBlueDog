@@ -445,7 +445,7 @@ void play_transition_after_delay(s16 transType, s16 time, u8 red, u8 green, u8 b
 u8 gFizzle = 0;
 Vtx *vertex_transition_color();
 static void dl_transition_color_fizzle(void) {
-    if (gCurrCourseNum != COURSE_LLL)
+    if (gCurrCourseNum != COURSE_LLL && gCurrCourseNum != COURSE_RR)
         return;
     
     Vtx *verts = vertex_transition_color();

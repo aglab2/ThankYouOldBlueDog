@@ -25,7 +25,7 @@ void bhv_ccm_flipper_up_reset()
     gDisableGravity = 0;
 }
 
-void bhv_ccm_flipper_up()
+void bhv_ccm_flipper_up_impl(f32 lo, f32 hi)
 {
     f32 dx = gMarioStates->pos[0] - o->oPosX;
     f32 dz = gMarioStates->pos[2] - o->oPosZ;
@@ -33,7 +33,7 @@ void bhv_ccm_flipper_up()
     if (dist > 15000.f)
         return;
     
-    if (o->oPosY < gMarioStates->pos[1] && gMarioStates->pos[1] < o->oPosY + 1500.f)
+    if (o->oPosY - lo < gMarioStates->pos[1] && gMarioStates->pos[1] < o->oPosY + hi)
     {
         gDisableGravity = 1;
         gMarioStates->action = ACT_JUMP;
@@ -45,4 +45,9 @@ void bhv_ccm_flipper_up()
         if (gMarioStates->vel[1] > maxvel)
             gMarioStates->vel[1] = maxvel;
     }
+}
+
+void bhv_ccm_flipper_up()
+{
+    bhv_ccm_flipper_up_impl(0.f, 1500.f);
 }

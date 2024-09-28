@@ -6,11 +6,31 @@
 #define oRrCtlProgress o100
 #define oRrWdwCtlWasOnPlatformBefore o104
 #define oRrBobCtlLimitCubes o108
+#define oRrWdwDeathTime o10C
 
 extern s16 gCameraMovementFlags;
 u8 gGoMode = 0;
 
 extern s16 s8DirModeYawOffset;
+
+static void rr_obj_despawn_all_flames()
+{
+    uintptr_t *behaviorAddr = segmented_to_virtual(bhvFlame);
+    struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    struct Object *obj = (struct Object *) listHead->next;
+    int amount = 0;
+
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr
+            && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
+            && obj != o
+        ) {
+            obj->activeFlags = 0;
+        }
+
+        obj = (struct Object *) obj->header.next;
+    }
+}
 
 void bhv_rr_ctl_init()
 {
@@ -29,6 +49,32 @@ void bhv_rr_ctl_init()
     o->oRrBobCtlLimitCubes = 5;
 
     gGoMode = 0;
+    if (!is_hm())
+    {
+        rr_obj_despawn_all_flames();
+    }
+    else
+    {
+        o->oRrWdwDeathTime = 90;
+        o->parentObj = spawn_object(o, MODEL_STAR, bhvStar);
+        f32 d;
+
+        f32 x = o->oPosX;
+        f32 y = o->oPosY;
+        f32 z = o->oPosZ;
+        o->oPosX = -9389;
+        o->oPosY = 85l;
+        o->oPosZ = 12933;
+
+        struct Object* start = cur_obj_find_nearest_object_with_behavior(bhvRrStart, &d);
+        o->parentObj->oPosX = o->parentObj->oHomeX = start->oPosX + 300.f;
+        o->parentObj->oPosY = o->parentObj->oHomeY = start->oPosY + 50.f;
+        o->parentObj->oPosZ = o->parentObj->oHomeZ = start->oPosZ;
+
+        o->oPosX = x;
+        o->oPosY = y;
+        o->oPosZ = z;
+    }
 }
 
 Vec3f sLastFailPosition;
@@ -238,6 +284,50 @@ void bhv_rr_ctl_loop()
         tinymt32_init(&gGlobalRandomState, tinymt32_generate_u32(&gGlobalRandomState) ^ (*(u32*) &gMarioStates->controller->buttonDown));
     }
 
+    if (is_hm())
+    {
+        if (curSegmentX == 0 && curSegmentZ == 2)
+        {
+            print_death_timer_left(o->oRrWdwDeathTime);
+            o->parentObj->oIntangibleTimer = -1;
+            
+            f32 dx = o->parentObj->oPosX - gMarioStates->pos[0];
+            f32 dy = o->parentObj->oPosY - (gMarioStates->pos[1] + 80.f);
+            f32 dz = o->parentObj->oPosZ - gMarioStates->pos[2];
+            f32 d = dx * dx + dy * dy + dz * dz;
+            if (d < 23000.f)
+            {
+                f32 dcx = o->parentObj->oPosX - o->parentObj->oHomeX;
+                f32 dcz = o->parentObj->oPosZ - o->parentObj->oHomeZ;
+                f32 curMag = sqrtf(dx * dx + dz * dz);
+                f32 curAngle = atan2s(dz, dx);
+
+                o->parentObj->oPosX = (curMag + 150.f) * sins(curAngle + 0x100) + o->parentObj->oHomeX;
+                o->parentObj->oPosZ = (curMag + 150.f) * coss(curAngle + 0x100) + o->parentObj->oHomeZ;
+                o->oRrWdwDeathTime += 30;
+                play_sound(SOUND_GENERAL_COIN_SPURT, gMarioStates->marioObj->header.gfx.cameraToObject);
+            }
+
+            if (o->oRrWdwDeathTime)
+            {
+                o->oRrWdwDeathTime--;
+                if (0 == o->oRrWdwDeathTime)
+                {
+                    gMarioStates->action = 0;
+                }
+            }
+        }
+
+        if (2 == curSegmentX && 1 == curSegmentZ)
+        {
+            gFizzle = CLAMP(gFizzle + 1, 0, 255);
+        }
+        else
+        {
+            gFizzle = 0;
+        }
+    }
+
     if (1 == curSegmentX && 1 == curSegmentZ)
     {
         if (!gGoMode)
@@ -389,6 +479,11 @@ void rr_rotat_loop()
     o->oPosX = o->oHomeX + 700.f * sins(o->oFaceAngleYaw);
     o->oPosZ = o->oHomeZ + 700.f * coss(o->oFaceAngleYaw);
 
+    if (is_hm())
+    {
+        o->oFaceAnglePitch += 0x46;
+    }
+
     if (o->oOpacity < 10)
     {
         obj_set_collision_data(o, rr_rotat_death_collision);
@@ -480,4 +575,23 @@ void rr_jump_loop()
         rr_wdw_switch();
     }
     o->oRrWdwCtlWasOnPlatformBefore = onPlatform;
+}
+
+void bhv_rr_flipper_loop()
+{
+    if (is_hm())
+    {
+        if (o->oBehParams2ndByte == 0)
+        {
+            bhv_ccm_flipper_up_impl(0.f, 1900.f);
+        }
+        else
+        {
+            bhv_ccm_flipper_up_impl(1900.f, 0.f);
+        }
+    }
+    else
+    {
+        bhv_ccm_flipper_loop();
+    }
 }

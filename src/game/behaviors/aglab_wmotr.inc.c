@@ -18,4 +18,5 @@ void bhv_wmotr_init()
 
     set_gravity(0);
     gDisableGravity = 0;
+    gFizzle = 0;
 }

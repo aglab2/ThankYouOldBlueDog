@@ -580,6 +580,7 @@ extern const BehaviorScript bhvRrMove[];
 extern const BehaviorScript bhvRrRotatCtl[];
 extern const BehaviorScript bhvRrJump[];
 extern const BehaviorScript bhvRrStart[];
+extern const BehaviorScript bhvRrFlipper[];
 
 extern const BehaviorScript bhvEndingPlayer[];
 

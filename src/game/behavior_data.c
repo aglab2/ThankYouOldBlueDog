@@ -6379,6 +6379,15 @@ extern const BehaviorScript bhvRrJump[] = {
     END_LOOP(),
 };
 
+extern void bhv_rr_flipper_loop();
+const BehaviorScript bhvRrFlipper[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_rr_flipper_loop),
+    END_LOOP(),
+};
+
 extern void bhv_ending_player_init();
 extern void bhv_ending_player_loop();
 extern const BehaviorScript bhvEndingPlayer[] = {
