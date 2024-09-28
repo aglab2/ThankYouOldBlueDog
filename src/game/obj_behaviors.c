@@ -772,6 +772,11 @@ UNUSED s32 debug_sequence_tracker(s16 debugInputSequence[]) {
 #include "behaviors/mips.inc.c"
 #include "behaviors/yoshi.inc.c"
 
+static u32 is_hm()
+{
+    return 0 == save_file_get_tampers() && 13 == gMarioState->numStars;
+}
+
 #include "behaviors/aglab_bob.inc.c"
 #include "behaviors/aglab_wf.inc.c"
 #include "behaviors/aglab_ccm.inc.c"

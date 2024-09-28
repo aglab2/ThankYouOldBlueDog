@@ -6104,12 +6104,14 @@ const BehaviorScript bhvBobInit[] = {
     END_LOOP(),
 };
 
+void bhv_bob_move_loop();
 extern const Collision bob_move_collision[];
 const BehaviorScript bhvBobMove[] = {
     BEGIN(OBJ_LIST_SURFACE),
     LOAD_COLLISION_DATA(bob_move_collision),
-    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW)),
     BEGIN_LOOP(),
+        CALL_NATIVE(bhv_bob_move_loop),
         CALL_NATIVE(load_object_collision_model),
     END_LOOP(),
 };

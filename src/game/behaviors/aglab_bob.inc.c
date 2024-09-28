@@ -47,8 +47,14 @@ void bhv_bob_ctrl_loop()
                 o->oBobCtrlNext = spawn_object(o, MODEL_BOB_MOVE, bhvBobMove);
                 o->oBobCtrlNext->oOpacity = 255;
                 o->oBobCtrlNext->oFaceAngleYaw   = random_u16();
+                o->oBobCtrlNext->oMoveAngleYaw = o->oBobCtrlNext->oFaceAngleYaw;
                 o->oBobCtrlNext->oFaceAnglePitch = kAngles[random_u16() % (sizeof(kAngles) / sizeof(kAngles[0]))];
                 o->oBobCtrlNext->oFaceAngleRoll  = kAngles[random_u16() % (sizeof(kAngles) / sizeof(kAngles[0]))];
+                o->oBobCtrlNext->oAction = -o->oBobCtrlCurr->oAction;
+                if (0 == o->oBobCtrlNext->oAction && is_hm())
+                {
+                    o->oBobCtrlNext->oAction = 0x60;
+                }
                 o->oAction = 1;
             }
             break;
@@ -66,4 +72,9 @@ void bhv_bob_ctrl_loop()
             break;
         }
     }
+}
+
+void bhv_bob_move_loop()
+{
+    o->oMoveAngleYaw += o->oAction;
 }
