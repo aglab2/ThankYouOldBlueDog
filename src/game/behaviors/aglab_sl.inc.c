@@ -3,9 +3,10 @@
 #define oSlCtlCount oFC
 #define oSlCtlTurnsAmountBg o100
 
-#define SL_SPEED (0x78 + 8 * o->oSlCtlCount)
+#define SL_SPEED ((is_hm() ? 0xA0 : 0x78) + (is_hm() ? 0x10 : 0x8) * o->oSlCtlCount)
 
 static uint8_t kSlCyclesAmounts[] = { 1, 2, 2, 3, 4 };
+static uint8_t kSlTurnDirections[] = { 1, 1, 1, -1, -1, -1 };
 
 void bhv_sl_ctl_init()
 {
@@ -30,6 +31,7 @@ void bhv_sl_ctl_loop()
             o->oSlCtlTurnsAmount = (0x4000 / SL_SPEED) * cyclesAmount;
             o->oSlCtlTurnsAmountBg = (0x4000 / SL_SPEED / 2) + (0x4000 / SL_SPEED) * (cyclesAmount - 1);
             shuffle_u8(kSlCyclesAmounts, sizeof(kSlCyclesAmounts));
+            shuffle_u8(kSlTurnDirections, sizeof(kSlTurnDirections));
         }
     }
     else
@@ -38,11 +40,11 @@ void bhv_sl_ctl_loop()
         {
             if (0 == o->oSlCtlTurnsAmount)
             {
-                int cyclesAmount = kSlCyclesAmounts[o->oSlCtlCount];
+                int cyclesAmount = (3 * is_hm()) + kSlCyclesAmounts[o->oSlCtlCount];
                 o->oSlCtlCount++;
                 o->oSlCtlTurnsAmount = (0x4000 / SL_SPEED) * cyclesAmount;
                 o->oSlCtlTurnsAmountBg = (0x4000 / SL_SPEED / 2) + (0x4000 / SL_SPEED) * (cyclesAmount - 1);
-                o->oSlCtlTurnsDirection = random_u16() & 1 ? -1 : 1;
+                o->oSlCtlTurnsDirection = kSlTurnDirections[o->oSlCtlCount];
                 o->oAction = 2;
             }
             else
@@ -59,7 +61,7 @@ void bhv_sl_ctl_loop()
                 }
                 else
                 {
-                    if (o->oTimer > 60)
+                    if (o->oTimer > (is_hm() ? 40 : 60))
                     {
                         o->oAction = 1;
                     }
