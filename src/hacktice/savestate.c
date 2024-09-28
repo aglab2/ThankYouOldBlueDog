@@ -165,7 +165,6 @@ void SaveState_check()
         sProbesChecked = true;
     }
 
-    if (!(gSaveBuffer.files[gCurrSaveFileNum - 1][0].tampers & TAMPER_FLAG_EMU))
     {
         if (1 != gCurrLevelNum)
         {

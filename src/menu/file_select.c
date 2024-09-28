@@ -1279,19 +1279,18 @@ LangArray textNew = DEFINE_LANGUAGE_ARRAY(
     "NUEVO");
 
 void print_save_file_star_count(s8 fileIndex, s16 x, s16 y) {
-    const char *starCountText0;
-    const char *starCountText1;
+    s16 starCount = save_file_get_total_star_count(fileIndex,
+                                                    COURSE_NUM_TO_INDEX(COURSE_MIN),
+                                                    COURSE_NUM_TO_INDEX(COURSE_MAX));
+    if (0 != starCount)
+        save_file_seal_check(fileIndex);
 
     if (save_file_exists(fileIndex))
     {
-        s16 starCount = save_file_get_total_star_count(fileIndex,
-                                                       COURSE_NUM_TO_INDEX(COURSE_MIN),
-                                                       COURSE_NUM_TO_INDEX(COURSE_MAX));
-
         if (starCount == 13)
         {
-            starCountText0 = "THANK";
-            starCountText1 = "YOU!";
+            const char *starCountText0 = "THANK";
+            const char *starCountText1 = "YOU!";
             print_hud_lut_string(10 + fileIndex * 79, 10, starCountText0);
             print_hud_lut_string(20 + fileIndex * 79, 30, starCountText1);
         }

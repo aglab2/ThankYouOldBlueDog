@@ -25,6 +25,7 @@
 #include "puppycam2.h"
 #include "main.h"
 
+#include "buffers/buffers.h"
 #include "hacktice/main.h"
 
 #include "actors/flower_main/geo_header.h"
@@ -2382,16 +2383,42 @@ struct Color
     u8 r, g, b, a;
 };
 
-static struct Color get_flower_middle_color()
+struct Color get_flower_middle_color(int saveFile, int fromFileSelect)
 {
-    if (13 == gMarioStates->numStars)
+    struct Color color;
+    int tampers = gSaveBuffer.files[saveFile][0].tampers;
+    int totalStars = fromFileSelect ? save_file_get_total_star_count(saveFile, COURSE_MIN - 1, COURSE_MAX - 1) : gMarioStates->numStars;
+
+    if (0 == tampers)
     {
-        return (struct Color){229, 173, 62, 255};
+        if (totalStars)
+            return (struct Color){0xDC * 0.75f, 0x14 * 0.75f, 0x3C * 0.75f, 255};
+
+        // 0 == totalStars
+        if (!fromFileSelect)
+            return (struct Color){0xDC * 0.75f, 0x14 * 0.75f, 0x3C * 0.75f, 255};
+    }
+
+    if (13 == totalStars)
+    {
+        color = (struct Color){229, 173, 62, 255};
     }
     else
     {
-        return (struct Color){104, 96, 89, 255};
+        color = (struct Color){104, 96, 89, 255};
     }
+
+    if (tampers & TAMPER_FLAG_EMU)
+        color.r -= 20;
+
+    if (tampers & TAMPER_FLAG_SEAL)
+    {
+        color.r /= 2;
+        color.g /= 2;
+        color.b /= 2;
+    }
+
+    return color;
 }
 
 static void render_flower()
@@ -2401,7 +2428,7 @@ static void render_flower()
     create_dl_translation_matrix(MENU_MTX_PUSH, BOX_TRANS_X, BOX_TRANS_Y, 0);
     create_dl_rotation_matrix(MENU_MTX_NOPUSH, gGlobalTimer * 0.2f, 0, 0, 1.0f);
 
-    struct Color flower_color = get_flower_middle_color();
+    struct Color flower_color = get_flower_middle_color(gCurrSaveFileNum - 1, 0);
     gDPSetPrimColor(gDisplayListHead++, 0, 0, flower_color.r, flower_color.g, flower_color.b, flower_color.a);
     gSPDisplayList(gDisplayListHead++, flower_main_middle_mesh_layer_1);
 

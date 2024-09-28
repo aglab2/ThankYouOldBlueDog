@@ -657,6 +657,7 @@ void save_file_collect_star_or_key(s16 coinScore, s16 starIndex) {
     s32 starFlag = 1 << starIndex;
 #endif
 
+    save_file_seal_check(fileIndex);
     gLastCompletedCourseNum = courseIndex + 1;
     gLastCompletedStarNum = starIndex + 1;
     sUnusedGotGlobalCoinHiScore = FALSE;

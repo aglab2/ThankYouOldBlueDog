@@ -42,6 +42,12 @@ Gfx *geo_update_projectile_pos_from_parent(s32 callContext, UNUSED struct GraphN
     return NULL;
 }
 
+struct Color
+{
+    u8 r, g, b, a;
+};
+
+extern struct Color get_flower_middle_color(int saveFile, int fromFileSelect);
 Gfx* geo_flower_leaves(s32 callContext, struct GraphNode *node, UNUSED void *context) {
     Gfx *dlStart = NULL;
 
@@ -66,15 +72,8 @@ Gfx* geo_flower_leaves(s32 callContext, struct GraphNode *node, UNUSED void *con
         Gfx *dlHead = dlStart;
         if (parameter == 15)
         {
-            gDPSetEnvColor(dlHead++, 255, 255, 255, 255);
-            if (flags)
-            {
-                gDPSetPrimColor(dlHead++, 0, 0, 229, 173, 62, 255);
-            }
-            else
-            {
-                gDPSetPrimColor(dlHead++, 0, 0, 104, 96, 89, 255);
-            }
+            struct Color color = get_flower_middle_color(saveFileNum - 1, 1);
+            gDPSetPrimColor(dlHead++, 0, 0, color.r, color.g, color.b, 255);
         }
         else
         {

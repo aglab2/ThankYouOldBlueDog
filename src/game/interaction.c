@@ -923,6 +923,7 @@ u32 interact_warp(struct MarioState *m, UNUSED u32 interactType, struct Object *
 }
 
 u32 interact_warp_door(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
+    save_file_seal_check(gCurrSaveFileNum - 1);
     u32 doorAction = ACT_UNINITIALIZED;
 #ifndef UNLOCK_ALL
     u32 saveFlags = save_file_get_flags();
