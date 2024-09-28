@@ -38,8 +38,8 @@ const LevelScript level_jrb_entry[] = {
 
 	AREA(1, jrb_area_1),
 		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(0xf0, LEVEL_WMOTR, 0x01, 0x0A, WARP_NO_CHECKPOINT),
-		WARP_NODE(0xf1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF0, LEVEL_WMOTR, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		MARIO_POS(0x01, 0, 0, 12, 3443),
 		OBJECT(MODEL_NONE, -3, 525, 3428, 0, -180, 0, (0xa << 16), bhvSpinAirborneWarp),
 		OBJECT(MODEL_PURPLE_SWITCH, 0, -35, 0, 0, 0, 0, 0x00000000, bhvFloorSwitchHiddenObjects),
@@ -58,8 +58,30 @@ const LevelScript level_jrb_entry[] = {
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
 
+	AREA(2, jrb_area_2),
+		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF0, LEVEL_WMOTR, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		MARIO_POS(0x01, 0, 5, 21, 3068),
+		OBJECT(MODEL_NONE, 2, 478, 3054, 0, -180, 0, (0xa << 16), bhvSpinAirborneWarp),
+		OBJECT(MODEL_PURPLE_SWITCH, 5, -21, 0, 0, 0, 0, 0x00000000, bhvFloorSwitchHiddenObjects),
+		OBJECT(MODEL_YELLOW_COIN, 410, 409, 1344, 0, -180, 0, (0xa << 16), bhvOneCoin),
+		OBJECT(MODEL_YELLOW_COIN, 853, 339, -265, 0, -180, 0, (0xa << 16), bhvOneCoin),
+		OBJECT(MODEL_YELLOW_COIN, -163, 339, -547, 0, -180, 0, (0xa << 16), bhvOneCoin),
+		OBJECT(MODEL_YELLOW_COIN, -492, 146, 66, 0, -180, 0, (0xa << 16), bhvOneCoin),
+		OBJECT(MODEL_JRB_ROTAT, 5, 11, 0, 0, 0, 0, 0x00000000, bhvJrbRotat),
+		OBJECT(MODEL_NONE, 5, 11, -3117, 0, 0, 0, 0x00000000, bhvHiddenObject),
+		OBJECT(MODEL_STAR, 5, 545, -3647, 0, 0, 0, 0x00000000, bhvStar),
+		TERRAIN(jrb_area_2_collision),
+		MACRO_OBJECTS(jrb_area_2_macro_objs),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_FELI),
+		TERRAIN_TYPE(TERRAIN_GRASS),
+		/* Fast64 begin persistent block [area commands] */
+		/* Fast64 end persistent block [area commands] */
+	END_AREA(),
+
 	FREE_LEVEL_POOL(),
-	MARIO_POS(0x01, 0, 0, 12, 3443),
+	MARIO_POS(0x01, 0, 5, 21, 3068),
 	CALL(0, lvl_init_or_update),
 	CALL_LOOP(1, lvl_init_or_update),
 	CLEAR_LEVEL(),

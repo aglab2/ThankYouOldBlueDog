@@ -383,6 +383,14 @@ struct Surface *check_ledge_grab(struct MarioState *m, struct Surface *prevWall,
             return NULL;
     }
 
+    if (gCurrCourseNum == COURSE_JRB)
+    {
+        if (wall && !wall->object)
+            return NULL;
+        if (prevWall && !prevWall->object)
+            return NULL;
+    }
+
     if (gCurrCourseNum == COURSE_CCM)
     {
         return NULL;
