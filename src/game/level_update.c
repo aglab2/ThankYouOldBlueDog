@@ -674,7 +674,7 @@ static int get_area_num(s16 destLevel)
         return 1;
     }
 
-    if (LEVEL_WF == destLevel || LEVEL_JRB == destLevel || LEVEL_CCM == destLevel)
+    if (LEVEL_WF == destLevel || LEVEL_JRB == destLevel || LEVEL_CCM == destLevel || LEVEL_WDW == destLevel)
     {
         return 2;
     }

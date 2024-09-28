@@ -44,8 +44,8 @@ const LevelScript level_wdw_entry[] = {
 		OBJECT(MODEL_YELLOW_COIN, -277, -56, -3807, 0, 0, 0, 0x00000000, bhvYellowCoin),
 		OBJECT(MODEL_YELLOW_COIN, -3313, 259, 568, 0, 0, 0, 0x00000000, bhvYellowCoin),
 		OBJECT(MODEL_NONE, -234, 1419, -774, 0, 0, 0, (0x11 << 16), bhvCoinFormation),
-		MARIO_POS(0x01, 0, 0, 499, -14),
 		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, 0x00000000, bhvWdwCtl),
+		MARIO_POS(0x01, 0, 0, 499, -14),
 		OBJECT(MODEL_NONE, -3, 506, -28, 0, -90, 0, (0xa << 16), bhvSpinAirborneWarp),
 		OBJECT(MODEL_STAR, -234, 2129, -774, 0, 0, 0, 0x00000000, bhvStar),
 		TERRAIN(wdw_area_1_collision),
@@ -56,8 +56,24 @@ const LevelScript level_wdw_entry[] = {
 		/* Fast64 end persistent block [area commands] */
 	END_AREA(),
 
+	AREA(2, wdw_area_2),
+		WARP_NODE(0x0A, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF0, LEVEL_WMOTR, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		WARP_NODE(0xF1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		MARIO_POS(0x01, -93, -201, 1622, -785),
+		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, 0x00000000, bhvWdwCtl),
+		OBJECT(MODEL_NONE, -208, 1616, -769, 0, 174, 0, (0xa << 16), bhvSpinAirborneWarp),
+		OBJECT(MODEL_STAR, 115, 1885, -1572, 0, 0, 0, 0x00000000, bhvStar),
+		TERRAIN(wdw_area_2_collision),
+		MACRO_OBJECTS(wdw_area_2_macro_objs),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_WORKING),
+		TERRAIN_TYPE(TERRAIN_GRASS),
+		/* Fast64 begin persistent block [area commands] */
+		/* Fast64 end persistent block [area commands] */
+	END_AREA(),
+
 	FREE_LEVEL_POOL(),
-	MARIO_POS(0x01, 0, 0, 499, -14),
+	MARIO_POS(0x01, -93, -201, 1622, -785),
 	CALL(0, lvl_init_or_update),
 	CALL_LOOP(1, lvl_init_or_update),
 	CLEAR_LEVEL(),
