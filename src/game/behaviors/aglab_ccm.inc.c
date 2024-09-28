@@ -30,7 +30,7 @@ void bhv_ccm_flipper_up_impl(f32 lo, f32 hi)
     f32 dx = gMarioStates->pos[0] - o->oPosX;
     f32 dz = gMarioStates->pos[2] - o->oPosZ;
     f32 dist = dx*dx + dz*dz;
-    if (dist > 15000.f)
+    if (dist > 18000.f)
         return;
     
     if (o->oPosY - lo < gMarioStates->pos[1] && gMarioStates->pos[1] < o->oPosY + hi)
