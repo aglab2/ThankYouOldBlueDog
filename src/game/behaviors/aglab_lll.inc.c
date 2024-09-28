@@ -2,6 +2,8 @@
 #define oLll72BaseDist oFloatF4
 #define oLll72BaseAngle oF8
 
+extern u8 gFizzle;
+
 void bhv_lll_72_init()
 {
     gMirrorVCAmount = 255;
@@ -42,10 +44,17 @@ void bhv_lll_72_loop()
     else
     {
         cur_obj_play_sound_2(SOUND_MOVING_LAVA_BURN);
-        int amt = CLAMP(gMirrorVCAmount - 10, 0, 255);
+        int fizzlePower = is_hm() ? 14 : 10;
+        int amt = CLAMP(gMirrorVCAmount - fizzlePower, 0, 255);
         gMirrorVCAmount = amt;
         gMarioStates->flags |= MARIO_VANISH_CAP;
         if (amt == 0)
             gMarioStates->action = 0;
+    }
+    
+    if (is_hm())
+    {
+        gFizzle = CLAMP(1.2f * (255 - gMirrorVCAmount), 0, 255);
+        gMarioStates->flags &= ~MARIO_VANISH_CAP;
     }
 }

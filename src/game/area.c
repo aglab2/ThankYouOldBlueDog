@@ -442,6 +442,29 @@ void play_transition_after_delay(s16 transType, s16 time, u8 red, u8 green, u8 b
     play_transition(transType, time, red, green, blue);
 }
 
+u8 gFizzle = 0;
+Vtx *vertex_transition_color();
+static void dl_transition_color_fizzle(void) {
+    if (gCurrCourseNum != COURSE_LLL)
+        return;
+    
+    Vtx *verts = vertex_transition_color();
+
+    if (verts != NULL) {
+        Gfx *tempGfxHead = gDisplayListHead;
+
+        gDPSetPrimColor(tempGfxHead++, 0, 0, 100, 100, 100,  gFizzle);
+        gSPDisplayList(tempGfxHead++, dl_proj_mtx_fullscreen);
+        gDPSetCombineMode(tempGfxHead++, G_CC_PRIMITIVE_FIZZLE, G_CC_PRIMITIVE_FIZZLE);
+        gDPSetRenderMode(tempGfxHead++, G_RM_AA_XLU_SURF, G_RM_AA_XLU_SURF2);
+        gSPVertex(tempGfxHead++, VIRTUAL_TO_PHYSICAL(verts), 4, 0);
+        gSPDisplayList(tempGfxHead++, dl_draw_quad_verts_0123);
+        gSPDisplayList(tempGfxHead++, dl_screen_transition_end);
+
+        gDisplayListHead = tempGfxHead;
+    }
+}
+
 void render_game(void) {
     PROFILER_GET_SNAPSHOT_TYPE(PROFILER_DELTA_COLLISION);
     if (gCurrentArea != NULL && !gWarpTransition.pauseRendering) {
@@ -493,6 +516,11 @@ void render_game(void) {
             } else {
                 gWarpTransDelay--;
             }
+        }
+        else
+        {
+            if (gFizzle)
+                dl_transition_color_fizzle();
         }
 #ifdef S2DEX_TEXT_ENGINE
         s2d_init();
