@@ -198,6 +198,8 @@ void save_file_seal_check(int fileIndex);
 void save_file_tamper(int fileIndex, int flag);
 void save_file_tamper_weak(int fileIndex, int flag);
 
+u8 save_file_get_tampers(void);
+
 void disable_warp_checkpoint(void);
 void check_if_should_set_warp_checkpoint(struct WarpNode *warpNode);
 s32 check_warp_checkpoint(struct WarpNode *warpNode);

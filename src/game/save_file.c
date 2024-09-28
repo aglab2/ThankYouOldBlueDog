@@ -362,6 +362,11 @@ void save_file_tamper_weak(int fileIndex, int flag)
     gSaveBuffer.files[fileIndex][0].tampers |= flag;
 }
 
+u8 save_file_get_tampers(void)
+{
+    return gSaveBuffer.files[gCurrSaveFileNum - 1][0].tampers;
+}
+
 /**
  * Sum the bytes in data to data + size - 2. The last two bytes are ignored
  * because that is where the checksum is stored.
