@@ -1143,7 +1143,7 @@ s32 check_wall_kick(struct MarioState *m) {
             mario_set_forward_vel(m, 16.f);
 
         m->faceAngle[1] += 0x8000;
-        if (gCurrCourseNum == COURSE_CCM)
+        if (gCurrCourseNum == COURSE_CCM && gCurrAreaIndex != 2)
         {
             sDeferGravSwap = 1;
         }
@@ -1294,7 +1294,7 @@ s32 act_air_hit_wall(struct MarioState *m) {
 
             m->vel[1] = 52.0f;
             m->faceAngle[1] += 0x8000;
-            if (gCurrCourseNum == COURSE_CCM)
+            if (gCurrCourseNum == COURSE_CCM && gCurrAreaIndex != 2)
             {
                 sDeferGravSwap = 1;
             }

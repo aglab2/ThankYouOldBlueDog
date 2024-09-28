@@ -17,4 +17,5 @@ void bhv_wmotr_init()
     ptr[5*8 + 6] = color.b;
 
     set_gravity(0);
+    gDisableGravity = 0;
 }

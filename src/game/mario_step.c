@@ -640,7 +640,7 @@ u32 should_strengthen_gravity_for_jump_ascent(struct MarioState *m) {
 
 u8 gDisableGravity = 0;
 void apply_gravity(struct MarioState *m) {
-    if ((gCurrCourseNum == COURSE_HMC || gCurrCourseNum == COURSE_RR) && gDisableGravity)
+    if ((gCurrCourseNum == COURSE_HMC || gCurrCourseNum == COURSE_RR || gCurrCourseNum == COURSE_CCM) && gDisableGravity)
     {
         return;
     }

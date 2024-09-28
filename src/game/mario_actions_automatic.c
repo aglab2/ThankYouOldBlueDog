@@ -108,7 +108,7 @@ s32 act_holding_pole(struct MarioState *m) {
     if (m->input & INPUT_A_PRESSED) {
         add_tree_leaf_particles(m);
         m->faceAngle[1] += 0x8000;
-        if (gCurrCourseNum == COURSE_CCM)
+        if (gCurrCourseNum == COURSE_CCM && gCurrAreaIndex != 2)
         {
             sDeferGravSwap = 1;
         }
@@ -168,7 +168,7 @@ s32 act_climbing_pole(struct MarioState *m) {
     if (m->input & INPUT_A_PRESSED) {
         add_tree_leaf_particles(m);
         m->faceAngle[1] += 0x8000;
-        if (gCurrCourseNum == COURSE_CCM)
+        if (gCurrCourseNum == COURSE_CCM && gCurrAreaIndex != 2)
         {
             sDeferGravSwap = 1;
         }

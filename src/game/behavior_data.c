@@ -6173,6 +6173,22 @@ const BehaviorScript bhvCcmFlipper[] = {
     END_LOOP(),
 };
 
+extern void bhv_ccm_flipper_up_reset();
+const BehaviorScript bhvCcmUpReset[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ccm_flipper_up_reset),
+    END_LOOP(),
+};
+
+extern void bhv_ccm_flipper_up();
+const BehaviorScript bhvCcmUp[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_ccm_flipper_up),
+    END_LOOP(),
+};
+
 extern void bhv_bbh_ctl_init();
 extern void bhv_bbh_ctl_loop();
 extern const BehaviorScript bhvBbhCtl[] = {

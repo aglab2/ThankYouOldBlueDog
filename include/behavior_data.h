@@ -552,6 +552,8 @@ extern const BehaviorScript bhvWfMoveDeath[];
 extern const BehaviorScript bhvJrbRotat[];
 
 extern const BehaviorScript bhvCcmFlipper[];
+extern const BehaviorScript bhvCcmUp[];
+extern const BehaviorScript bhvCcmUpReset[];
 
 extern const BehaviorScript bhvBbhCtl[];
 
