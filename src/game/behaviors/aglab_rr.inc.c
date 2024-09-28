@@ -275,8 +275,8 @@ void bhv_rr_ctl_loop()
     int curSegmentX = toSegmentIndex(gMarioStates->pos[0]);
     int curSegmentZ = toSegmentIndex(gMarioStates->pos[2]);
 
-    // print_text_fmt_int(20, 20, "X %d", curSegmentX);
-    // print_text_fmt_int(20, 40, "Z %d", curSegmentZ);
+    print_text_fmt_int(20, 20, "X %d", curSegmentX);
+    print_text_fmt_int(20, 40, "Z %d", curSegmentZ);
     if (1 == curSegmentX && 0 == curSegmentZ)
     {
         // scramble the randomness a bit :)

@@ -1247,6 +1247,11 @@ static u32 is_hm(struct MarioState* m)
     return 0 == save_file_get_tampers() && 13 == m->numStars;
 }
 
+static int toSegmentIndex(f32 pos)
+{
+    return CLAMP((int) ((pos + 15000.f) / 10000.f), 0, 2);
+}
+
 /**
  * Updates the joystick intended magnitude.
  */
@@ -1272,9 +1277,21 @@ void update_mario_joystick_inputs(struct MarioState *m) {
         m->intendedYaw -= 0x4000;
     }
 
-    if (is_hm(m) && gCurrCourseNum == COURSE_SSL)
+    if (is_hm(m))
     {
-        m->intendedMag /= 2.f;
+        if (gCurrCourseNum == COURSE_SSL)
+        {
+            m->intendedMag /= 2.f;
+        }
+        if (gCurrCourseNum == COURSE_RR)
+        {
+            int curSegmentX = toSegmentIndex(gMarioStates->pos[0]);
+            int curSegmentZ = toSegmentIndex(gMarioStates->pos[2]);
+            if (curSegmentX == 1 && curSegmentZ == 2)
+            {
+                m->intendedMag /= 1.6f;
+            }
+        }
     }
 }
 
