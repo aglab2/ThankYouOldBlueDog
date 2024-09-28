@@ -22,43 +22,65 @@ void bhv_hmc_ctl_loop()
     gMarioStates->controller->buttonPressed &= ~Z_TRIG;
 
     gCollisionFlags |= COLLISION_FLAG_WATER;
+    int gm0 = gIsGravityFlipped;
+    int gm1 = gGravityMode;
+    gIsGravityFlipped = 0;
+    gGravityMode = 0;
+
+    f32 marioY = gm0 ? (8825.f - gMarioStates->pos[1]) : gMarioStates->pos[1];
 
     struct Surface* floor = NULL;
-    f32 floorHeight = find_floor(gMarioStates->pos[0], gMarioStates->pos[1], gMarioStates->pos[2], &floor);
+    f32 floorHeight = find_floor(gMarioStates->pos[0], marioY, gMarioStates->pos[2], &floor);
     if (floorHeight == FLOOR_LOWER_LIMIT)
     {    
+        gIsGravityFlipped = gm0;
+        gGravityMode = gm1;
         gCollisionFlags &= ~COLLISION_FLAG_WATER;
+        set_gravity(0);
         return;
     }
 
     struct Surface* ceil = NULL;
     f32 ceilHeight = find_ceil(gMarioStates->pos[0], floorHeight, gMarioStates->pos[2], &ceil);
+
+    gIsGravityFlipped = gm0;
+    gGravityMode = gm1;
     gCollisionFlags &= ~COLLISION_FLAG_WATER;
 
-    if (floorHeight - 50.f < gMarioStates->pos[1] && gMarioStates->pos[1] < ceilHeight)
+    s32 grav = 0;
+    if (floorHeight - 50.f < marioY && marioY < ceilHeight)
     {
-        if (gMarioStates->controller->buttonPressed & B_BUTTON)
+        if (!is_hm())
         {
-            if (o->oF4 == 0)
-                play_sound(SOUND_OBJ_MIPS_RABBIT_WATER, gGlobalSoundSource);
-            
-            o->oF4 = 1;
+            if (gMarioStates->controller->buttonPressed & B_BUTTON)
+            {
+                if (o->oF4 == 0)
+                    play_sound(SOUND_OBJ_MIPS_RABBIT_WATER, gGlobalSoundSource);
+                
+                o->oF4 = 1;
+            }
+            else
+            {
+                o->oF4 = 0;
+            }
+
+            gMarioStates->controller->buttonDown &= ~B_BUTTON;
+            gMarioStates->controller->buttonPressed &= ~B_BUTTON;
+            gDisableGravity = 1;
+            gMarioStates->action = ACT_JUMP;
+
+            f32 raisevel = 4.f;
+            gMarioStates->vel[1] += raisevel;
+
+            f32 maxvel = 60.f;
+            if (gMarioStates->vel[1] > maxvel)
+                gMarioStates->vel[1] = maxvel;
         }
         else
         {
-            o->oF4 = 0;
+            grav = 1;
         }
-
-        gMarioStates->controller->buttonDown &= ~B_BUTTON;
-        gMarioStates->controller->buttonPressed &= ~B_BUTTON;
-        gDisableGravity = 1;
-        gMarioStates->action = ACT_JUMP;
-
-        f32 raisevel = is_hm() ? 1.6f : 4.f;
-        gMarioStates->vel[1] += raisevel;
-
-        f32 maxvel = is_hm() ? 55.f : 60.f;
-        if (gMarioStates->vel[1] > maxvel)
-            gMarioStates->vel[1] = maxvel;
     }
+
+    set_gravity(grav);
 }

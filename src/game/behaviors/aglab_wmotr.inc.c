@@ -15,4 +15,6 @@ void bhv_wmotr_init()
     ptr[5*8 + 4] = color.r;
     ptr[5*8 + 5] = color.g;
     ptr[5*8 + 6] = color.b;
+
+    set_gravity(0);
 }
