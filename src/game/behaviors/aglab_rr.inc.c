@@ -435,7 +435,7 @@ void bhv_rr_ctl_loop()
         }
     }
 
-    if (gMarioStates->floor && gMarioStates->floor->type == SURFACE_TTM_VINES)
+    if (gMarioStates->floor && gMarioStates->floor->type == SURFACE_TTM_VINES && (gMarioStates->pos[1] - gMarioStates->floorHeight) < 700.f)
     {    
         if (1 == curSegmentX && 0 == curSegmentZ)
         {
