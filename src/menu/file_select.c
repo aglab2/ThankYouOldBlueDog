@@ -1582,16 +1582,16 @@ void copy_menu_display_message(s8 messageID) {
             }
             break;
         case COPY_MSG_COPY_WHERE:
-            print_generic_string_fade(SCREEN_CENTER_X, 190, LANG_ARRAY(textCopyItToWhere), TEXT_ALIGN_CENTER);
+            print_generic_string_fade(SCREEN_CENTER_X, 85, LANG_ARRAY(textCopyItToWhere), TEXT_ALIGN_CENTER);
             break;
         case COPY_MSG_NOSAVE_EXISTS:
-            print_generic_string_fade(SCREEN_CENTER_X, 190, LANG_ARRAY(textNoSavedDataExists), TEXT_ALIGN_CENTER);
+            print_generic_string_fade(SCREEN_CENTER_X, 85, LANG_ARRAY(textNoSavedDataExists), TEXT_ALIGN_CENTER);
             break;
         case COPY_MSG_COPY_COMPLETE:
-            print_generic_string_fade(SCREEN_CENTER_X, 190, LANG_ARRAY(textCopyCompleted), TEXT_ALIGN_CENTER);
+            print_generic_string_fade(SCREEN_CENTER_X, 85, LANG_ARRAY(textCopyCompleted), TEXT_ALIGN_CENTER);
             break;
         case COPY_MSG_SAVE_EXISTS:
-            print_generic_string_fade(SCREEN_CENTER_X, 190, LANG_ARRAY(textSavedDataExists), TEXT_ALIGN_CENTER);
+            print_generic_string_fade(SCREEN_CENTER_X, 85, LANG_ARRAY(textSavedDataExists), TEXT_ALIGN_CENTER);
             break;
     }
 }
