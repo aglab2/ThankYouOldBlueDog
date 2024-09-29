@@ -5,7 +5,7 @@
 
 #define SL_SPEED ((gIsHM ? 0xA0 : 0x80) + (gIsHM ? 0x10 : 0x8) * o->oSlCtlCount)
 
-static uint8_t kSlCyclesAmounts[] = { 1, 2, 2, 3, 4 };
+static uint8_t kSlCyclesAmounts[] = { 1, 2, 2, 3, 3 };
 static int8_t kSlTurnDirections[] = { 1, 1, 1, -1, -1, -1 };
 
 void bhv_sl_ctl_init()
@@ -61,7 +61,7 @@ void bhv_sl_ctl_loop()
                 }
                 else
                 {
-                    if (o->oTimer > (gIsHM ? 40 : 60))
+                    if (o->oTimer > (gIsHM ? 35 : 50))
                     {
                         o->oAction = 1;
                     }
