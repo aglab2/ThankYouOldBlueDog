@@ -326,7 +326,7 @@ void save_file_seal_set(int fileIndex, int slot) {
 
 static void save_file_tamper_strong(int fileIndex, int flag);
 void save_file_seal_check(int fileIndex) {
-    if (0 == save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1)) {
+    if (0 == save_file_get_total_star_count(fileIndex, COURSE_MIN - 1, COURSE_MAX - 1)) {
         return;
     }
 
@@ -352,9 +352,7 @@ void save_file_tamper_strong(int fileIndex, int flag)
         return;
     }
 
-    save_file_seal_check(fileIndex);
     gSaveBuffer.files[fileIndex][0].tampers |= flag;
-    gSaveBuffer.files[fileIndex][0].flags |= SAVE_FLAG_FILE_EXISTS;
     gSaveFileModified = TRUE;
     save_file_do_save(fileIndex);
 }
