@@ -8,6 +8,7 @@
 #define oRrBobCtlLimitCubes o108
 #define oRrWdwDeathTime o10C
 #define oRrReactionTime o110
+#define oRrHmcWaterSfx o110
 
 extern s16 gCameraMovementFlags;
 u8 gGoMode = 0;
@@ -184,31 +185,71 @@ void rr_mirror_mario_ctl_loop()
 
 void rr_water_ctl_loop()
 {
-    gDisableGravity = 0;
     gCollisionFlags |= COLLISION_FLAG_WATER;
+    int gm0 = gIsGravityFlipped;
+    int gm1 = gGravityMode;
+    gIsGravityFlipped = 0;
+    gGravityMode = 0;
+
+    f32 marioY = gm0 ? (8825.f - gMarioStates->pos[1]) : gMarioStates->pos[1];
 
     struct Surface* floor = NULL;
-    f32 floorHeight = find_floor(gMarioStates->pos[0], gMarioStates->pos[1], gMarioStates->pos[2], &floor);
+    f32 floorHeight = find_floor(gMarioStates->pos[0], marioY, gMarioStates->pos[2], &floor);
     if (floorHeight == FLOOR_LOWER_LIMIT)
     {    
+        gIsGravityFlipped = gm0;
+        gGravityMode = gm1;
         gCollisionFlags &= ~COLLISION_FLAG_WATER;
+        if (is_hm())
+            set_gravity(0);
+
         return;
     }
 
     struct Surface* ceil = NULL;
     f32 ceilHeight = find_ceil(gMarioStates->pos[0], floorHeight, gMarioStates->pos[2], &ceil);
+
+    gIsGravityFlipped = gm0;
+    gGravityMode = gm1;
     gCollisionFlags &= ~COLLISION_FLAG_WATER;
 
-    if (floorHeight - 40.f < gMarioStates->pos[1] && gMarioStates->pos[1] < ceilHeight)
+    s32 grav = 0;
+    if (floorHeight - 50.f < marioY && marioY < ceilHeight)
     {
-        gMarioStates->controller->buttonDown &= ~B_BUTTON;
-        gMarioStates->controller->buttonPressed &= ~B_BUTTON;
-        gDisableGravity = 1;
-        gMarioStates->action = ACT_JUMP;
-        gMarioStates->vel[1] += 4.f;
-        if (gMarioStates->vel[1] > 60.f)
-            gMarioStates->vel[1] = 60.f;
+        if (!is_hm())
+        {
+            if (gMarioStates->controller->buttonPressed & B_BUTTON)
+            {
+                if (o->oRrHmcWaterSfx == 0)
+                    play_sound(SOUND_OBJ_MIPS_RABBIT_WATER, gGlobalSoundSource);
+                
+                o->oRrHmcWaterSfx = 1;
+            }
+            else
+            {
+                o->oRrHmcWaterSfx = 0;
+            }
+
+            gMarioStates->controller->buttonDown &= ~B_BUTTON;
+            gMarioStates->controller->buttonPressed &= ~B_BUTTON;
+            gDisableGravity = 1;
+            gMarioStates->action = ACT_JUMP;
+
+            f32 raisevel = 4.f;
+            gMarioStates->vel[1] += raisevel;
+
+            f32 maxvel = 60.f;
+            if (gMarioStates->vel[1] > maxvel)
+                gMarioStates->vel[1] = maxvel;
+        }
+        else
+        {
+            grav = 1;
+        }
     }
+
+    if (is_hm())
+        set_gravity(grav);
 }
 
 static int toSegmentIndex(f32 pos)
@@ -341,7 +382,8 @@ void bhv_rr_ctl_loop()
     {
         if (!gGoMode)
         {
-            if (gMarioStates->pos[1] > 2700.f)
+            f32 marioY = gIsGravityFlipped ? (8825.f - gMarioStates->pos[1]) : gMarioStates->pos[1];
+            if (marioY > 2700.f)
             {
                 gGoMode = 1;
                 o->oHomeX = gMarioStates->pos[0];
@@ -358,7 +400,7 @@ void bhv_rr_ctl_loop()
         {
             gMarioStates->pos[0] = o->oHomeX;
             gMarioStates->pos[1] = o->oHomeY;
-            o->oHomeY += 11.f;
+            o->oHomeY += gIsGravityFlipped ? -11.f : 11.f;
             gMarioStates->pos[2] = o->oHomeZ;
 
             gMarioStates->controller->rawStickX = 0;
@@ -370,7 +412,8 @@ void bhv_rr_ctl_loop()
             gMarioStates->controller->buttonPressed &= ~(B_BUTTON | A_BUTTON | Z_TRIG | R_TRIG | L_TRIG | START_BUTTON);
             gMarioStates->controller->buttonReleased &= ~(B_BUTTON | A_BUTTON | Z_TRIG | R_TRIG | L_TRIG | START_BUTTON);
 
-            if (1 == gGoMode && gMarioStates->pos[1] > 11500.f)
+            f32 marioY = gIsGravityFlipped ? (8825.f - gMarioStates->pos[1]) : gMarioStates->pos[1];
+            if (1 == gGoMode && marioY > 11500.f)
             {
                 save_file_collect_star_or_key(0, 0);
                 gMarioStates->numStars =
@@ -404,8 +447,8 @@ void bhv_rr_ctl_loop()
         }
 
         const QuadrantDesc* desc = &sSegmentsOrder[o->oRrCtlProgress];
-        const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, desc->x, desc->z);
-        // const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, 2, 0);
+        // const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, desc->x, desc->z);
+        const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, 1, 1);
         o->oRrCtlProgress++;
 
         gMarioStates->pos[0] = start->oPosX;
@@ -442,7 +485,8 @@ void bhv_rr_ctl_loop()
     }
     else
     {
-        gDisableGravity = 0;
+        if (!is_hm())
+            gDisableGravity = 0;
     }
 }
 

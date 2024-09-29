@@ -361,9 +361,11 @@ void save_file_tamper_strong(int fileIndex, int flag)
 
 void save_file_tamper_weak(int fileIndex, int flag)
 {
-    if (gSaveBuffer.files[fileIndex][0].tampers & flag) {
+    if (gMarioStates->numStars == 13)
         return;
-    }
+
+    if (gSaveBuffer.files[fileIndex][0].tampers & flag)
+        return;
 
     save_file_seal_check(fileIndex);
     gSaveBuffer.files[fileIndex][0].tampers |= flag;
