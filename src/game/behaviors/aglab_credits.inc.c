@@ -9,15 +9,16 @@
 // corresponds to o104
 #define oCreditsPrevEntry OBJECT_FIELD_VPTR(0x1F)
 #define oCreditsShoutouts o108
+#define oCreditsCurrentShoutouts o10C
 
 enum CreditsShotouts
 {
     CREDITS_NO_EMU = 1 << 0,
     CREDITS_NO_TAMPERS = 1 << 1,
     CREDITS_HM = 1 << 2,
-
-    CREDITS_LAST = 1 << 3,
 };
+
+#define CREDITS_LAST 3
 
 extern u8 gBlackBoxAlpha;
 extern u8 gBigBlackBoxAlpha;
@@ -195,7 +196,7 @@ static void credits_initial_wait()
 }
 
 const int kFadeInBlackBox = 64;
-const int kPostFadeInWait = 20;
+const int kPostFadeInWait = 60;
 static void credits_show_creator()
 {
     gBlackBoxAlpha = gBigBlackBoxAlpha = CLAMP(o->oTimer * 200 / kFadeInBlackBox, 0, 200);
@@ -339,24 +340,114 @@ static void credits_thanks()
     gDeferredFancyText[0].line = "Thank You!";
 
     static const char kEntry[] = "Credits Theme:\nThe House in Fata Morgana - A Requiem for Innocence\nSerie de Fragmento (instrumental)";
-    if (o->oTimer > 900)
+    if (o->oTimer > 600)
     {
-        gDeferredFancyText[1].x = 25;
+        gDeferredFancyText[1].x = 20;
         gDeferredFancyText[1].y = 40;
         gDeferredFancyText[1].aligned = 0;
-        gDeferredFancyText[1].alpha = CLAMP(255 - (o->oTimer - 900) * 3, 0, 255);
+        gDeferredFancyText[1].alpha = CLAMP(255 - (o->oTimer - 600) * 3, 0, 255);
         gDeferredFancyText[1].line = kEntry;
-        gBottomBlackBoxAlpha = CLAMP(gDeferredFancyText[1].alpha, 0, 200);
+        // gBottomBlackBoxAlpha = CLAMP(gDeferredFancyText[1].alpha, 0, 200);
     }
     else if (o->oTimer > 300)
     {
-        gDeferredFancyText[1].x = 25;
+        gDeferredFancyText[1].x = 20;
         gDeferredFancyText[1].y = 40;
         gDeferredFancyText[1].aligned = 0;
         gDeferredFancyText[1].alpha = CLAMP((o->oTimer - 300) * 3, 0, 255);
         gDeferredFancyText[1].line = kEntry;
         gBottomBlackBoxAlpha = CLAMP(gDeferredFancyText[1].alpha, 0, 200);
     }
+
+    static const char kEntry1[] = "Level Select Theme:\nSTEINS GATE\nChristina I";
+    if (o->oTimer > 900)
+    {
+        gDeferredFancyText[1].x = 20;
+        gDeferredFancyText[1].y = 40;
+        gDeferredFancyText[1].aligned = 0;
+        gDeferredFancyText[1].alpha = CLAMP(255 - (o->oTimer - 900) * 3, 0, 255);
+        gDeferredFancyText[1].line = kEntry1;
+        // gBottomBlackBoxAlpha = CLAMP(gDeferredFancyText[1].alpha, 0, 200);
+    }
+    else if (o->oTimer > 700)
+    {
+        gDeferredFancyText[1].x = 20;
+        gDeferredFancyText[1].y = 40;
+        gDeferredFancyText[1].aligned = 0;
+        gDeferredFancyText[1].alpha = CLAMP((o->oTimer - 700) * 3, 0, 255);
+        gDeferredFancyText[1].line = kEntry1;
+    }
+
+    if (1000 == o->oTimer)
+    {
+        o->oAction++;
+        o->oCreditsCurrentShoutouts = -1;
+    }
+}
+
+static void render_ty()
+{
+    gDeferredFancyText[0].x = 160;
+    gDeferredFancyText[0].y = 200;
+    gDeferredFancyText[0].aligned = 1;
+    gDeferredFancyText[0].alpha = 255;
+    gDeferredFancyText[0].line = "Thank You!";
+}
+
+static void credits_shoutouts()
+{
+    render_ty();
+    if (0 == o->oTimer)
+        return;
+
+    if (1 == o->oTimer)
+    {
+        o->oCreditsCurrentShoutouts++;
+        while ((o->oCreditsCurrentShoutouts != CREDITS_LAST) && !(o->oCreditsShoutouts & (1 << o->oCreditsCurrentShoutouts)))
+        {
+            o->oCreditsCurrentShoutouts++;
+        }
+
+        if (CREDITS_LAST == o->oCreditsCurrentShoutouts)
+        {
+            o->oAction++;
+            return;
+        }
+    }
+
+    static const char* kShoutouts[] = {
+        "Thank you for respecting my vision!\nI greatly appreciate it.",
+        "You are a super player!\nYou got my utmost gratitude.",
+        "I hope you enjoyed my silly ideas.\nI tried to make it fun.\nThank you so-so much!",
+    };
+
+    if (o->oTimer > 400)
+    {
+        gDeferredFancyText[1].x = 160;
+        gDeferredFancyText[1].y = 40;
+        gDeferredFancyText[1].aligned = 1;
+        gDeferredFancyText[1].alpha = CLAMP(255 - (o->oTimer - 400) * 3, 0, 255);
+        gDeferredFancyText[1].line = kShoutouts[o->oCreditsCurrentShoutouts];
+    }
+    else
+    {
+        gDeferredFancyText[1].x = 160;
+        gDeferredFancyText[1].y = 40;
+        gDeferredFancyText[1].aligned = 1;
+        gDeferredFancyText[1].alpha = CLAMP(o->oTimer * 3, 0, 255);
+        gDeferredFancyText[1].line = kShoutouts[o->oCreditsCurrentShoutouts];
+    }
+
+    if (500 == o->oTimer)
+    {
+        o->oTimer = 0;
+    }
+}
+
+static void credits_wrap()
+{
+    render_ty();
+    gBottomBlackBoxAlpha = CLAMP(255 - o->oTimer * 3, 0, 200);
 }
 
 void bhv_ending_player_loop()
@@ -413,6 +504,12 @@ void bhv_ending_player_loop()
         break;
     case 11:
         credits_thanks();
+        break;
+    case 12:
+        credits_shoutouts();
+        break;
+    case 13:
+        credits_wrap();
         break;
     }
 }
