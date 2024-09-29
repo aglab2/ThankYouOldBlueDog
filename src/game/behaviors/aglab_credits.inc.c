@@ -13,12 +13,13 @@
 
 enum CreditsShotouts
 {
-    CREDITS_NO_EMU = 1 << 0,
-    CREDITS_NO_TAMPERS = 1 << 1,
-    CREDITS_HM = 1 << 2,
+    CREDITS_CLEAR = 1 << 0,
+    CREDITS_NO_EMU = 1 << 1,
+    CREDITS_NO_TAMPERS = 1 << 2,
+    CREDITS_HM = 1 << 3,
 };
 
-#define CREDITS_LAST 3
+#define CREDITS_LAST 4
 
 extern u8 gBlackBoxAlpha;
 extern u8 gBigBlackBoxAlpha;
@@ -70,12 +71,17 @@ void bhv_ending_player_init()
 
     o->oCreditsShoutouts = 0;
     int tampers = save_file_get_tampers();
-    if (gIsHM)
-        o->oCreditsShoutouts |= CREDITS_HM;
-    if (0 == tampers)
-        o->oCreditsShoutouts |= CREDITS_NO_TAMPERS;
-    if (!(tampers & TAMPER_FLAG_EMU))
-        o->oCreditsShoutouts |= CREDITS_NO_EMU;
+    if (!(tampers & TAMPER_FLAG_SEAL))
+    {
+        o->oCreditsShoutouts |= CREDITS_CLEAR;
+
+        if (gIsHM)
+            o->oCreditsShoutouts |= CREDITS_HM;
+        if (0 == tampers)
+            o->oCreditsShoutouts |= CREDITS_NO_TAMPERS;
+        if (!(tampers & TAMPER_FLAG_EMU))
+            o->oCreditsShoutouts |= CREDITS_NO_EMU;
+    }
 }
 
 struct CreditEntry
@@ -414,6 +420,7 @@ static void credits_shoutouts()
     }
 
     static const char* kShoutouts[] = {
+        "Thank you for playing!\nI hope you enjoyed the hack.",
         "Thank you for respecting my vision!\nI greatly appreciate it.",
         "You are a super player!\nYou got my utmost gratitude.",
         "I hope you enjoyed my silly ideas.\nI tried to make it fun.\nThank you so-so much!",
