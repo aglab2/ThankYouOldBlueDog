@@ -349,7 +349,7 @@ LevelConv_PlainLevels Config_warpIdAndReset()
     return kWarpTargets[w];
 }   
 
-#define BUTTONS_PRESSED(mask) (((gControllers->buttonDown) & (mask)) == (mask))
+#define BUTTONS_PRESSED(mask) (((gControllers->buttonPressed) & (mask)) == (mask))
 
 Config_ButtonAction Config_action()
 {

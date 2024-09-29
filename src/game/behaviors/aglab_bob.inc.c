@@ -30,6 +30,14 @@ void bhv_bob_ctrl_loop()
             {
                 if (o->oBobCtrlCurr->behavior == bhvBobInit)
                 {
+                    if ((o->oTimer % 8) == 0)
+                    {
+                        struct Object* spark = spawn_object(o, MODEL_NONE, bhvSparkleSpawn);
+                        spark->oPosX = o->oPosX + random_f32_around_zero(50.f);
+                        spark->oPosY = o->oPosY  + random_f32_around_zero(50.f);
+                        spark->oPosZ = o->oPosZ + random_f32_around_zero(50.f);
+                    }
+
                     f32 d = gMarioStates->pos[0] * gMarioStates->pos[0] + gMarioStates->pos[2] * gMarioStates->pos[2];
                     if (d > 20000.f)
                     {

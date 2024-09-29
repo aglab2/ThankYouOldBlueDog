@@ -353,12 +353,12 @@ static void credits_thanks()
         gDeferredFancyText[1].line = kEntry;
         // gBottomBlackBoxAlpha = CLAMP(gDeferredFancyText[1].alpha, 0, 200);
     }
-    else if (o->oTimer > 300)
+    else if (o->oTimer > 240)
     {
         gDeferredFancyText[1].x = 20;
         gDeferredFancyText[1].y = 40;
         gDeferredFancyText[1].aligned = 0;
-        gDeferredFancyText[1].alpha = CLAMP((o->oTimer - 300) * 3, 0, 255);
+        gDeferredFancyText[1].alpha = CLAMP((o->oTimer - 240) * 3, 0, 255);
         gDeferredFancyText[1].line = kEntry;
         gBottomBlackBoxAlpha = CLAMP(gDeferredFancyText[1].alpha, 0, 200);
     }
