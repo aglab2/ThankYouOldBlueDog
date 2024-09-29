@@ -50,7 +50,7 @@ void bhv_hmc_ctl_loop()
     s32 grav = 0;
     if (floorHeight - 50.f < marioY && marioY < ceilHeight)
     {
-        if (!is_hm())
+        if (!gIsHM)
         {
             if (gMarioStates->controller->buttonPressed & B_BUTTON)
             {

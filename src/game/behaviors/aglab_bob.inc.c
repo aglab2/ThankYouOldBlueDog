@@ -51,7 +51,7 @@ void bhv_bob_ctrl_loop()
                 o->oBobCtrlNext->oFaceAnglePitch = kAngles[random_u16() % (sizeof(kAngles) / sizeof(kAngles[0]))];
                 o->oBobCtrlNext->oFaceAngleRoll  = kAngles[random_u16() % (sizeof(kAngles) / sizeof(kAngles[0]))];
                 o->oBobCtrlNext->oAction = -o->oBobCtrlCurr->oAction;
-                if (0 == o->oBobCtrlNext->oAction && is_hm())
+                if (0 == o->oBobCtrlNext->oAction && gIsHM)
                 {
                     o->oBobCtrlNext->oAction = 0x60;
                 }

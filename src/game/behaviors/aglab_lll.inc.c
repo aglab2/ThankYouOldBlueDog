@@ -44,7 +44,7 @@ void bhv_lll_72_loop()
     else
     {
         cur_obj_play_sound_2(SOUND_MOVING_LAVA_BURN);
-        int fizzlePower = is_hm() ? 14 : 10;
+        int fizzlePower = gIsHM ? 14 : 10;
         int amt = CLAMP(gMirrorVCAmount - fizzlePower, 0, 255);
         gMirrorVCAmount = amt;
         gMarioStates->flags |= MARIO_VANISH_CAP;
@@ -52,7 +52,7 @@ void bhv_lll_72_loop()
             gMarioStates->action = 0;
     }
     
-    if (is_hm())
+    if (gIsHM)
     {
         gFizzle = CLAMP(1.2f * (255 - gMirrorVCAmount), 0, 255);
         gMarioStates->flags &= ~MARIO_VANISH_CAP;

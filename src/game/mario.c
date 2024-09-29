@@ -1242,10 +1242,7 @@ void update_mario_button_inputs(struct MarioState *m) {
     }
 }
 
-static u32 is_hm(struct MarioState* m)
-{
-    return 0 == save_file_get_tampers() && 13 == m->numStars;
-}
+extern u8 gIsHM;
 
 static int toSegmentIndex(f32 pos)
 {
@@ -1277,7 +1274,7 @@ void update_mario_joystick_inputs(struct MarioState *m) {
         m->intendedYaw -= 0x4000;
     }
 
-    if (is_hm(m))
+    if (gIsHM)
     {
         if (gCurrCourseNum == COURSE_SSL)
         {
@@ -1663,13 +1660,13 @@ void mario_update_hitbox_and_cap_model(struct MarioState *m) {
     s32 flags = update_and_return_cap_flags(m);
 
     if (flags & MARIO_VANISH_CAP) {
-        if (is_hm(m) && gCurrCourseNum != COURSE_RR)
+        if (gIsHM && gCurrCourseNum != COURSE_RR)
             bodyState->modelState = MODEL_STATE_ALPHA;
         else
             bodyState->modelState = MODEL_STATE_ALPHA | gMirrorVCAmount;
     }
 
-    if (gCurrCourseNum == COURSE_BBH && is_hm(m))
+    if (gCurrCourseNum == COURSE_BBH && gIsHM)
     {
         bodyState->modelState = MODEL_STATE_ALPHA;
     }

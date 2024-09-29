@@ -21,7 +21,7 @@ static void hmc_obj_despawn_non_hm_gates()
 
 void bhv_ddd_move_init()
 {
-    if (is_hm())
+    if (gIsHM)
     {
         o->oMoveAngleYaw = -0x4000;
     }
@@ -62,12 +62,12 @@ void bhv_ddd_move_loop()
         if (gMarioObject->platform == o)
         {
             o->oAction = 1;
-            o->oForwardVel = is_hm() ? 50.f : 35.0f;
+            o->oForwardVel = gIsHM ? 50.f : 35.0f;
         }
     }
     else
     {
-        o->oMoveAngleYaw = 0x4000 * ((is_hm() ? -1 : 1) - obj_count_opened_gate_switches());
+        o->oMoveAngleYaw = 0x4000 * ((gIsHM ? -1 : 1) - obj_count_opened_gate_switches());
     }
 
     cur_obj_move_using_fvel_and_gravity();

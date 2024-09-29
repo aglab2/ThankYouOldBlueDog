@@ -92,11 +92,7 @@ s32 begin_walking_action(struct MarioState *m, f32 forwardVel, u32 action, u32 a
     return set_mario_action(m, action, actionArg);
 }
 
-static u32 is_hm(struct MarioState *m)
-{
-    return 0 == save_file_get_tampers() && 13 == m->numStars;
-}
-
+extern u8 gIsHM;
 void check_ledge_climb_down(struct MarioState *m) {
     if (gCurrCourseNum == COURSE_WF)
     {
@@ -108,7 +104,7 @@ void check_ledge_climb_down(struct MarioState *m) {
         return NULL;
     }
 
-    if (is_hm(m) && gCurrCourseNum == COURSE_HMC)
+    if (gIsHM && gCurrCourseNum == COURSE_HMC)
     {
         return NULL;
     }

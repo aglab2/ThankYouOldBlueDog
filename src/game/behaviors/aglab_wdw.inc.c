@@ -16,7 +16,7 @@ void bhv_wdw_ctl_init()
     f32 d;
     o->parentObj = cur_obj_find_nearest_object_with_behavior(bhvStar, &d);
     
-    if (is_hm())
+    if (gIsHM)
     {
         o->oWdwCtlTrajProgress = 0;
         o->oWdwDeathTime = 30;
@@ -69,7 +69,7 @@ void bhv_wdw_ctl_loop()
     }
     o->oWdwCtlPrevAction = gMarioStates->action;
 
-    if (is_hm())
+    if (gIsHM)
     {
         print_death_timer_left(o->oWdwDeathTime);
         if (gMarioStates->floor && gMarioStates->floor->type == SURFACE_NOISE_DEFAULT)

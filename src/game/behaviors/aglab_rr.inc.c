@@ -51,7 +51,7 @@ void bhv_rr_ctl_init()
     o->oRrBobCtlLimitCubes = 5;
 
     gGoMode = 0;
-    if (!is_hm())
+    if (!gIsHM)
     {
         rr_obj_despawn_all_flames();
     }
@@ -159,7 +159,7 @@ void rr_mirror_mario_ctl_loop()
             gMirrorOffset[2] = -741.38f;
         }
 
-        gMirrorVCAmount -= is_hm() ? 17 : 5;
+        gMirrorVCAmount -= gIsHM ? 17 : 5;
         if (0 == gMirrorVCAmount)
         {
             gMarioStates->pos[0] += gMirrorOffset[0];
@@ -200,7 +200,7 @@ void rr_water_ctl_loop()
         gIsGravityFlipped = gm0;
         gGravityMode = gm1;
         gCollisionFlags &= ~COLLISION_FLAG_WATER;
-        if (is_hm())
+        if (gIsHM)
             set_gravity(0);
 
         return;
@@ -216,7 +216,7 @@ void rr_water_ctl_loop()
     s32 grav = 0;
     if (floorHeight - 50.f < marioY && marioY < ceilHeight)
     {
-        if (!is_hm())
+        if (!gIsHM)
         {
             if (gMarioStates->controller->buttonPressed & B_BUTTON)
             {
@@ -248,7 +248,7 @@ void rr_water_ctl_loop()
         }
     }
 
-    if (is_hm())
+    if (gIsHM)
         set_gravity(grav);
 }
 
@@ -327,7 +327,7 @@ void bhv_rr_ctl_loop()
         tinymt32_init(&gGlobalRandomState, tinymt32_generate_u32(&gGlobalRandomState) ^ (*(u32*) &gMarioStates->controller->buttonDown));
     }
 
-    if (is_hm())
+    if (gIsHM)
     {
         if (curSegmentX == 0 && curSegmentZ == 2)
         {
@@ -485,7 +485,7 @@ void bhv_rr_ctl_loop()
     }
     else
     {
-        if (!is_hm())
+        if (!gIsHM)
             gDisableGravity = 0;
     }
 }
@@ -528,7 +528,7 @@ void rr_move_ctl_loop()
 
 void rr_move_ctl_purples_init()
 {
-    if (!is_hm())
+    if (!gIsHM)
     {
         o->activeFlags = 0;
         return;
@@ -543,7 +543,7 @@ void rr_move_ctl_purples_init()
 
 void rr_move_ctl_purples_loop()
 {
-    if (!is_hm())
+    if (!gIsHM)
     {
         o->activeFlags = 0;
         return;
@@ -583,7 +583,7 @@ void rr_rotat_loop()
     o->oPosX = o->oHomeX + 700.f * sins(o->oFaceAngleYaw);
     o->oPosZ = o->oHomeZ + 700.f * coss(o->oFaceAngleYaw);
 
-    if (is_hm())
+    if (gIsHM)
     {
         o->oFaceAnglePitch += 0x66;
     }
@@ -683,7 +683,7 @@ void rr_jump_loop()
 
 void bhv_rr_flipper_loop()
 {
-    if (is_hm())
+    if (gIsHM)
     {
         if (o->oBehParams2ndByte == 0)
         {

@@ -320,10 +320,7 @@ static Gfx *make_gfx_mario_alpha(struct GraphNodeGenerated *node, s16 alpha) {
     return gfxHead;
 }
 
-static u32 is_hm()
-{
-    return 0 == save_file_get_tampers() && 13 == gMarioState->numStars;
-}
+extern u8 gIsHM;
 
 /**
  * Sets the correct blend mode and color for mirror Mario.
@@ -345,7 +342,7 @@ Gfx *geo_mirror_mario_set_alpha(s32 callContext, struct GraphNode *node, UNUSED 
         if (gCurGraphNodeObject == &gMirrorMario)
         {
             alpha = 255 - alpha;
-            if (is_hm())
+            if (gIsHM)
             {
                 alpha = 0;
             }

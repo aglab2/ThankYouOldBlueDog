@@ -8,6 +8,16 @@
 #define oCreditsCurrEntry OBJECT_FIELD_VPTR(0x1E)
 // corresponds to o104
 #define oCreditsPrevEntry OBJECT_FIELD_VPTR(0x1F)
+#define oCreditsShoutouts o108
+
+enum CreditsShotouts
+{
+    CREDITS_NO_EMU = 1 << 0,
+    CREDITS_NO_TAMPERS = 1 << 1,
+    CREDITS_HM = 1 << 2,
+
+    CREDITS_LAST = 1 << 3,
+};
 
 extern u8 gBlackBoxAlpha;
 extern u8 gBigBlackBoxAlpha;
@@ -56,6 +66,17 @@ void bhv_ending_player_init()
     o->oCreditsDecObj->oPosX -= 220.f;
     obj_scale(o->oCreditsDecObj, 0.54f);
     o->oCreditsDecObj->oOpacity = 0;
+
+    o->oCreditsShoutouts = 0;
+    int tampers = save_file_get_tampers();
+    if (gIsGravityFlipped)
+        o->oCreditsShoutouts |= CREDITS_HM;
+    if (0 == tampers)
+        o->oCreditsShoutouts |= CREDITS_NO_TAMPERS;
+    if (!(tampers & TAMPER_FLAG_EMU))
+        o->oCreditsShoutouts |= CREDITS_NO_EMU;
+
+    set_gravity(0);
 }
 
 struct CreditEntry

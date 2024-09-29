@@ -374,10 +374,7 @@ s32 perform_ground_step(struct MarioState *m) {
 // Horizontal dot product of surface normal
 #define hdot_surf(surf, vec) (((surf)->normal.x * (vec)[0]) + ((surf)->normal.z * (vec)[2]))
 
-static u32 is_hm(struct MarioState *m)
-{
-    return 0 == save_file_get_tampers() && 13 == m->numStars;
-}
+extern u8 gIsHM;
 
 struct Surface *check_ledge_grab(struct MarioState *m, struct Surface *prevWall, struct Surface *wall, Vec3f intendedPos, Vec3f nextPos, Vec3f ledgePos, struct Surface **ledgeFloor) {
     if (gCurrCourseNum == COURSE_WF)
@@ -401,7 +398,7 @@ struct Surface *check_ledge_grab(struct MarioState *m, struct Surface *prevWall,
         return NULL;
     }
     
-    if (is_hm(m) && gCurrCourseNum == COURSE_HMC)
+    if (gIsHM && gCurrCourseNum == COURSE_HMC)
     {
         return NULL;
     }

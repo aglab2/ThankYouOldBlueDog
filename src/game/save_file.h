@@ -197,6 +197,7 @@ void save_file_seal_set(int fileIndex, int slot);
 void save_file_seal_check(int fileIndex);
 void save_file_tamper_weak(int fileIndex, int flag);
 
+// WARNING: pricey call
 u8 save_file_get_tampers(void);
 
 void disable_warp_checkpoint(void);

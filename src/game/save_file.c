@@ -375,6 +375,7 @@ void save_file_tamper_weak(int fileIndex, int flag)
 
 u8 save_file_get_tampers(void)
 {
+    save_file_seal_check(gCurrSaveFileNum - 1);
     return gSaveBuffer.files[gCurrSaveFileNum - 1][0].tampers;
 }
 
