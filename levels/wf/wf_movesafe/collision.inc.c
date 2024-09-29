@@ -11,7 +11,7 @@ const Collision wf_movesafe_collision[] = {
 	COL_VERTEX(500, 0, -500),
 	COL_VERTEX(500, 204, -500),
 	COL_VERTEX(500, 204, 500),
-	COL_TRI_INIT(SURFACE_DEFAULT, 16),
+	COL_TRI_INIT(SURFACE_NOT_SLIPPERY, 16),
 	COL_TRI(0, 1, 2),
 	COL_TRI(3, 4, 5),
 	COL_TRI(6, 7, 8),

@@ -16,7 +16,7 @@
 #include "engine/math_util.h"
 #include "libc/string.h"
 
-#define DEBUG_EMU
+// #define DEBUG_EMU
 
 void set_play_mode(s16 playMode);
 

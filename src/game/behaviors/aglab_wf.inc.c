@@ -257,4 +257,16 @@ void bhv_wf_move_loop()
         o->oPosY = trajCurrPoint[1] + (trajDirection[1] * o->oWfTrajProgress);
         o->oPosZ = trajCurrPoint[2] + (trajDirection[2] * o->oWfTrajProgress);
     }
+
+    if (gIsHM)
+    {
+        if (7 == o->oWfTrajCurPoint)
+        {
+            o->oFaceAnglePitch = (o->oWfMoveTrajIdx ? 0x10000 : -0x10000) * o->oWfTrajProgress;
+        }
+        else
+        {
+            o->oFaceAnglePitch = 0;
+        }
+    }
 }
