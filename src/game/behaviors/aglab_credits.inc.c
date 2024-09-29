@@ -70,14 +70,12 @@ void bhv_ending_player_init()
 
     o->oCreditsShoutouts = 0;
     int tampers = save_file_get_tampers();
-    if (gIsGravityFlipped)
+    if (gIsHM)
         o->oCreditsShoutouts |= CREDITS_HM;
     if (0 == tampers)
         o->oCreditsShoutouts |= CREDITS_NO_TAMPERS;
     if (!(tampers & TAMPER_FLAG_EMU))
         o->oCreditsShoutouts |= CREDITS_NO_EMU;
-
-    set_gravity(0);
 }
 
 struct CreditEntry

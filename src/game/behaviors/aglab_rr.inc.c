@@ -423,6 +423,13 @@ void bhv_rr_ctl_loop()
                 SET_BPARAM2(o->oBehParams, 0xa);
                 level_trigger_warp(gMarioStates, WARP_OP_TELEPORT);
                 gGoMode = 2;
+                o->oTimer = 0;
+            }
+
+            if (2 == gGoMode)
+            {
+                if (o->oTimer > 260)
+                    set_gravity(0);
             }
             return;
         }
