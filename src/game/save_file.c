@@ -324,6 +324,7 @@ void save_file_seal_set(int fileIndex, int slot) {
     }
 }
 
+static void save_file_tamper_strong(int fileIndex, int flag);
 void save_file_seal_check(int fileIndex) {
     if (0 == save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1)) {
         return;
@@ -339,18 +340,19 @@ void save_file_seal_check(int fileIndex) {
     struct SHA1 digest = sha1digest(dataStart, dataEnd - dataStart);
     for (int i = 0; i < 3; i++) {
         if (gSaveBuffer.files[fileIndex][0].seals[i] != digest.H[i]) {
-            save_file_tamper(fileIndex, TAMPER_FLAG_SEAL);
+            save_file_tamper_strong(fileIndex, TAMPER_FLAG_SEAL);
             break;
         }
     }
 }
 
-void save_file_tamper(int fileIndex, int flag)
+void save_file_tamper_strong(int fileIndex, int flag)
 {
     if (gSaveBuffer.files[fileIndex][0].tampers & flag) {
         return;
     }
 
+    save_file_seal_check(fileIndex);
     gSaveBuffer.files[fileIndex][0].tampers |= flag;
     gSaveBuffer.files[fileIndex][0].flags |= SAVE_FLAG_FILE_EXISTS;
     gSaveFileModified = TRUE;
@@ -359,7 +361,14 @@ void save_file_tamper(int fileIndex, int flag)
 
 void save_file_tamper_weak(int fileIndex, int flag)
 {
+    if (gSaveBuffer.files[fileIndex][0].tampers & flag) {
+        return;
+    }
+
+    save_file_seal_check(fileIndex);
     gSaveBuffer.files[fileIndex][0].tampers |= flag;
+    gSaveBuffer.files[fileIndex][0].flags |= SAVE_FLAG_FILE_EXISTS;
+    save_file_seal_set(fileIndex, 0);
 }
 
 u8 save_file_get_tampers(void)
@@ -584,7 +593,7 @@ void save_file_load_all(void) {
         save_file_seal_check(i);
         int starCount = save_file_get_total_star_count(i, COURSE_MIN - 1, COURSE_MAX - 1);
         if (starCount && starCount != 13)
-            save_file_tamper(i, TAMPER_FLAG_RELOAD);
+            save_file_tamper_strong(i, TAMPER_FLAG_RELOAD);
         
         if (0 == starCount)
         {

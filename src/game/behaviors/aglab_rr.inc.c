@@ -7,6 +7,7 @@
 #define oRrWdwCtlWasOnPlatformBefore o104
 #define oRrBobCtlLimitCubes o108
 #define oRrWdwDeathTime o10C
+#define oRrReactionTime o110
 
 extern s16 gCameraMovementFlags;
 u8 gGoMode = 0;
@@ -55,6 +56,7 @@ void bhv_rr_ctl_init()
     }
     else
     {
+        o->oRrReactionTime = 30;
         o->oRrWdwDeathTime = 90;
         o->parentObj = spawn_object(o, MODEL_STAR, bhvStar);
         f32 d;
@@ -156,7 +158,7 @@ void rr_mirror_mario_ctl_loop()
             gMirrorOffset[2] = -741.38f;
         }
 
-        gMirrorVCAmount -= 5;
+        gMirrorVCAmount -= is_hm() ? 17 : 5;
         if (0 == gMirrorVCAmount)
         {
             gMarioStates->pos[0] += gMirrorOffset[0];
@@ -320,7 +322,14 @@ void bhv_rr_ctl_loop()
 
         if (2 == curSegmentX && 1 == curSegmentZ)
         {
-            gFizzle = CLAMP(gFizzle + 1, 0, 255);
+            if (o->oRrReactionTime)
+            {
+               o->oRrReactionTime--;
+            }
+            else
+            {
+                gFizzle = CLAMP(gFizzle + 1, 0, 255);
+            }
         }
         else
         {
@@ -396,7 +405,7 @@ void bhv_rr_ctl_loop()
 
         const QuadrantDesc* desc = &sSegmentsOrder[o->oRrCtlProgress];
         const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, desc->x, desc->z);
-        // const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, 1,1);
+        // const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, 2, 0);
         o->oRrCtlProgress++;
 
         gMarioStates->pos[0] = start->oPosX;
@@ -437,6 +446,12 @@ void bhv_rr_ctl_loop()
     }
 }
 
+void rr_move_ctl_init()
+{
+    o->oFaceAngleYaw = -0x4000;
+    o->oMoveAngleYaw = -0x4000;
+}
+
 void rr_move_ctl_loop()
 {
     o->oCollisionDistance = 10000.f;
@@ -450,19 +465,64 @@ void rr_move_ctl_loop()
     }
     else
     {
-        o->oMoveAngleYaw = -0x4000;
         if (o->oTimer > 100)
         {
             o->oGravity = -2.f;
         }
     }
 
-    cur_obj_move_using_fvel_and_gravity();
-
+    o->oFaceAngleYaw = o->oMoveAngleYaw = -0x4000 + 0x4000 * obj_count_opened_gate_switches();
     if (o->oPosY < -30000.f)
     {
         o->activeFlags = 0;
     }
+
+    cur_obj_move_using_fvel_and_gravity();
+}
+
+#define oRrMoveCtlPurplesObjects oObjF4
+
+void rr_move_ctl_purples_init()
+{
+    if (!is_hm())
+    {
+        o->activeFlags = 0;
+        return;
+    }
+
+    struct Object** purples = &o->oObjF4;
+    for (int i = 0; i < 3; i++)
+    {
+        purples[i] = spawn_object(o, MODEL_PURPLE_SWITCH, bhvFloorSwitchGrills);
+    }
+}
+
+void rr_move_ctl_purples_loop()
+{
+    if (!is_hm())
+    {
+        o->activeFlags = 0;
+        return;
+    }
+
+    struct Object** purples = &o->oObjF4;
+    int curSegmentX = toSegmentIndex(gMarioStates->pos[0]);
+    int curSegmentZ = toSegmentIndex(gMarioStates->pos[2]);
+    if (curSegmentX != 2 || curSegmentZ != 0)
+    {
+        purples[0]->oFaceAngleYaw = 0;
+        return;
+    }
+
+    purples[0]->oFaceAngleYaw += 0x169;
+    purples[0]->oPosX = o->oPosX + 500.f * sins(purples[0]->oFaceAngleYaw);
+    purples[0]->oPosZ = o->oPosZ + 500.f * coss(purples[0]->oFaceAngleYaw);
+
+    purples[1]->oPosX = o->oPosX - 700.f;
+    purples[1]->oPosZ = o->oPosZ + 1000.f * sins(-purples[0]->oFaceAngleYaw);
+
+    purples[2]->oPosX = o->oPosX;
+    purples[2]->oPosZ = o->oPosZ + 1000.f * coss(purples[0]->oFaceAngleYaw);
 }
 
 void rr_rotat_init()
@@ -481,7 +541,7 @@ void rr_rotat_loop()
 
     if (is_hm())
     {
-        o->oFaceAnglePitch += 0x46;
+        o->oFaceAnglePitch += 0x66;
     }
 
     if (o->oOpacity < 10)

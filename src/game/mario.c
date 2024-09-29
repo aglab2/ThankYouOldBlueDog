@@ -1281,7 +1281,7 @@ void update_mario_joystick_inputs(struct MarioState *m) {
     {
         if (gCurrCourseNum == COURSE_SSL)
         {
-            m->intendedMag /= 2.f;
+            m->intendedMag /= 1.5f;
         }
         if (gCurrCourseNum == COURSE_RR)
         {
@@ -1663,7 +1663,7 @@ void mario_update_hitbox_and_cap_model(struct MarioState *m) {
     s32 flags = update_and_return_cap_flags(m);
 
     if (flags & MARIO_VANISH_CAP) {
-        if (is_hm(m))
+        if (is_hm(m) && gCurrCourseNum != COURSE_RR)
             bodyState->modelState = MODEL_STATE_ALPHA;
         else
             bodyState->modelState = MODEL_STATE_ALPHA | gMirrorVCAmount;

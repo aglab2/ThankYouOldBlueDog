@@ -195,7 +195,6 @@ void save_file_move_cap_to_default_location(void);
 
 void save_file_seal_set(int fileIndex, int slot);
 void save_file_seal_check(int fileIndex);
-void save_file_tamper(int fileIndex, int flag);
 void save_file_tamper_weak(int fileIndex, int flag);
 
 u8 save_file_get_tampers(void);

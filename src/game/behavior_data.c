@@ -6330,14 +6330,26 @@ extern const BehaviorScript bhvRrCube[] = {
 };
 
 extern const Collision rr_move_collision[];
+extern void rr_move_ctl_init();
 extern void rr_move_ctl_loop();
 extern const BehaviorScript bhvRrMove[] = {
     BEGIN(OBJ_LIST_SURFACE),
     LOAD_COLLISION_DATA(rr_move_collision),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(rr_move_ctl_init),
     BEGIN_LOOP(),
         CALL_NATIVE(rr_move_ctl_loop),
         CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+extern void rr_move_ctl_purples_init();
+extern void rr_move_ctl_purples_loop();
+extern const BehaviorScript bhvRrMoveCtl[] = {
+    BEGIN(OBJ_LIST_SPAWNER),
+    CALL_NATIVE(rr_move_ctl_purples_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(rr_move_ctl_purples_loop),
     END_LOOP(),
 };
 

@@ -168,9 +168,14 @@ void SaveState_check()
     {
         if (1 != gCurrLevelNum)
         {
-            if (sProbesOk[0] && !probeValid(PROBE0, 20)) save_file_tamper(gCurrSaveFileNum - 1, TAMPER_FLAG_EMU);
-            if (sProbesOk[1] && !probeValid(PROBE1, 40)) save_file_tamper(gCurrSaveFileNum - 1, TAMPER_FLAG_EMU);
-            if (sProbesOk[2] && !probeValidPJ64(PROBE2, 60)) save_file_tamper(gCurrSaveFileNum - 1, TAMPER_FLAG_EMU);
+            if (sProbesOk[0] && !probeValid(PROBE0, 20)) save_file_tamper_weak(gCurrSaveFileNum - 1, TAMPER_FLAG_EMU);
+            if (sProbesOk[1] && !probeValid(PROBE1, 40)) save_file_tamper_weak(gCurrSaveFileNum - 1, TAMPER_FLAG_EMU);
+            if (sProbesOk[2] && !probeValidPJ64(PROBE2, 60)) save_file_tamper_weak(gCurrSaveFileNum - 1, TAMPER_FLAG_EMU);
+
+            if (!sProbesOk[0] && !sProbesOk[1] && !sProbesOk[2])
+            {
+                save_file_tamper_weak(gCurrSaveFileNum - 1, TAMPER_FLAG_EMU);
+            }
         }
 
         probesReset();
@@ -244,9 +249,7 @@ void SaveState_onNormal()
                 memcpy(_hackticeStateDataStart1, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0), _hackticeStateDataEnd1 - _hackticeStateDataStart1);
                 memcpy(gMarioAnimsMemAlloc, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0) + (_hackticeStateDataEnd1 - _hackticeStateDataStart1), MARIO_ANIMS_POOL_SIZE);
                 int starCount = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
-                if (starCount != 0 && starCount != 13)
-                    save_file_tamper(gCurrSaveFileNum - 1, TAMPER_FLAG_LOAD);
-                if (starCount == 0)
+                if (starCount != 13)
                     save_file_tamper_weak(gCurrSaveFileNum - 1, TAMPER_FLAG_LOAD);
 
                 probesReset();
