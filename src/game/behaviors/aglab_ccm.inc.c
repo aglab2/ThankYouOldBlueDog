@@ -3,7 +3,9 @@ extern u8 gDisableGravity;
 
 void bhv_ccm_flipper_loop()
 {
-    gDisableGravity = 0;
+    if (gIsHM)
+        gDisableGravity = 0;
+
     f32 hbSize = 150.f;
     if (o->oDistanceToMario < hbSize)
     {
@@ -22,7 +24,10 @@ void bhv_ccm_flipper_loop()
 
 void bhv_ccm_flipper_up_reset()
 {
-    gDisableGravity = 0;
+    if (gIsHM)
+        gDisableGravity = 0;
+    else
+        o->activeFlags = 0;
 }
 
 void bhv_ccm_flipper_up_impl(f32 lo, f32 hi)

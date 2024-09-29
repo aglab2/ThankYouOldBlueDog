@@ -185,6 +185,7 @@ void rr_mirror_mario_ctl_loop()
 
 void rr_water_ctl_loop()
 {
+    gDisableGravity = 0;
     gCollisionFlags |= COLLISION_FLAG_WATER;
     int gm0 = gIsGravityFlipped;
     int gm1 = gGravityMode;
@@ -318,8 +319,8 @@ void bhv_rr_ctl_loop()
     int curSegmentX = toSegmentIndex(gMarioStates->pos[0]);
     int curSegmentZ = toSegmentIndex(gMarioStates->pos[2]);
 
-    print_text_fmt_int(20, 20, "X %d", curSegmentX);
-    print_text_fmt_int(20, 40, "Z %d", curSegmentZ);
+    // print_text_fmt_int(20, 20, "X %d", curSegmentX);
+    // print_text_fmt_int(20, 40, "Z %d", curSegmentZ);
     if (1 == curSegmentX && 0 == curSegmentZ)
     {
         // scramble the randomness a bit :)
@@ -447,8 +448,11 @@ void bhv_rr_ctl_loop()
         }
 
         const QuadrantDesc* desc = &sSegmentsOrder[o->oRrCtlProgress];
-        // const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, desc->x, desc->z);
+#if 1
+        const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, desc->x, desc->z);
+#else
         const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, 1, 1);
+#endif
         o->oRrCtlProgress++;
 
         gMarioStates->pos[0] = start->oPosX;

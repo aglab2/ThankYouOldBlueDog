@@ -85,7 +85,7 @@ const Collision wdw_area_1_collision[] = {
 	COL_TRI(33, 34, 35),
 	COL_TRI(33, 35, 4),
 	COL_TRI(4, 8, 33),
-	COL_TRI_INIT(SURFACE_NOISE_DEFAULT, 20),
+	COL_TRI_INIT(SURFACE_VANISH_CAP_WALLS, 20),
 	COL_TRI(36, 37, 38),
 	COL_TRI(36, 38, 39),
 	COL_TRI(39, 40, 41),

@@ -5290,14 +5290,11 @@ Vtx wdw_dl_Plane_006_mesh_layer_1_vtx_0[4] = {
 	{{ {93, -232, -3171}, 0, {3377, 427}, {0, 0, 127, 255} }},
 };
 
-Vtx wdw_dl_Plane_006_mesh_layer_1_vtx_1[4] = {
+Vtx wdw_dl_Plane_006_mesh_layer_1_vtx_1[8] = {
 	{{ {-320, 1334, -664}, 0, {1051, 1860}, {0, 127, 0, 255} }},
 	{{ {-89, 1334, -664}, 0, {562, 1885}, {0, 127, 0, 255} }},
 	{{ {-89, 1334, -895}, 0, {536, 2373}, {0, 127, 0, 255} }},
 	{{ {-320, 1334, -895}, 0, {1026, 2348}, {0, 127, 0, 255} }},
-};
-
-Vtx wdw_dl_Plane_006_mesh_layer_1_vtx_2[4] = {
 	{{ {-3298, 262, -3277}, 0, {7058, 7052}, {0, 127, 0, 255} }},
 	{{ {-3066, 262, -3277}, 0, {6569, 7076}, {0, 127, 0, 255} }},
 	{{ {-3066, 262, -3509}, 0, {6543, 7564}, {0, 127, 0, 255} }},
@@ -7840,21 +7837,13 @@ Gfx wdw_dl_Plane_006_mesh_layer_1[] = {
 	gsDPPipeSync(),
     gsSPLightColor(LIGHT_1, 0xffffffff),
     gsSPLightColor(LIGHT_2, 0x7f7f7fff),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, wdw_dl__9_pal_rgba16),
-	gsDPLoadTLUTCmd(5, 26),
-	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, wdw_dl__9_ci8),
-	gsDPLoadBlock(7, 0, 0, 511, 512),
-	gsSPVertex(wdw_dl_Plane_006_mesh_layer_1_vtx_1 + 0, 4, 0),
-	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
-	gsDPPipeSync(),
-    gsSPLightColor(LIGHT_1, 0xffffffff),
-    gsSPLightColor(LIGHT_2, 0x7f7f7fff),
 	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, wdw_dl__11_pal_rgba16),
 	gsDPLoadTLUTCmd(5, 94),
 	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, wdw_dl__11_ci8),
 	gsDPLoadBlock(7, 0, 0, 511, 512),
-	gsSPVertex(wdw_dl_Plane_006_mesh_layer_1_vtx_2 + 0, 4, 0),
+	gsSPVertex(wdw_dl_Plane_006_mesh_layer_1_vtx_1 + 0, 8, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0),
 	gsDPPipeSync(),
 	gsSPSetOtherMode(G_SETOTHERMODE_H, 4, 20, G_CD_MAGICSQ | G_AD_NOISE | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE | G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_1PRIMITIVE),
 	gsSPEndDisplayList(),
