@@ -9,3 +9,10 @@
 
 #include "levels/sa/pic_tr/model.inc.c"
 #include "levels/sa/pic_dec/model.inc.c"
+
+const char* kCredits_Shoutouts[] = {
+    "Thank you for playing!\nI hope you enjoyed the hack.",
+    "Thank you for respecting my vision!\nI greatly appreciate it.",
+    "You are a super player!\nPlease accept my deepest gratitude.",
+    "I hope you enjoyed my silly ideas.\nI can't thank you enough for sticking by my side.\nIt means the world to me.",
+};

@@ -419,12 +419,8 @@ static void credits_shoutouts()
         }
     }
 
-    static const char* kShoutouts[] = {
-        "Thank you for playing!\nI hope you enjoyed the hack.",
-        "Thank you for respecting my vision!\nI greatly appreciate it.",
-        "You are a super player!\nYou got my utmost gratitude.",
-        "I hope you enjoyed my silly ideas.\nI tried to make it fun.\nThank you so-so much!",
-    };
+    extern const char* kCredits_Shoutouts[];
+    const char** shoutouts = segmented_to_virtual(kCredits_Shoutouts);
 
     if (o->oTimer > 400)
     {
@@ -432,7 +428,7 @@ static void credits_shoutouts()
         gDeferredFancyText[1].y = 40;
         gDeferredFancyText[1].aligned = 1;
         gDeferredFancyText[1].alpha = CLAMP(255 - (o->oTimer - 400) * 3, 0, 255);
-        gDeferredFancyText[1].line = kShoutouts[o->oCreditsCurrentShoutouts];
+        gDeferredFancyText[1].line = segmented_to_virtual(shoutouts[o->oCreditsCurrentShoutouts]);
     }
     else
     {
@@ -440,7 +436,7 @@ static void credits_shoutouts()
         gDeferredFancyText[1].y = 40;
         gDeferredFancyText[1].aligned = 1;
         gDeferredFancyText[1].alpha = CLAMP(o->oTimer * 3, 0, 255);
-        gDeferredFancyText[1].line = kShoutouts[o->oCreditsCurrentShoutouts];
+        gDeferredFancyText[1].line = segmented_to_virtual(shoutouts[o->oCreditsCurrentShoutouts]);
     }
 
     if (500 == o->oTimer)
