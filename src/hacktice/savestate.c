@@ -16,7 +16,7 @@
 #include "engine/math_util.h"
 #include "libc/string.h"
 
-// #define DEBUG_EMU
+#define DEBUG_EMU
 
 void set_play_mode(s16 playMode);
 
@@ -68,7 +68,7 @@ static bool probeValueValid(u32 val)
         return false;
     }
 
-    return 0 == val || sProbeTime == val || sProbeTime - 1 == val;
+    return sProbeTime == val || sProbeTime - 1 == val;
 }
 
 static bool probeValid(u32 probe, int i)
