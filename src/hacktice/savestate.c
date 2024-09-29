@@ -55,18 +55,30 @@ static bool sProbesOk[3];
 static char sDebugLine[64] = {};
 #endif
 
+static s32 sProbeTime = 0;
+
 // compiler will attempt to be a funny guy here so need to extern it out
 extern void probeStore(void* addr, u32 val);
 extern u32 probeLoad(void* addr);
 
+static bool probeValueValid(u32 val)
+{
+    if (val == -1)
+    {
+        return false;
+    }
+
+    return 0 == val || sProbeTime == val || sProbeTime - 1 == val;
+}
+
 static bool probeValid(u32 probe, int i)
 {
     u32 val = *(vu32*) probe;
-    bool valid = 0 == val || gGlobalTimer == val || gGlobalTimer - 1 == val;
+    bool valid = probeValueValid(val);
 #ifdef DEBUG_EMU
     if (!valid)
     {
-        sprintf(sDebugLine, "%x %x", gGlobalTimer, val);
+        sprintf(sDebugLine, "%x %x", sProbeTime, val);
     }
 #endif
     return valid;
@@ -76,11 +88,11 @@ static bool probeValidPJ64(u32 probe, int i)
 {
     u32 val = probeLoad(probe);
     u32 val1 = probeLoad(probe);
-    bool valid = 0 == val || gGlobalTimer == val || gGlobalTimer - 1 == val;
+    bool valid = probeValueValid(val);
 #ifdef DEBUG_EMU
     if (!valid)
     {
-        sprintf(sDebugLine, "%x %x %x", gGlobalTimer, val, val1);
+        sprintf(sDebugLine, "%x %x %x", sProbeTime, val, val1);
     }
 #endif
     return valid;
@@ -124,13 +136,19 @@ static bool probeCheckPJ64(void* probe)
 
 static void probesReset(void)
 {
-    if (sProbesOk[0]) *(vu32*) (PROBE0) = gGlobalTimer;
-    if (sProbesOk[1]) *(vu32*) (PROBE1) = gGlobalTimer;
+    if (sProbesOk[0]) *(vu32*) (PROBE0) = sProbeTime;
+    if (sProbesOk[1]) *(vu32*) (PROBE1) = sProbeTime;
     if (sProbesOk[2])
     {
         (void) probeLoad(PROBE2);
-        probeStore(PROBE2, gGlobalTimer);
+        probeStore(PROBE2, sProbeTime);
     }
+}
+
+static void tamperEmu(void)
+{
+    sProbeTime = -1;
+    save_file_tamper_weak(gCurrSaveFileNum - 1, TAMPER_FLAG_EMU);
 }
 
 void SaveState_check()
@@ -168,14 +186,21 @@ void SaveState_check()
     {
         if (1 != gCurrLevelNum)
         {
-            if (sProbesOk[0] && !probeValid(PROBE0, 20)) save_file_tamper_weak(gCurrSaveFileNum - 1, TAMPER_FLAG_EMU);
-            if (sProbesOk[1] && !probeValid(PROBE1, 40)) save_file_tamper_weak(gCurrSaveFileNum - 1, TAMPER_FLAG_EMU);
-            if (sProbesOk[2] && !probeValidPJ64(PROBE2, 60)) save_file_tamper_weak(gCurrSaveFileNum - 1, TAMPER_FLAG_EMU);
+            if (-1 != sProbeTime)
+                sProbeTime++;
+
+            if (sProbesOk[0] && !probeValid(PROBE0, 20)) tamperEmu();
+            if (sProbesOk[1] && !probeValid(PROBE1, 40)) tamperEmu();
+            if (sProbesOk[2] && !probeValidPJ64(PROBE2, 60)) tamperEmu();
 
             if (!sProbesOk[0] && !sProbesOk[1] && !sProbesOk[2])
             {
-                save_file_tamper_weak(gCurrSaveFileNum - 1, TAMPER_FLAG_EMU);
+                tamperEmu();
             }
+        }
+        else
+        {
+            sProbeTime = 0;
         }
 
         probesReset();
