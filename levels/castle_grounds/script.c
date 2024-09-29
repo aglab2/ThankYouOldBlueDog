@@ -37,6 +37,7 @@ const LevelScript level_castle_grounds_entry[] = {
 		WARP_NODE(0x0a, LEVEL_WMOTR, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xf0, LEVEL_WMOTR, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xf1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
+		OBJECT(MODEL_NONE, -1, 356, -3008, 0, 149, 0, (4 << 16), bhvCoinFormation),
 		OBJECT(MODEL_HMC_METAL_DOOR, 3865, 85, -70, 0, -90, 0, (0xa << 16), bhvDoorWarp),
 		OBJECT(MODEL_HMC_METAL_DOOR, 3865, 85, 69, 0, 90, 0, (0xa << 16), bhvDoorWarp),
 		MARIO_POS(0x01, 0, 4109, 966, 11),
