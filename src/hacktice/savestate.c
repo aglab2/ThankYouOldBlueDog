@@ -251,6 +251,15 @@ void SaveState_onNormal()
 
     if (sMustSaveState)
     {
+        gMarioStates->controller->rawStickX = 0;
+        gMarioStates->controller->rawStickY = 0;
+        gMarioStates->controller->stickX = 0;
+        gMarioStates->controller->stickY = 0;
+        gMarioStates->controller->stickMag = 0;
+        gMarioStates->controller->buttonDown = 0;
+        gMarioStates->controller->buttonPressed = 0;
+        gMarioStates->controller->buttonReleased = 0;
+
         sMustSaveState = false;
         sMustLoadState = false;
         Hacktice_gState->area  = gCurrAreaIndex;
