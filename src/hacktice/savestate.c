@@ -36,6 +36,8 @@ extern u8 _hackticeStateDataStart1[];
 extern u8 _hackticeStateDataEnd1[];
 #endif
 
+u8 gSavedTimer = 0;
+
 static bool sMustSaveState = 0;
 static bool sMustLoadState = 0;
 
@@ -256,9 +258,9 @@ void SaveState_onNormal()
         gMarioStates->controller->stickX = 0;
         gMarioStates->controller->stickY = 0;
         gMarioStates->controller->stickMag = 0;
-        gMarioStates->controller->buttonDown = 0;
-        gMarioStates->controller->buttonPressed = 0;
-        gMarioStates->controller->buttonReleased = 0;
+        gMarioStates->controller->buttonDown &= L_TRIG;
+        gMarioStates->controller->buttonPressed &= L_TRIG;
+        gMarioStates->controller->buttonReleased &= L_TRIG;
 
         sMustSaveState = false;
         sMustLoadState = false;
@@ -269,6 +271,7 @@ void SaveState_onNormal()
         memcpy(Hacktice_gState->memory, _hackticeStateDataStart0, _hackticeStateDataEnd0 - _hackticeStateDataStart0);
         memcpy(Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0), _hackticeStateDataStart1, _hackticeStateDataEnd1 - _hackticeStateDataStart1);
         memcpy(Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0) + (_hackticeStateDataEnd1 - _hackticeStateDataStart1), gMarioAnimsMemAlloc, MARIO_ANIMS_POOL_SIZE);
+        gSavedTimer = 255;
     }
     else
     {

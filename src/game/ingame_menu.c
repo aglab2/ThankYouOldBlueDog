@@ -2456,6 +2456,7 @@ static void render_flower()
 
 extern u8 gMirrorVCAmount;
 extern u8 gPressLToSave;
+extern u8 gSavedTimer;
 s32 render_menus_and_dialogs(void) {
     if (gMarioStates->action == ACT_STAR_DANCE_WATER || gMarioStates->action == ACT_PULLING_DOOR || gMarioStates->action == ACT_PUSHING_DOOR)
         render_flower();
@@ -2502,6 +2503,13 @@ s32 render_menus_and_dialogs(void) {
         gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
         fancy_print(20, "Press L to save", 255);
         gPressLToSave = 0;
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+    }
+    if (gSavedTimer)
+    {
+        gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+        fancy_print_uncentered(40, 20, "Saved", gSavedTimer);
+        gSavedTimer -= 5;
         gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
     }
 
