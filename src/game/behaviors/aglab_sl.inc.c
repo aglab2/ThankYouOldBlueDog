@@ -3,7 +3,7 @@
 #define oSlCtlCount oFC
 #define oSlCtlTurnsAmountBg o100
 
-#define SL_SPEED ((gIsHM ? 0xA0 : 0x84) + (gIsHM ? 0x10 : 0x4) * o->oSlCtlCount)
+#define SL_SPEED ((gIsHM ? 0xA0 : 0x7C) + (gIsHM ? 0x10 : 0x4) * o->oSlCtlCount)
 
 static uint8_t kSlCyclesAmounts[] = { 1, 2, 2, 3, 3 };
 static int8_t kSlTurnDirections[] = { 1, 1, 1, -1, -1, -1 };
