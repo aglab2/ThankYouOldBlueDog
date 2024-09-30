@@ -88,6 +88,11 @@ static bool probeValid(u32 probe, int i)
 
 static bool probeValidPJ64(u32 probe, int i)
 {
+    if (gEmulator & EMU_PROJECT64_1_OR_2)
+    {
+        return false;
+    }
+
     u32 val = probeLoad(probe);
     u32 val1 = probeLoad(probe);
     bool valid = probeValueValid(val);

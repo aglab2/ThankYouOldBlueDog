@@ -40,7 +40,7 @@ void bhv_rr_ctl_init()
     if (!gIsHM)
     {
         struct Pos* positions = segmented_to_virtual(kRrCoinsLocations);
-        for (int i = 9; i < 18; i++)
+        for (int i = 13; i < 18; i++)
         {
             struct Object* coin = spawn_object(o, MODEL_YELLOW_COIN, bhvYellowCoin);
             coin->oPosX = positions[i].x;
