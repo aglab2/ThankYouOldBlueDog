@@ -77,7 +77,7 @@ Gfx* geo_flower_leaves(s32 callContext, struct GraphNode *node, UNUSED void *con
         }
         else
         {
-            if (flags)
+            if (0)
             {
                 gDPSetEnvColor(dlHead++, 17, 15, 68, 255);
                 gDPSetPrimColor(dlHead++, 0, 0, 31, 48, 97, 255);

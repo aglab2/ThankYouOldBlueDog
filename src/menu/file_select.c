@@ -426,6 +426,7 @@ void render_menu_buttons(s32 selectedButtonID) {
     sMainMenuButtons[idx + 2]->oMenuButtonScale = MENU_BUTTON_SCALE;
     sMainMenuButtons[idx + 2]->oMenuButtonSelectedFile = 3;
     sMainMenuButtons[idx + 0]->oFaceAngleRoll = 0x8000;
+
     // File D
     sMainMenuButtons[idx + 3] = SPAWN_FILE_SELECT_FILE_BUTTON(button, SAVE_FILE_D);
     sMainMenuButtons[idx + 3]->oMenuButtonScale = MENU_BUTTON_SCALE;
@@ -912,7 +913,7 @@ void load_erase_menu_from_submenu(s16 prevMenuButtonID, struct Object *sourceBut
 static const Vec3s sSaveFileButtonInitPositions[] = {
     { -7500 + 5000 * 0, 1900, 0 }, // SAVE_FILE_A
     { -7500 + 5000 * 1, 1900, 0 }, // SAVE_FILE_B
-    { -7500 + 5000 * 2, 1900, 0 }, // SAVE_FILE_C
+    { 0, 300, 0 }, // SAVE_FILE_C
     { -7500 + 5000 * 3, 1900, 0 }, // SAVE_FILE_D
 };
 
@@ -943,7 +944,7 @@ void bhv_menu_button_manager_init(void) {
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_A]->oFaceAngleRoll = 0x4000;
     // File C
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_C] = SPAWN_FILE_SELECT_FILE_BUTTON_INIT(SAVE_FILE_C);
-    sMainMenuButtons[MENU_BUTTON_PLAY_FILE_C]->oMenuButtonScale = 1.0f;
+    sMainMenuButtons[MENU_BUTTON_PLAY_FILE_C]->oMenuButtonScale = 2.3f;
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_C]->oMenuButtonSelectedFile = 3;
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_A]->oFaceAngleRoll = 0x8000;
     // File D
@@ -1187,10 +1188,10 @@ void print_menu_cursor(void) {
     create_dl_translation_matrix(MENU_MTX_PUSH, sCursorPos[0] + 160.0f - 5.0, sCursorPos[1] + 120.0f - 25.0, 0.0f);
     // Get the right graphic to use for the cursor.
     if (sCursorClickingTimer == 0) { // Idle
-        gSPDisplayList(gDisplayListHead++, dl_menu_idle_hand);
+        // gSPDisplayList(gDisplayListHead++, dl_menu_idle_hand);
     }
     if (sCursorClickingTimer != 0) { // Grabbing
-        gSPDisplayList(gDisplayListHead++, dl_menu_grabbing_hand);
+        // gSPDisplayList(gDisplayListHead++, dl_menu_grabbing_hand);
     }
     gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
     if (sCursorClickingTimer != 0) {
@@ -1279,6 +1280,7 @@ LangArray textNew = DEFINE_LANGUAGE_ARRAY(
     "NUEVO");
 
 void print_save_file_star_count(s8 fileIndex, s16 x, s16 y) {
+    return;
     s16 starCount = save_file_get_total_star_count(fileIndex,
                                                     COURSE_NUM_TO_INDEX(COURSE_MIN),
                                                     COURSE_NUM_TO_INDEX(COURSE_MAX));
@@ -1312,14 +1314,14 @@ LangArray textScore = DEFINE_LANGUAGE_ARRAY(
     "RÉCORDS");
 
 LangArray textCopy = DEFINE_LANGUAGE_ARRAY(
-    "COPY",
+    "",
     "COPIER",
     "KOPIEREN",
     "コピー",
     "COPIAR");
 
 LangArray textErase = DEFINE_LANGUAGE_ARRAY(
-    "ERASE",
+    "",
     "EFFACER",
     "LÖSCHEN",
     "けす",
@@ -1354,7 +1356,7 @@ LangArray textMarioD = DEFINE_LANGUAGE_ARRAY(
     "MARIO D");
 
 LangArray textSoundModeStereo = DEFINE_LANGUAGE_ARRAY(
-    "STEREO",
+    "",
     "STÉRÉO",
     "STEREO",
     "ステレオ",
@@ -1413,6 +1415,9 @@ void print_main_menu_strings(void) {
     gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
     set_text_color(255, 255, 255);
     // print_generic_string_aligned(67, 39, LANG_ARRAY(textScore), TEXT_ALIGN_CENTER);
+    
+    print_generic_string_aligned(160, 8, "Thank You Old Blue Dog", TEXT_ALIGN_CENTER);
+
     print_generic_string_aligned(67, 39, LANG_ARRAY(textCopy), TEXT_ALIGN_CENTER);
     print_generic_string_aligned(160, 39, LANG_ARRAY(textErase), TEXT_ALIGN_CENTER);
 #ifdef MULTILANG
