@@ -19,6 +19,7 @@ void bhv_bbh_ctl_init()
     gMirrorOffset[1] = 0.f;
     gMirrorOffset[2] = 0.f;
 #if 1
+    if (!gIsHM)
     {
         struct Pos* positions = segmented_to_virtual(sBbhCoinsLocations);
         for (int i = 17; i < 30; i++)
@@ -34,9 +35,6 @@ void bhv_bbh_ctl_init()
 
 void bhv_bbh_ctl_loop()
 {
-#if 0
-    record_on_frame();
-#endif
     if (gMarioStates->action == ACT_STAR_DANCE_WATER)
     {
         gMirrorTrigger = 0;

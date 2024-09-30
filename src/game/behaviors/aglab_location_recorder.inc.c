@@ -1,11 +1,10 @@
 #if 0
-struct Pos{ f32 x, y, z; };
 int sRecCursor = 0;
 struct Pos sRecPositions[200];
 
 void record_on_frame()
 {
-    if (0 == (o->oTimer % 10))
+    if (0 == (o->oTimer % 5))
     {
         sRecPositions[sRecCursor].x = gMarioStates->pos[0];
         sRecPositions[sRecCursor].y = gMarioStates->pos[1] + 40.f;

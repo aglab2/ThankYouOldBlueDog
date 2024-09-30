@@ -34,8 +34,21 @@ static void rr_obj_despawn_all_flames()
     }
 }
 
+extern struct Pos kRrCoinsLocations[];
 void bhv_rr_ctl_init()
 {
+    if (!gIsHM)
+    {
+        struct Pos* positions = segmented_to_virtual(kRrCoinsLocations);
+        for (int i = 9; i < 18; i++)
+        {
+            struct Object* coin = spawn_object(o, MODEL_YELLOW_COIN, bhvYellowCoin);
+            coin->oPosX = positions[i].x;
+            coin->oPosY = positions[i].y;
+            coin->oPosZ = positions[i].z;
+        }
+    }
+
     o->oRrCtlPrevCombined = 0;
 
     f32 d;
@@ -316,6 +329,10 @@ void bhv_rr_cube_loop()
 
 void bhv_rr_ctl_loop()
 {
+#if 0
+    record_on_frame();
+#endif
+
     int curSegmentX = toSegmentIndex(gMarioStates->pos[0]);
     int curSegmentZ = toSegmentIndex(gMarioStates->pos[2]);
 
@@ -458,7 +475,7 @@ void bhv_rr_ctl_loop()
 #if 1
         const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, desc->x, desc->z);
 #else
-        const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, 1, 1);
+        const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, 2, 0);
 #endif
         o->oRrCtlProgress++;
 

@@ -4,6 +4,22 @@
 
 extern u8 gDisableGravity;
 
+extern u32 kHmcCoinsLocations[];
+void bhv_hmc_ctl_init()
+{
+    if (!gIsHM)
+    {
+        struct Pos* positions = segmented_to_virtual(kHmcCoinsLocations);
+        for (int i = 7; i < 13; i++)
+        {
+            struct Object* coin = spawn_object(o, MODEL_YELLOW_COIN, bhvYellowCoin);
+            coin->oPosX = positions[i].x;
+            coin->oPosY = positions[i].y;
+            coin->oPosZ = positions[i].z;
+        }
+    }
+}
+
 void bhv_hmc_ctl_loop()
 {
     gDisableGravity = 0;
