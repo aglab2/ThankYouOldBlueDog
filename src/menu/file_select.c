@@ -420,17 +420,17 @@ void render_menu_buttons(s32 selectedButtonID) {
     sMainMenuButtons[idx + 1] = SPAWN_FILE_SELECT_FILE_BUTTON(button, SAVE_FILE_B);
     sMainMenuButtons[idx + 1]->oMenuButtonScale = MENU_BUTTON_SCALE;
     sMainMenuButtons[idx + 1]->oMenuButtonSelectedFile = 2;
-    sMainMenuButtons[idx + 0]->oFaceAngleRoll = 0x4000;
+    sMainMenuButtons[idx + 1]->oFaceAngleRoll = 0x4000;
     // File C
     sMainMenuButtons[idx + 2] = SPAWN_FILE_SELECT_FILE_BUTTON(button, SAVE_FILE_C);
     sMainMenuButtons[idx + 2]->oMenuButtonScale = MENU_BUTTON_SCALE;
     sMainMenuButtons[idx + 2]->oMenuButtonSelectedFile = 3;
-    sMainMenuButtons[idx + 0]->oFaceAngleRoll = 0x8000;
+    sMainMenuButtons[idx + 2]->oFaceAngleRoll = 0x8000;
     // File D
     sMainMenuButtons[idx + 3] = SPAWN_FILE_SELECT_FILE_BUTTON(button, SAVE_FILE_D);
     sMainMenuButtons[idx + 3]->oMenuButtonScale = MENU_BUTTON_SCALE;
     sMainMenuButtons[idx + 3]->oMenuButtonSelectedFile = 4;
-    sMainMenuButtons[idx + 0]->oFaceAngleRoll = 0xC000;
+    sMainMenuButtons[idx + 3]->oFaceAngleRoll = 0xC000;
 
     // Return to main menu button
     sMainMenuButtons[idx + 4] =
@@ -940,17 +940,17 @@ void bhv_menu_button_manager_init(void) {
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_B] = SPAWN_FILE_SELECT_FILE_BUTTON_INIT(SAVE_FILE_B);
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_B]->oMenuButtonScale = 1.0f;
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_B]->oMenuButtonSelectedFile = 2;
-    sMainMenuButtons[MENU_BUTTON_PLAY_FILE_A]->oFaceAngleRoll = 0x4000;
+    sMainMenuButtons[MENU_BUTTON_PLAY_FILE_B]->oFaceAngleRoll = 0x4000;
     // File C
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_C] = SPAWN_FILE_SELECT_FILE_BUTTON_INIT(SAVE_FILE_C);
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_C]->oMenuButtonScale = 1.0f;
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_C]->oMenuButtonSelectedFile = 3;
-    sMainMenuButtons[MENU_BUTTON_PLAY_FILE_A]->oFaceAngleRoll = 0x8000;
+    sMainMenuButtons[MENU_BUTTON_PLAY_FILE_C]->oFaceAngleRoll = 0x8000;
     // File D
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_D] = SPAWN_FILE_SELECT_FILE_BUTTON_INIT(SAVE_FILE_D);
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_D]->oMenuButtonScale = 1.0f;
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_D]->oMenuButtonSelectedFile = 4;
-    sMainMenuButtons[MENU_BUTTON_PLAY_FILE_A]->oFaceAngleRoll = 0xC000;
+    sMainMenuButtons[MENU_BUTTON_PLAY_FILE_D]->oFaceAngleRoll = 0xC000;
     // Score menu button
     sMainMenuButtons[MENU_BUTTON_SCORE] =
         spawn_object_rel_with_rot(o, 0,
