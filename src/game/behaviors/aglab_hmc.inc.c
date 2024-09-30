@@ -83,7 +83,7 @@ void bhv_hmc_ctl_loop()
             gMarioStates->controller->buttonDown &= ~B_BUTTON;
             gMarioStates->controller->buttonPressed &= ~B_BUTTON;
             gDisableGravity = 1;
-            if (gMarioStates->action == ACT_JUMP_LAND && gMarioStates->vel[1] < 0.f)
+            if (gMarioStates->action != ACT_JUMP && (gMarioStates->pos[1] - gMarioStates->floorHeight) < 10.f)
             {
                 gMarioStates->vel[1] = 0;
             }

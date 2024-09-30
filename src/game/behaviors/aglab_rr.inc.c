@@ -247,6 +247,16 @@ void rr_water_ctl_loop()
             gMarioStates->controller->buttonDown &= ~B_BUTTON;
             gMarioStates->controller->buttonPressed &= ~B_BUTTON;
             gDisableGravity = 1;
+            if (gMarioStates->action != ACT_JUMP && (gMarioStates->pos[1] - gMarioStates->floorHeight) < 10.f)
+            {
+                gMarioStates->vel[1] = 0;
+                if (gMarioStates->floor->normal.y < 0.8f)
+                {
+                    gMarioStates->pos[0] += 20.f * gMarioStates->floor->normal.x;
+                    gMarioStates->pos[1] += 20.f * gMarioStates->floor->normal.y;
+                    gMarioStates->pos[2] += 20.f * gMarioStates->floor->normal.z;
+                }
+            }
             gMarioStates->action = ACT_JUMP;
 
             f32 raisevel = 4.f;

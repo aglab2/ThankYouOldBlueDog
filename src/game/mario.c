@@ -1278,7 +1278,7 @@ void update_mario_joystick_inputs(struct MarioState *m) {
     {
         if (gCurrCourseNum == COURSE_SSL)
         {
-            m->intendedMag /= 1.5f;
+            m->intendedMag /= 1.8f;
         }
         if (gCurrCourseNum == COURSE_RR)
         {
@@ -1286,7 +1286,7 @@ void update_mario_joystick_inputs(struct MarioState *m) {
             int curSegmentZ = toSegmentIndex(gMarioStates->pos[2]);
             if (curSegmentX == 1 && curSegmentZ == 2)
             {
-                m->intendedMag /= 1.6f;
+                m->intendedMag /= 1.8f;
             }
         }
     }
