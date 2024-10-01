@@ -22537,7 +22537,8 @@ Gfx mat_revert_wmotr_dl_f3dlite_material_layer1[] = {
 
 Gfx mat_wmotr_dl_f3dlite_material_001[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0),
+	gsDPSetPrimColor(0, 0, 0, 0, 0, 255),
+	gsDPSetCombineLERP(TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0, TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0),
 	gsSPGeometryMode(G_LIGHTING, 0),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPEndDisplayList(),
@@ -22551,7 +22552,7 @@ Gfx mat_revert_wmotr_dl_f3dlite_material_001[] = {
 
 Gfx mat_wmotr_dl_f3dlite_material_002[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0),
+	gsDPSetCombineLERP(TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0, TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0),
 	gsSPGeometryMode(G_LIGHTING, 0),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPEndDisplayList(),
@@ -22565,7 +22566,7 @@ Gfx mat_revert_wmotr_dl_f3dlite_material_002[] = {
 
 Gfx mat_wmotr_dl_f3dlite_material_003[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0),
+	gsDPSetCombineLERP(TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0, TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0),
 	gsSPGeometryMode(G_LIGHTING, 0),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPEndDisplayList(),
@@ -22579,7 +22580,7 @@ Gfx mat_revert_wmotr_dl_f3dlite_material_003[] = {
 
 Gfx mat_wmotr_dl_f3dlite_material_004[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0),
+	gsDPSetCombineLERP(TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0, TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0),
 	gsSPGeometryMode(G_LIGHTING, 0),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPEndDisplayList(),
@@ -22593,7 +22594,7 @@ Gfx mat_revert_wmotr_dl_f3dlite_material_004[] = {
 
 Gfx mat_wmotr_dl_f3dlite_material_005[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0),
+	gsDPSetCombineLERP(TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0, TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0),
 	gsSPGeometryMode(G_LIGHTING, 0),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPEndDisplayList(),
@@ -22607,7 +22608,7 @@ Gfx mat_revert_wmotr_dl_f3dlite_material_005[] = {
 
 Gfx mat_wmotr_dl_f3dlite_material_006[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0),
+	gsDPSetCombineLERP(TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0, TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0),
 	gsSPGeometryMode(G_LIGHTING, 0),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPEndDisplayList(),
@@ -22621,7 +22622,7 @@ Gfx mat_revert_wmotr_dl_f3dlite_material_006[] = {
 
 Gfx mat_wmotr_dl_f3dlite_material_007[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0),
+	gsDPSetCombineLERP(TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0, TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0),
 	gsSPGeometryMode(G_LIGHTING, 0),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPEndDisplayList(),
@@ -22635,7 +22636,7 @@ Gfx mat_revert_wmotr_dl_f3dlite_material_007[] = {
 
 Gfx mat_wmotr_dl_f3dlite_material_008[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0),
+	gsDPSetCombineLERP(TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0, TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0),
 	gsSPGeometryMode(G_LIGHTING, 0),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPEndDisplayList(),
@@ -22649,7 +22650,7 @@ Gfx mat_revert_wmotr_dl_f3dlite_material_008[] = {
 
 Gfx mat_wmotr_dl_f3dlite_material_009[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0),
+	gsDPSetCombineLERP(TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0, TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0),
 	gsSPGeometryMode(G_LIGHTING, 0),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPEndDisplayList(),
@@ -22663,7 +22664,7 @@ Gfx mat_revert_wmotr_dl_f3dlite_material_009[] = {
 
 Gfx mat_wmotr_dl_f3dlite_material_010[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0),
+	gsDPSetCombineLERP(TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0, TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0),
 	gsSPGeometryMode(G_LIGHTING, 0),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPEndDisplayList(),
@@ -22677,7 +22678,7 @@ Gfx mat_revert_wmotr_dl_f3dlite_material_010[] = {
 
 Gfx mat_wmotr_dl_f3dlite_material_011[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0),
+	gsDPSetCombineLERP(TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0, TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0),
 	gsSPGeometryMode(G_LIGHTING, 0),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPEndDisplayList(),
@@ -22691,7 +22692,7 @@ Gfx mat_revert_wmotr_dl_f3dlite_material_011[] = {
 
 Gfx mat_wmotr_dl_f3dlite_material_012[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0),
+	gsDPSetCombineLERP(TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0, TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0),
 	gsSPGeometryMode(G_LIGHTING, 0),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPEndDisplayList(),
@@ -22705,7 +22706,8 @@ Gfx mat_revert_wmotr_dl_f3dlite_material_012[] = {
 
 Gfx mat_wmotr_dl_f3dlite_material_013[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, ENVIRONMENT, 0, SHADE, 0),
+	gsDPSetPrimColor(0, 0, 0, 0, 0, 255),
+	gsDPSetCombineLERP(TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0, TEXEL0, PRIMITIVE, SHADE, PRIMITIVE, ENVIRONMENT, 0, SHADE, 0),
 	gsSPGeometryMode(G_LIGHTING, 0),
 	gsDPSetTextureLUT(G_TT_RGBA16),
 	gsSPTexture(65535, 65535, 0, 0, 1),
