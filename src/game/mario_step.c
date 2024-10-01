@@ -437,6 +437,7 @@ struct Surface *check_ledge_grab(struct MarioState *m, struct Surface *prevWall,
         || (*ledgeFloor)->normal.y < COS25 // H64 TODO: check if floor is actually slippery
 #endif
         || (*ledgeFloor)->type == SURFACE_BURNING
+        || (*ledgeFloor)->type == SURFACE_INSTANT_QUICKSAND
     ) {
         return NULL;
     }
