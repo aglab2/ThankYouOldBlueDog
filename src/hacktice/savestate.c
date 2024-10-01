@@ -136,11 +136,10 @@ static bool probeCheckPJ64(void* probe)
 
 static bool initSC(void)
 {
-    *(vu32*) (0x9FFF0000+0x10) = 0x00000000;
-    *(vu32*) (0x9FFF0000+0x10) = 0x5F554E4C;
-    *(vu32*) (0x9FFF0000+0x10) = 0x4F434B5F;
-    u32 id = *(vu32*) (0x9FFF0000+0x0C);
-    return id != 0x53437632;
+    probeStore(0x9FFF0000+0x10, 0x00000000);
+    probeStore(0x9FFF0000+0x10, 0x5F554E4C);
+    probeStore(0x9FFF0000+0x10, 0x4F434B5F);
+    return 0x53437632 == probeLoad(0x9FFF0000+0x0C);
 }
 
 static void probesReset(void)
@@ -290,8 +289,11 @@ void SaveState_onNormal()
                 memcpy(gMarioAnimsMemAlloc, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0) + (_hackticeStateDataEnd1 - _hackticeStateDataStart1), MARIO_ANIMS_POOL_SIZE);
                 int starCount = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
                 if (starCount != 13)
-                    save_file_tamper_weak(gCurrSaveFileNum - 1, TAMPER_FLAG_LOAD);
-
+                {
+                    if (starCount || gMarioStates->pos[0] > -3000.f)
+                        save_file_tamper_weak(gCurrSaveFileNum - 1, TAMPER_FLAG_LOAD);
+                }
+                
                 probesReset();
                 sLastFailPosition[0] = pos[0];
                 sLastFailPosition[1] = pos[1];
