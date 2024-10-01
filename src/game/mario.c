@@ -1749,6 +1749,7 @@ void queue_rumble_particles(struct MarioState *m) {
 
 extern int sSafePosArea;
 extern int sSafePosLevel;
+extern uint32_t gSafePosAllowedFrame;
 
 /**
  * Main function for executing Mario's behavior. Returns particleFlags.
@@ -1780,6 +1781,17 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
         }
 #endif
 
+        if (sSafePosArea != gCurrAreaIndex || sSafePosLevel != gCurrLevelNum)
+        {
+            gMarioState->controller->buttonDown = 0;
+            gMarioState->controller->buttonPressed = 0;
+            gMarioState->controller->stickX = 0;
+            gMarioState->controller->stickY = 0;
+            gMarioState->controller->stickMag = 0;
+            gMarioState->controller->rawStickX = 0;
+            gMarioState->controller->rawStickY = 0;
+        }
+
         gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
         mario_reset_bodystate(gMarioState);
         update_mario_inputs(gMarioState);
@@ -1793,17 +1805,6 @@ s32 execute_mario_action(UNUSED struct Object *obj) {
 #endif
         if (0 == gMarioState->action) {
             return ACTIVE_PARTICLE_NONE;
-        }
-
-        if (sSafePosArea != gCurrAreaIndex || sSafePosLevel != gCurrLevelNum)
-        {
-            gMarioState->controller->buttonDown = 0;
-            gMarioState->controller->buttonPressed = 0;
-            gMarioState->controller->stickX = 0;
-            gMarioState->controller->stickY = 0;
-            gMarioState->controller->stickMag = 0;
-            gMarioState->controller->rawStickX = 0;
-            gMarioState->controller->rawStickY = 0;
         }
 
         mario_process_interactions(gMarioState);
