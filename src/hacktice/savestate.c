@@ -47,8 +47,7 @@ extern u32 gIsGravityFlipped;
 
 #define PROBE0 0xb3ff1000
 #define PROBE1 0xbffbfff0
-// This is used only for ancient emulators :)
-#define PROBE2 0x90000000
+#define PROBE2 0x9FFF0004
 
 static bool sProbesChecked = false;
 static bool sProbesOk[3];
@@ -57,7 +56,7 @@ static bool sProbesOk[3];
 static char sDebugLine[64] = {};
 #endif
 
-static s32 sProbeTime = 0;
+static u32 sProbeTime = 0;
 
 // compiler will attempt to be a funny guy here so need to extern it out
 extern void probeStore(void* addr, u32 val);
@@ -65,7 +64,7 @@ extern u32 probeLoad(void* addr);
 
 static bool probeValueValid(u32 val)
 {
-    if (val == -1)
+    if (val == 0xffffffffU)
     {
         return false;
     }
@@ -88,18 +87,12 @@ static bool probeValid(u32 probe, int i)
 
 static bool probeValidPJ64(u32 probe, int i)
 {
-    if (gEmulator & EMU_PROJECT64_1_OR_2)
-    {
-        return false;
-    }
-
     u32 val = probeLoad(probe);
-    u32 val1 = probeLoad(probe);
     bool valid = probeValueValid(val);
 #ifdef DEBUG_EMU
     if (!valid)
     {
-        sprintf(sDebugLine, "%x %x %x", sProbeTime, val, val1);
+        sprintf(sDebugLine, "%x %x", sProbeTime, val);
     }
 #endif
     return valid;
@@ -141,20 +134,25 @@ static bool probeCheckPJ64(void* probe)
     return true;
 }
 
+static bool initSC(void)
+{
+    *(vu32*) (0x9FFF0000+0x10) = 0x00000000;
+    *(vu32*) (0x9FFF0000+0x10) = 0x5F554E4C;
+    *(vu32*) (0x9FFF0000+0x10) = 0x4F434B5F;
+    u32 id = *(vu32*) (0x9FFF0000+0x0C);
+    return id != 0x53437632;
+}
+
 static void probesReset(void)
 {
     if (sProbesOk[0]) *(vu32*) (PROBE0) = sProbeTime;
     if (sProbesOk[1]) *(vu32*) (PROBE1) = sProbeTime;
-    if (sProbesOk[2])
-    {
-        (void) probeLoad(PROBE2);
-        probeStore(PROBE2, sProbeTime);
-    }
+    if (sProbesOk[2]) probeStore(PROBE2, sProbeTime);
 }
 
 static void tamperEmu(void)
 {
-    sProbeTime = -1;
+    sProbeTime = 0xffffffffU;
     save_file_tamper_weak(gCurrSaveFileNum - 1, TAMPER_FLAG_EMU);
 }
 
@@ -179,7 +177,7 @@ void SaveState_check()
 
         if (!sProbesOk[0] && !sProbesOk[1])
         {
-            sProbesOk[2] = probeCheckPJ64((void*) PROBE2);
+            sProbesOk[2] = initSC() && probeCheckPJ64((void*) PROBE2);
         }
         else
         {
@@ -193,7 +191,7 @@ void SaveState_check()
     {
         if (1 != gCurrLevelNum)
         {
-            if (-1 != sProbeTime)
+            if (0xffffffffU != sProbeTime)
                 sProbeTime++;
 
             if (sProbesOk[0] && !probeValid(PROBE0, 20)) tamperEmu();
