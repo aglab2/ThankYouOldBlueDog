@@ -260,7 +260,7 @@ static void credits_fade_special_thanks()
 }
 
 const int kFadeInCredits = 64;
-#define kCreditsEntryWait (gIsConsole ? 120 : 200)
+#define kCreditsEntryWait (gIsConsole ? 120 : 170)
 static void credits_show_first_entry()
 {
     renderTopText(255);
