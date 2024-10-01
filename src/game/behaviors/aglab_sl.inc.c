@@ -58,10 +58,15 @@ void bhv_sl_ctl_loop()
                         o->oSlCtlTurnsAmountBg--;
                         o->parentObj->oFaceAnglePitch -= (o->oSlCtlTurnsDirection * SL_SPEED / 4.f);
                     }
+                    else
+                    {
+                        o->parentObj->oFaceAnglePitch = ((((u16)o->parentObj->oFaceAnglePitch) + 0x400) & 0xF800);
+                    }
                 }
                 else
                 {
-                    if (o->oTimer > (gIsHM ? 30 : 45))
+                    o->oFaceAnglePitch = 0x2000 + ((o->oFaceAnglePitch) & 0xC000);
+                    if (o->oTimer > (gIsHM ? (20 + 3*o->oSlCtlCount) : 45))
                     {
                         o->oAction = 1;
                     }
