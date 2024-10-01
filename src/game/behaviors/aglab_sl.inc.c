@@ -60,7 +60,7 @@ void bhv_sl_ctl_loop()
                     }
                     else
                     {
-                        o->parentObj->oFaceAnglePitch = ((((u16)o->parentObj->oFaceAnglePitch) + 0x200) & 0xFC00);
+                        o->parentObj->oFaceAnglePitch = ((((u16)(o->parentObj->oFaceAnglePitch) + 0x400) & 0xF800));
                     }
                 }
                 else
