@@ -1448,6 +1448,10 @@ ALIGNED8 static const Texture texture_font_char_us_colon[] = {
 #include "textures/segment2/font_graphics.06D00.ia4.inc.c"
 };
 
+ALIGNED8 static const Texture texture_font_char_us_semicolon[] = {
+#include "textures/segment2/font_graphics.06D00_semi.ia4.inc.c"
+};
+
 ALIGNED8 static const Texture texture_font_char_us_hyphen[] = {
 #include "textures/segment2/font_graphics.06D40.ia4.inc.c"
 };
@@ -1914,7 +1918,7 @@ const struct AsciiCharLUTEntry main_font_lut[] = {
     {texture_font_char_us_8, 7}, // 56 "8"
     {texture_font_char_us_9, 7}, // 57 "9"
     {texture_font_char_us_colon, 4}, // 58 ":"
-    {NULL, 0}, // 59 ";" (Unimplemented)
+    {texture_font_char_us_semicolon, 4}, // 59 ";" (Unimplemented)
     {NULL, 0}, // 60 "<" (Unimplemented)
     {NULL, 0}, // 61 "=" (Unimplemented)
     {NULL, 0}, // 62 ">" (Unimplemented)

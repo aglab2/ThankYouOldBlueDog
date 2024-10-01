@@ -15,4 +15,5 @@ const char* kCredits_Shoutouts[] = {
     "Thank you for respecting my vision!\nI greatly appreciate it.",
     "You are a super player!\nPlease accept my deepest gratitude.",
     "I hope you enjoyed my silly ideas.\nI can't thank you enough for sticking by my side.\nIt means the world to me.",
+    "I bet there were things you did not like but if\nyou kept any good memories, I am gratified.\nI wish you the best on your path.",
 };

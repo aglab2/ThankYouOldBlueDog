@@ -411,7 +411,7 @@ void bhv_rr_ctl_loop()
         if (!gGoMode)
         {
             f32 marioY = gIsGravityFlipped ? (8825.f - gMarioStates->pos[1]) : gMarioStates->pos[1];
-            if (marioY > 2700.f)
+            if ((!gIsHM || gIsGravityFlipped) && marioY > 2700.f)
             {
                 gGoMode = 1;
                 o->oHomeX = gMarioStates->pos[0];

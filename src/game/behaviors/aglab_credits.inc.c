@@ -17,9 +17,10 @@ enum CreditsShotouts
     CREDITS_NO_EMU = 1 << 1,
     CREDITS_NO_TAMPERS = 1 << 2,
     CREDITS_HM = 1 << 3,
+    CREDITS_HM2 = 1 << 4,
 };
 
-#define CREDITS_LAST 4
+#define CREDITS_LAST 5
 
 extern u8 gBlackBoxAlpha;
 extern u8 gBigBlackBoxAlpha;
@@ -76,7 +77,7 @@ void bhv_ending_player_init()
         o->oCreditsShoutouts |= CREDITS_CLEAR;
 
         if (gIsHM)
-            o->oCreditsShoutouts |= CREDITS_HM;
+            o->oCreditsShoutouts |= (CREDITS_HM | CREDITS_HM2);
         if (0 == tampers)
             o->oCreditsShoutouts |= CREDITS_NO_TAMPERS;
         if (!(tampers & TAMPER_FLAG_EMU))
@@ -90,8 +91,8 @@ struct CreditEntry
     u8 shift;
     const u8* picRomStart;
     const u8* picRomEnd;
-    const char* name;
-    const char* lines[3];
+    const char* names[2];
+    const char* lines[2];
 };
 
 #define PIC(name) _cc_##name##_yay0SegmentRomStart, _cc_##name##_yay0SegmentRomEnd
@@ -99,23 +100,25 @@ struct CreditEntry
 static const char kWitchOnTheHolyNight[] = "Witch on the Holy Night";
 static const char kAiSomniumFiles[] = "AI: The Somnium Files";
 static const char kTheSomnium[] = "The Somnium";
+static const char kTheFinalSomnium[] = "The Last Somnium";
+static const char kSkillCheckObservatory[] = "Skill Check Observatory";
 
-static const struct CreditEntry sFirstCreditEntry = { 0, 0, PIC(pic1), "Skill Check Observatory", { kWitchOnTheHolyNight, "Innocence" } };
+static const struct CreditEntry sFirstCreditEntry = { 0, 0, PIC(pic1), { kSkillCheckObservatory, kSkillCheckObservatory }, { kWitchOnTheHolyNight, "Innocence" } };
 static const struct CreditEntry sCredits[] = {
-    { LEVEL_BOB, 0, PIC(pic1) , "Not-as-curly Coaster"  , { kWitchOnTheHolyNight, "Main Theme/Nemuri" }, },
-    { LEVEL_WF , 0, PIC(pic2) , "Vanishing Ride"        , { kWitchOnTheHolyNight, "Extra Magic Number?" }, },
-    { LEVEL_JRB, 0, PIC(pic3) , "Explosive Ring"        , { "Pomplamoose", "Felicitations!" }, },
-    { LEVEL_CCM, 0, PIC(pic4) , "Fearful Flippers"      , { "Super Paper Mario", "Whoa Zone" }, },
-    { LEVEL_BBH, 0, PIC(pic5) , "Treacherous Arrows"    , { kWitchOnTheHolyNight, "Imbalance/Blue" } },
-    { LEVEL_HMC, 9, PIC(pic6) , "Uppies Glacier"        , { "The Sekimeiya: Spun Glass", "Nyah\nLooming" } },
-    { LEVEL_LLL, 9, PIC(pic7) , "Fizzle Labyrinth"      , { "Charles Berthoud", "Giacomo Turra\nSLAPOCALYPSE" } },
-    { LEVEL_SSL, 9, PIC(pic8) , "Cosmic Teamwork"       , { "Castlevania", "Legacy of Darkness\nArt Tower" } },
-    { LEVEL_DDD, 0, PIC(pic9) , "Quadrivium Adventure"  , { "ROBOTICS NOTES", "ENERGETIC FORCE" } },
-    { LEVEL_SL,  9, PIC(pic10), "The Vice Paradise"     , { kAiSomniumFiles, "nirvanA Initiative\nQuiz Nervine" } },
-    { LEVEL_WDW, 0, PIC(pic11), "Midwinter Clickin'"    , { kWitchOnTheHolyNight, "Working!!" } },
+    { LEVEL_BOB, 0, PIC(pic1) , { "Not-as-curly Coaster", "Very Curly Coaster" } , { kWitchOnTheHolyNight, "Main Theme/Nemuri" }, },
+    { LEVEL_WF , 0, PIC(pic2) , { "Vanishing Ride"      , "Oh boy, The Ride"   } , { kWitchOnTheHolyNight, "Extra Magic Number?" }, },
+    { LEVEL_JRB, 0, PIC(pic3) , { "Explosive Ring"      , "Small Ring"         } , { "Pomplamoose", "Felicitations!" }, },
+    { LEVEL_CCM, 0, PIC(pic4) , { "Fearful Flippers"    , "Fearless Uppers"    } , { "Super Paper Mario", "Whoa Zone" }, },
+    { LEVEL_BBH, 0, PIC(pic5) , { "Treacherous Arrows"  , "The Invisimario"    } , { kWitchOnTheHolyNight, "Imbalance/Blue" } },
+    { LEVEL_HMC, 9, PIC(pic6) , { "Uppies Glacier"      , "Flippies Glacier"   } , { "The Sekimeiya: Spun Glass", "Nyah\nLooming" } },
+    { LEVEL_LLL, 9, PIC(pic7) , { "Fizzle Labyrinth"    , "TV Static Maze"     } , { "Charles Berthoud", "Giacomo Turra\nSLAPOCALYPSE" } },
+    { LEVEL_SSL, 9, PIC(pic8) , { "Cosmic Teamwork"     , "Cosmic RNG Hell"    } , { "Castlevania", "Legacy of Darkness\nArt Tower" } },
+    { LEVEL_DDD, 0, PIC(pic9) , { "Quadrivium Adventure", "Eternal Engine"     } , { "ROBOTICS;NOTES", "ENERGETIC FORCE" } },
+    { LEVEL_SL,  9, PIC(pic10), { "The Vice Paradise"   , "Tightened Vice"     } , { kAiSomniumFiles, "nirvanA Initiative\nQuiz Nervine" } },
+    { LEVEL_WDW, 0, PIC(pic11), { "Midwinter Clickin'"  , "Speedrun Tactics"   } , { kWitchOnTheHolyNight, "Working!!" } },
 
-    { LEVEL_RR,  9, PIC(pic15), kTheSomnium             , { kAiSomniumFiles, "nirvanA Initiative\nNovel Ingress" } },
-    { LEVEL_SA,  9, PIC(pic16), kTheSomnium             , { "World's End Girlfriend", "Scorpius Circus" } },
+    { LEVEL_RR,  9, PIC(pic15), { kTheSomnium, kTheFinalSomnium } , { kAiSomniumFiles, "nirvanA Initiative\nNovel Ingress" } },
+    { LEVEL_SA,  9, PIC(pic16), { kTheSomnium, kTheFinalSomnium } , { "World's End Girlfriend", "Scorpius Circus" } },
 };
 
 #undef PIC
@@ -177,7 +180,7 @@ static void renderCreditEntry(const struct CreditEntry* entry, u8 a, int off)
     gDeferredFancyText[off + 1].y = 115 + entry->shift;
     gDeferredFancyText[off + 1].aligned = 0;
     gDeferredFancyText[off + 1].alpha = a;
-    gDeferredFancyText[off + 1].line = entry->name;
+    gDeferredFancyText[off + 1].line = entry->names[o->oCreditsShoutouts & CREDITS_HM ? 1 : 0];
 
     gDeferredFancyText[off + 2].x = 170;
     gDeferredFancyText[off + 2].y = 76 + entry->shift;
@@ -260,7 +263,7 @@ static void credits_fade_special_thanks()
 }
 
 const int kFadeInCredits = 64;
-#define kCreditsEntryWait (gIsConsole ? 120 : 170)
+#define kCreditsEntryWait (gIsConsole ? 120 : 190)
 static void credits_show_first_entry()
 {
     renderTopText(255);
@@ -363,7 +366,7 @@ static void credits_thanks()
         gBottomBlackBoxAlpha = CLAMP(gDeferredFancyText[1].alpha, 0, 200);
     }
 
-    static const char kEntry1[] = "Level Select Theme:\nSTEINS GATE\nChristina I";
+    static const char kEntry1[] = "Level Select Theme:\nSTEINS;GATE\nChristina I";
     if (o->oTimer > 900)
     {
         gDeferredFancyText[1].x = 20;
@@ -422,12 +425,13 @@ static void credits_shoutouts()
     extern const char* kCredits_Shoutouts[];
     const char** shoutouts = segmented_to_virtual(kCredits_Shoutouts);
 
-    if (o->oTimer > 400)
+    int fadeTime = o->oCreditsCurrentShoutouts >= 3 ? 600: 400;
+    if (o->oTimer > fadeTime)
     {
         gDeferredFancyText[1].x = 160;
         gDeferredFancyText[1].y = 40;
         gDeferredFancyText[1].aligned = 1;
-        gDeferredFancyText[1].alpha = CLAMP(255 - (o->oTimer - 400) * 3, 0, 255);
+        gDeferredFancyText[1].alpha = CLAMP(255 - (o->oTimer - fadeTime) * 3, 0, 255);
         gDeferredFancyText[1].line = segmented_to_virtual(shoutouts[o->oCreditsCurrentShoutouts]);
     }
     else
@@ -439,7 +443,7 @@ static void credits_shoutouts()
         gDeferredFancyText[1].line = segmented_to_virtual(shoutouts[o->oCreditsCurrentShoutouts]);
     }
 
-    if (500 == o->oTimer)
+    if (fadeTime + 100 == o->oTimer)
     {
         o->oTimer = 0;
     }
