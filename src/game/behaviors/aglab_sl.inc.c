@@ -61,7 +61,7 @@ void bhv_sl_ctl_loop()
                 }
                 else
                 {
-                    if (o->oTimer > (gIsHM ? 35 : 45))
+                    if (o->oTimer > (gIsHM ? 30 : 45))
                     {
                         o->oAction = 1;
                     }
