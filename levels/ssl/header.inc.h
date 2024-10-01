@@ -26,7 +26,7 @@ extern u8 ssl_dl__16_ci8[];
 extern u8 ssl_dl__16_pal_rgba16[];
 extern u8 ssl_dl__0E03CA30_rgba16[];
 extern Vtx ssl_dl_Circle_mesh_layer_1_vtx_cull[8];
-extern Vtx ssl_dl_Circle_mesh_layer_1_vtx_0[176];
+extern Vtx ssl_dl_Circle_mesh_layer_1_vtx_0[121];
 extern Vtx ssl_dl_Plane_mesh_layer_1_vtx_cull[8];
 extern Vtx ssl_dl_Plane_mesh_layer_1_vtx_0[67];
 extern Vtx ssl_dl_Plane_mesh_layer_1_vtx_1[16];
