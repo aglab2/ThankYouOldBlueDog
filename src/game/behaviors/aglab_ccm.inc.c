@@ -3,6 +3,8 @@ extern u8 gDisableGravity;
 
 void bhv_ccm_flipper_loop()
 {
+    gMarioStates->pos[0] = o->oPosX;
+
     if (gIsHM)
         gDisableGravity = 0;
 
