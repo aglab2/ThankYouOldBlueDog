@@ -485,7 +485,7 @@ void bhv_rr_ctl_loop()
 #if 1
         const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, desc->x, desc->z);
 #else
-        const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, 2, 0);
+        const struct Object* start = cur_obj_find_spawner_in_section(bhvRrStart, 2, 2);
 #endif
         o->oRrCtlProgress++;
 
@@ -721,6 +721,9 @@ void rr_jump_loop()
 
 void bhv_rr_flipper_loop()
 {
+    if (12000.f < gMarioStates->pos[2] && gMarioStates->pos[2] < 14000.f && 11000.f < gMarioStates->pos[0] && gMarioStates->pos[0] < 14000.f)
+        gMarioStates->pos[2] = o->oPosZ;
+
     if (gIsHM)
     {
         if (o->oBehParams2ndByte == 0)
