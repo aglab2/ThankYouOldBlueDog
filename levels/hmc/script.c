@@ -38,6 +38,7 @@ const LevelScript level_hmc_entry[] = {
 		OBJECT(MODEL_NONE, 0, 270, 5589, 0, 0, 0, 0x00000000, bhvHmcCtl),
 		MARIO_POS(0x01, 0, 8, 439, 5583),
 		OBJECT(MODEL_NONE, 0, 270, 5589, 0, -180, 0, (0xa << 16), bhvSpinAirborneWarp),
+		OBJECT(MODEL_WOODEN_SIGNPOST, 3, 0, 5945, 0, -180, 0, 0x00000000, bhvMessagePanel),
 		OBJECT(MODEL_STAR, -14, 4490, -1626, 0, 0, 0, 0x00000000, bhvStar),
 		TERRAIN(hmc_area_1_collision),
 		MACRO_OBJECTS(hmc_area_1_macro_objs),

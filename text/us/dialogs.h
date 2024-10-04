@@ -32,25 +32,15 @@
  *    - main_hud_utf8_4byte_lut
  */
 
-DEFINE_DIALOG(DIALOG_000, NO_SOUND, 6, 30, 200, "\
-Wow! You're smack in the\n\
-middle of the battlefield.\n\
-You'll find the Power\n\
-Stars that Bowser stole\n\
-inside the painting\n\
-worlds.\n\
-First, talk to the\n\
-Bob-omb Buddy. (Press Ⓑ\n\
-to talk.) He'll certainly\n\
-help you out, and so will\n\
-his comrades in other\n\
-areas.\n\
-To read signs, stop, face\n\
-them and press Ⓑ. Press Ⓐ\n\
-or Ⓑ to scroll ahead. You\n\
-can talk to some other\n\
-characters by facing them\n\
-and pressing Ⓑ.")
+DEFINE_DIALOG(DIALOG_000, NO_SOUND, 8, 30, 200, "\
+Ⓐ button allows you to\n\
+manipulate vertical\n\
+deceleration speed while\n\
+in the air.\n\
+Hold Ⓐ to keep the\n\
+vertical speed and\n\
+release Ⓐ to slow down\n\
+and avoid getting height.")
 
 DEFINE_DIALOG(DIALOG_001, SOUND_OBJ_BOBOMB_BUDDY_TALK, 4, 95, 200, "\
 Watch out! If you wander\n\
