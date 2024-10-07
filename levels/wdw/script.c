@@ -43,6 +43,7 @@ const LevelScript level_wdw_entry[] = {
 		WARP_NODE(0xf1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_YELLOW_COIN, -277, -56, -3807, 0, 0, 0, 0x00000000, bhvYellowCoin),
 		OBJECT(MODEL_YELLOW_COIN, -3313, 259, 568, 0, 0, 0, 0x00000000, bhvYellowCoin),
+		OBJECT(MODEL_YELLOW_COIN, -209, 1559, -2362, 0, 0, 0, 0x00000000, bhvYellowCoin),
 		OBJECT(MODEL_NONE, -234, 1419, -774, 0, 0, 0, (0x11 << 16), bhvCoinFormation),
 		OBJECT(MODEL_NONE, 0, 0, 0, 0, 0, 0, 0x00000000, bhvWdwCtl),
 		MARIO_POS(0x01, 0, 0, 499, -14),

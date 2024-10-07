@@ -8,8 +8,11 @@ extern const Collision wdw_1_collision[];
 
 extern const Trajectory wdw_area_2_spline_star_curve[];
 
+u8 gWasWallkick = 0;
+
 void bhv_wdw_ctl_init()
 {
+    gWasWallkick = 0;
     cur_obj_set_model(MODEL_WDW_0);
     obj_set_collision_data(o, wdw_0_collision);
     o->oWdwCtlWasOnPlatformBefore = 0;
@@ -63,11 +66,12 @@ void bhv_wdw_ctl_loop()
     }
     o->oWdwCtlWasOnPlatformBefore = onPlatform;
 
-    if (o->oWdwCtlPrevAction != gMarioStates->action && gMarioStates->action == ACT_WALL_KICK_AIR)
+    if (o->oWdwCtlPrevAction != gMarioStates->action && (o->oWdwCtlPrevAction != ACT_WALL_KICK_AIR && gWasWallkick))
     {
         wdw_switch();
     }
     o->oWdwCtlPrevAction = gMarioStates->action;
+    gWasWallkick = 0;
 
     if (gIsHM)
     {

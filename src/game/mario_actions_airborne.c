@@ -601,7 +601,9 @@ s32 act_side_flip(struct MarioState *m) {
     return FALSE;
 }
 
+extern u8 gWasWallkick;
 s32 act_wall_kick_air(struct MarioState *m) {
+    gWasWallkick = 1;
     if (m->input & INPUT_B_PRESSED) {
         return set_mario_action(m, ACT_DIVE, 0);
     }
