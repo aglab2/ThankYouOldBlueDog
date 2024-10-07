@@ -495,6 +495,13 @@ void bhv_rr_ctl_loop()
         gMarioStates->faceAngle[1] = start->oFaceAngleYaw;
         reset_camera(gCamera);
         s8DirModeYawOffset = 0xe000 & (gMarioStates->faceAngle[1] + 0x9000);
+        {
+            struct Object *orangeNumber = spawn_object_relative(o->oRrCtlProgress, 28.f, 0, 0, start, MODEL_NUMBER, bhvOrangeNumber);
+            orangeNumber->oPosY += 25.0f;
+            orangeNumber->oOrangeNumberOffset = 28.f;
+            orangeNumber->oHomeX = start->oPosX;
+            orangeNumber->oHomeZ = start->oPosZ;
+        }
 
         play_sound(SOUND_MENU_COLLECT_RED_COIN + (o->oRrCtlProgress << 16), gGlobalSoundSource);
     }
