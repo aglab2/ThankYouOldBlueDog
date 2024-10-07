@@ -23,7 +23,7 @@ extern u8 ccm_dl_chains2_pal_rgba16[];
 extern u8 ccm_dl__6_ci8[];
 extern u8 ccm_dl__6_pal_rgba16[];
 extern Vtx ccm_dl_Plane_mesh_layer_1_vtx_cull[8];
-extern Vtx ccm_dl_Plane_mesh_layer_1_vtx_0[16];
+extern Vtx ccm_dl_Plane_mesh_layer_1_vtx_0[20];
 extern Vtx ccm_dl_Plane_001_mesh_layer_1_vtx_cull[8];
 extern Vtx ccm_dl_Plane_001_mesh_layer_1_vtx_0[56];
 extern Vtx ccm_dl_Plane_001_mesh_layer_1_vtx_1[56];

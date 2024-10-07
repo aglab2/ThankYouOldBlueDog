@@ -237,6 +237,8 @@ extern int sRecCursor;
 extern Vec3f sLastFailPosition;
 extern u8 gGoMode;
 
+extern void bbh_reload_coins();
+
 void SaveState_onNormal()
 {
 #ifdef DEBUG_EMU
@@ -302,6 +304,9 @@ void SaveState_onNormal()
                 resetCamera();
                 gGlobalRandomState = rng;
                 (void) random_u16();
+
+                if (gCurrCourseNum == COURSE_BBH)
+                    bbh_reload_coins();
 #if 0
                 sRecCursor = 0;
 #endif

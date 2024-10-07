@@ -12,25 +12,30 @@ extern u8 gMirrorVCAmount;
 extern u8 gMirrorTrigger;
 extern Vec3f gMirrorOffset;
 
+static void cur_obj_despawn_all_with_beh(const BehaviorScript *behavior);
+void bbh_reload_coins()
+{
+    if (gIsHM)
+        return;
+
+    cur_obj_despawn_all_with_beh(bhvYellowCoin);
+    struct Pos* positions = segmented_to_virtual(sBbhCoinsLocations);
+    for (int i = 17; i < 30; i++)
+    {
+        struct Object* coin = spawn_object(o, MODEL_YELLOW_COIN, bhvYellowCoin);
+        coin->oPosX = positions[i].x;
+        coin->oPosY = positions[i].y;
+        coin->oPosZ = positions[i].z;
+    }
+}
+
 void bhv_bbh_ctl_init()
 {
     gMirrorVCAmount = 255;
     gMirrorOffset[0] = 0.f;
     gMirrorOffset[1] = 0.f;
     gMirrorOffset[2] = 0.f;
-#if 1
-    if (!gIsHM)
-    {
-        struct Pos* positions = segmented_to_virtual(sBbhCoinsLocations);
-        for (int i = 17; i < 30; i++)
-        {
-            struct Object* coin = spawn_object(o, MODEL_YELLOW_COIN, bhvYellowCoin);
-            coin->oPosX = positions[i].x;
-            coin->oPosY = positions[i].y;
-            coin->oPosZ = positions[i].z;
-        }
-    }
-#endif
+    bbh_reload_coins();
 }
 
 void bhv_bbh_ctl_loop()
