@@ -1,3 +1,5 @@
+#include "buffers/buffers.h"
+
 // 72
 #define oLll72BaseDist oFloatF4
 #define oLll72BaseAngle oF8
@@ -28,8 +30,9 @@ void bhv_lll_72_loop()
     }
     else
     {
-        s16 angle = o->oLll72BaseAngle - 30 * o->oTimer;
-        f32 dist = o->oLll72BaseDist - 1000.f * (1 - coss(o->oTimer * 0xa2));
+        f32 mult = gSaveBuffer.files[gCurrSaveFileNum - 1][0].tampers ? 1.05f : 1.3f;
+        s16 angle = o->oLll72BaseAngle - 30 * o->oTimer * mult;
+        f32 dist = o->oLll72BaseDist - 1000.f * (1 - coss(o->oTimer * 0xa2 * mult));
         o->oPosX = dist * sins(angle);
         o->oPosZ = dist * coss(angle);
     }
