@@ -30,7 +30,7 @@ void bhv_lll_72_loop()
     }
     else
     {
-        f32 mult = gSaveBuffer.files[gCurrSaveFileNum - 1][0].tampers ? 1.05f : 1.3f;
+        f32 mult = gSaveBuffer.files[gCurrSaveFileNum - 1][0].tampers ? 1.05f : 1.25f;
         s16 angle = o->oLll72BaseAngle - 30 * o->oTimer * mult;
         f32 dist = o->oLll72BaseDist - 1000.f * (1 - coss(o->oTimer * 0xa2 * mult));
         o->oPosX = dist * sins(angle);
