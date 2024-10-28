@@ -47,13 +47,16 @@ void bhv_sl_ctl_loop()
                 o->oSlCtlTurnsAmountBg = (0x4000 / SL_SPEED / 2) + (0x4000 / SL_SPEED) * (cyclesAmount - 1);
                 o->oAction = 2;
                 
+                if (gMarioStates->action)
                 {
                     struct Object *orangeNumber = spawn_object_relative(o->oSlCtlCount, 28.f, 0, 0, gMarioObject, MODEL_NUMBER, bhvOrangeNumber);
-                    orangeNumber->oPosY = orangeNumber->oHomeY + 25.0f;
-                    orangeNumber->oOrangeNumberOffset = 28.f;
                     orangeNumber->oHomeX = gMarioObject->oPosX;
-                    orangeNumber->oHomeY = gMarioObject->oPosY;
+                    orangeNumber->oHomeY = gMarioObject->oPosY + 25.0f;
                     orangeNumber->oHomeZ = gMarioObject->oPosZ;
+                    orangeNumber->oPosX = gMarioObject->oPosX;
+                    orangeNumber->oPosY = gMarioObject->oPosY + 25.0f;
+                    orangeNumber->oPosZ = gMarioObject->oPosZ;
+                    orangeNumber->oOrangeNumberOffset = 28.f;
                 }
             }
             else
