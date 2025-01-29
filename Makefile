@@ -135,11 +135,11 @@ endif
 #==============================================================================#
 
 # Default non-gcc opt flags
-DEFAULT_OPT_FLAGS = -Ofast
+DEFAULT_OPT_FLAGS = -Ofast -ffast-math -ftrapping-math -fno-associative-math -mno-check-zero-division
 # Note: -fno-associative-math is used here to suppress warnings, ideally we would enable this as an optimization but
 # this conflicts with -ftrapping-math apparently.
 # TODO: Figure out how to allow -fassociative-math to be enabled
-SAFETY_OPT_FLAGS = -ftrapping-math -fno-associative-math
+SAFETY_OPT_FLAGS =
 
 # Main opt flags
 GCC_MAIN_OPT_FLAGS = \

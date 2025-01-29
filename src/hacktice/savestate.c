@@ -239,6 +239,9 @@ extern u8 gGoMode;
 
 extern void bbh_reload_coins();
 
+extern u16 sRenderedFramebuffer;
+extern u16 sRenderingFramebuffer;
+
 void SaveState_onNormal()
 {
 #ifdef DEBUG_EMU
@@ -289,6 +292,8 @@ void SaveState_onNormal()
                 memcpy(_hackticeStateDataStart0, Hacktice_gState->memory, _hackticeStateDataEnd0 - _hackticeStateDataStart0);
                 memcpy(_hackticeStateDataStart1, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0), _hackticeStateDataEnd1 - _hackticeStateDataStart1);
                 memcpy(gMarioAnimsMemAlloc, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0) + (_hackticeStateDataEnd1 - _hackticeStateDataStart1), MARIO_ANIMS_POOL_SIZE);
+                s16 b1 = sRenderedFramebuffer;
+                s16 b2 = sRenderingFramebuffer;
                 int starCount = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
                 if (starCount != 13)
                 {
@@ -303,6 +308,8 @@ void SaveState_onNormal()
                 gIsGravityFlipped = Hacktice_gState->flipped;
                 resetCamera();
                 gGlobalRandomState = rng;
+                sRenderedFramebuffer = b1;
+                sRenderingFramebuffer = b2;
                 (void) random_u16();
 
                 if (gCurrCourseNum == COURSE_BBH)
