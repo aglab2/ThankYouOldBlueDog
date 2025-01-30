@@ -241,6 +241,7 @@ extern void bbh_reload_coins();
 
 extern u16 sRenderedFramebuffer;
 extern u16 sRenderingFramebuffer;
+extern struct DmaHandlerList gMarioAnimsBuf; 
 
 void SaveState_onNormal()
 {
@@ -275,9 +276,13 @@ void SaveState_onNormal()
         Hacktice_gState->level = gCurrLevelNum;
         Hacktice_gState->flipped = gIsGravityFlipped;
         Hacktice_gState->size = sizeof(State);
-        memcpy(Hacktice_gState->memory, _hackticeStateDataStart0, _hackticeStateDataEnd0 - _hackticeStateDataStart0);
-        memcpy(Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0), _hackticeStateDataStart1, _hackticeStateDataEnd1 - _hackticeStateDataStart1);
-        memcpy(Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0) + (_hackticeStateDataEnd1 - _hackticeStateDataStart1), gMarioAnimsMemAlloc, MARIO_ANIMS_POOL_SIZE);
+        u8* memory = (u8*) Hacktice_gState->memory;
+#define STATE_MEM_PUSH(dest, src, size) memcpy(dest, src, size); dest += (size);
+        STATE_MEM_PUSH(memory, _hackticeStateDataStart0, _hackticeStateDataEnd0 - _hackticeStateDataStart0);
+        STATE_MEM_PUSH(memory, _hackticeStateDataStart1, _hackticeStateDataEnd1 - _hackticeStateDataStart1);
+        STATE_MEM_PUSH(memory, gMarioAnimsMemAlloc     , MARIO_ANIMS_POOL_SIZE);
+        STATE_MEM_PUSH(memory, &gMarioAnimsBuf         , sizeof(gMarioAnimsBuf));
+#undef STATE_MEM_PUSH
         gSavedTimer = 255;
     }
     else
@@ -289,11 +294,13 @@ void SaveState_onNormal()
             {
                 Vec3f pos = { gMarioStates->pos[0], gMarioStates->pos[1], gMarioStates->pos[2]};
                 tinymt32_t rng = gGlobalRandomState;
-                memcpy(_hackticeStateDataStart0, Hacktice_gState->memory, _hackticeStateDataEnd0 - _hackticeStateDataStart0);
-                memcpy(_hackticeStateDataStart1, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0), _hackticeStateDataEnd1 - _hackticeStateDataStart1);
-                memcpy(gMarioAnimsMemAlloc, Hacktice_gState->memory + (_hackticeStateDataEnd0 - _hackticeStateDataStart0) + (_hackticeStateDataEnd1 - _hackticeStateDataStart1), MARIO_ANIMS_POOL_SIZE);
-                s16 b1 = sRenderedFramebuffer;
-                s16 b2 = sRenderingFramebuffer;
+                u8* memory = (u8*) Hacktice_gState->memory;
+#define STATE_MEM_POP(dest, src, size) memcpy(dest, src, size); src += (size);
+                STATE_MEM_POP(_hackticeStateDataStart0, memory, _hackticeStateDataEnd0 - _hackticeStateDataStart0);
+                STATE_MEM_POP(_hackticeStateDataStart1, memory, _hackticeStateDataEnd1 - _hackticeStateDataStart1);
+                STATE_MEM_POP(gMarioAnimsMemAlloc     , memory, MARIO_ANIMS_POOL_SIZE);
+                STATE_MEM_POP(&gMarioAnimsBuf         , memory, sizeof(gMarioAnimsBuf));
+#undef STATE_MEM_POP
                 int starCount = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
                 if (starCount != 13)
                 {
@@ -308,8 +315,6 @@ void SaveState_onNormal()
                 gIsGravityFlipped = Hacktice_gState->flipped;
                 resetCamera();
                 gGlobalRandomState = rng;
-                sRenderedFramebuffer = b1;
-                sRenderingFramebuffer = b2;
                 (void) random_u16();
 
                 if (gCurrCourseNum == COURSE_BBH)

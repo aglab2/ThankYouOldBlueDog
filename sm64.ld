@@ -300,6 +300,7 @@ SECTIONS
    BEGIN_NOLOAD(engine)
    {
       BUILD_DIR/src/game/crash_screen.o(.bss*);
+      BUILD_DIR/src/game/texscroll.o(.bss*);
       BUILD_DIR/src/game/game_init.o(.bss*);
       BUILD_DIR/src/game/sound_init.o(.bss*);
       _hackticeStateDataStart0 = .;
@@ -325,8 +326,8 @@ SECTIONS
    BEGIN_NOLOAD(sbss)
    {
       BUILD_DIR/src/game/crash_screen.o(.sdata*);
-      BUILD_DIR/src/game/game_init.o(.sdata*);
-      BUILD_DIR/src/game/sound_init.o(.sdata*);
+      BUILD_DIR/src/game/game_init.o(.sbss*);
+      BUILD_DIR/src/game/sound_init.o(.sbss*);
       _hackticeStateDataStart1 = .;
       BUILD_DIR/src/game*.o(.sbss*);
       _hackticeStateDataEnd1 = .;
