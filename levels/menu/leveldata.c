@@ -415,6 +415,8 @@ static const Gfx dl_vertex_menu_main_button_ex[] = {
     gsSPEndDisplayList(),
 };
 
+#define	G_CC_MODULATE_AGLAB         TEXEL0, 0, SHADE_ALPHA, 0, 0, 0, 0, SHADE
+
 // 0x07006150 - 0x07006198
 static const Gfx dl_tex_block_menu_main_button[] = {
     gsDPPipeSync(),
