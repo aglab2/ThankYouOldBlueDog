@@ -1185,6 +1185,7 @@ ALWAYS_INLINE void invalidateMatrixMemory(void* addr) {
     );
 }
 
+extern s16 gCurrCourseNum;
 // Converts a floating point matrix to a fixed point matrix
 // Makes some assumptions about certain fields in the matrix, which will always be true for valid matrices.
 OPTIMIZE_OS void mtxf_to_mtx_fast(s16* dst, float* src) {

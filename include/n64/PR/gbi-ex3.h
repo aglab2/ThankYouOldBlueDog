@@ -4,6 +4,7 @@
  */
 
 #define NO_SYNCS_IN_TEXTURE_LOADS
+#define DISABLE_AA
 // #define RISKY_RDP_SYNCS
 
 /* List of options; the documentation for each is where it is used below. */

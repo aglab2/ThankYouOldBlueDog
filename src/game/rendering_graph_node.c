@@ -271,18 +271,6 @@ extern const Gfx init_rsp[];
 #define UPPER_FIXED(x) ((int)((unsigned int)((x) * 0x10000) >> 16))
 #define LOWER_FIXED(x) ((int)((unsigned int)((x) * 0x10000) & 0xFFFF))
 
-// Fixed-point identity matrix with the inverse of world scale
-Mtx identityMatrixWorldScale = {{
-    {UPPER_FIXED(1.0f / WORLD_SCALE) << 16, 0x00000000,
-     UPPER_FIXED(1.0f / WORLD_SCALE) <<  0, 0x00000000},
-    {0x00000000,                            UPPER_FIXED(1.0f / WORLD_SCALE) << 16,
-     0x00000000,                            UPPER_FIXED(1.0f)               <<  0},
-    {LOWER_FIXED(1.0f / WORLD_SCALE) << 16, 0x00000000,
-     LOWER_FIXED(1.0f / WORLD_SCALE) <<  0, 0x00000000},
-    {0x00000000,                            LOWER_FIXED(1.0f / WORLD_SCALE) << 16,
-     0x00000000,                            LOWER_FIXED(1.0f)               <<  0}
-}};
-
 static const Gfx* sCoinsTextureDls[] = {
     dl_coin_0,
     dl_coin_22_5,
@@ -765,19 +753,23 @@ void geo_process_camera(struct GraphNodeCamera *node) {
     gCurLookAt->l[1].l.dir[2] = (s8)(127.0f * -(*cameraMatrix)[2][1]);
 #endif // F3DEX_GBI_2
 
-#if WORLD_SCALE > 1
-    // Make a copy of the view matrix and scale its translation based on WORLD_SCALE
-    Mat4 scaledCamera;
-    mtxf_copy(scaledCamera, gCameraTransform);
-    for (int i = 0; i < 3; i++) {
-        scaledCamera[3][i] /= WORLD_SCALE;
+    if (1 != WORLD_SCALE)
+    {
+        // Make a copy of the view matrix and scale its translation based on WORLD_SCALE
+        Mat4 scaledCamera;
+        mtxf_copy(scaledCamera, gCameraTransform);
+        for (int i = 0; i < 3; i++) {
+            scaledCamera[3][i] /= WORLD_SCALE;
+        }
+
+        // Convert the scaled matrix to fixed-point and integrate it into the projection matrix stack
+        guMtxF2L(scaledCamera, viewMtx);
+    }
+    else
+    {
+        guMtxF2L(gCameraTransform, viewMtx);
     }
 
-    // Convert the scaled matrix to fixed-point and integrate it into the projection matrix stack
-    guMtxF2L(scaledCamera, viewMtx);
-#else
-    guMtxF2L(gCameraTransform, viewMtx);
-#endif
     gSPMatrix(gDisplayListHead++, VIRTUAL_TO_PHYSICAL(viewMtx), G_MTX_PROJECTION | G_MTX_MUL | G_MTX_NOPUSH);
     setup_global_light();
 
