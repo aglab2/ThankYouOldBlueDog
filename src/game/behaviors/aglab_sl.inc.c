@@ -3,7 +3,7 @@
 #define oSlCtlCount oFC
 #define oSlCtlTurnsAmountBg o100
 
-#define SL_SPEED ((gIsHM ? 0xA0 : 0x7C) + (gIsHM ? 0x10 : 0x5) * o->oSlCtlCount)
+#define SL_SPEED (((gIsHM ? 0xA0 : 0x7C) + (gIsHM ? 0x10 : 0x5) * o->oSlCtlCount) * ((gIsHM || gSaveBuffer.files[gCurrSaveFileNum - 1][0].tampers) ? 1.f : 1.05f))
 
 static uint8_t kSlCyclesAmounts[] = { 1, 2, 2, 3, 3 };
 static int8_t kSlTurnDirections[] = { 1, 1, 1, -1, -1, -1 };
@@ -57,6 +57,7 @@ void bhv_sl_ctl_loop()
                     orangeNumber->oPosY = gMarioObject->oPosY + 25.0f;
                     orangeNumber->oPosZ = gMarioObject->oPosZ;
                     orangeNumber->oOrangeNumberOffset = 28.f;
+                    obj_scale(orangeNumber, 2.f);
                 }
             }
             else
