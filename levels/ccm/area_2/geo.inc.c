@@ -4,10 +4,10 @@ const GeoLayout ccm_area_2_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, ccm_dl_Plane_006_mesh_layer_1),
-		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 0, 0, -1385, 90, 0, 0, ccm_dl_Plane_007_mesh_layer_1),
-		GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, -1150, 53, -2659, 0, 0, -90, ccm_dl_Plane_009_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, ccm_dl_Plane_007_mesh_layer_1),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, ccm_dl_Plane_009_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, ccm_dl_Plane_010_mesh_layer_4),
-		GEO_TRANSLATE_NODE_WITH_DL(LAYER_ALPHA, 0, 4305, -2938, ccm_dl_Plane_011_mesh_layer_4),
+		GEO_DISPLAY_LIST(LAYER_ALPHA, ccm_dl_Plane_011_mesh_layer_4),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };
