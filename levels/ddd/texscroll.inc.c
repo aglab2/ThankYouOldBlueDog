@@ -1,11 +1,11 @@
-void scroll_ddd_dl_cosmic_001_mesh_layer_1_vtx_7() {
+void scroll_ddd_dl_cosmic_002_mesh_layer_1_vtx_0() {
 	int i = 0;
-	int count = 470;
+	int count = 574;
 	int height = 32 * 0x20;
 
 	static int currentY = 0;
 	int deltaY;
-	Vtx *vertices = segmented_to_virtual(ddd_dl_cosmic_001_mesh_layer_1_vtx_7);
+	Vtx *vertices = segmented_to_virtual(ddd_dl_cosmic_002_mesh_layer_1_vtx_0);
 
 	deltaY = (int)(-0.23000001907348633 * 0x20) % height;
 
@@ -83,7 +83,7 @@ void scroll_ddd_dl_Plane_004_mesh_layer_4_vtx_1() {
 }
 
 void scroll_ddd() {
-	scroll_ddd_dl_cosmic_001_mesh_layer_1_vtx_7();
+	scroll_ddd_dl_cosmic_002_mesh_layer_1_vtx_0();
 	scroll_ddd_dl_Plane_001_mesh_layer_4_vtx_0();
 	scroll_ddd_dl_Plane_004_mesh_layer_4_vtx_0();
 	scroll_ddd_dl_Plane_004_mesh_layer_4_vtx_1();

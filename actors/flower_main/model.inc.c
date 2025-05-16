@@ -830,7 +830,7 @@ Gfx mat_flower_main_Material_36_f3d_layer1[] = {
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(ENVIRONMENT, 0, TEXEL0, PRIMITIVE, 0, 0, 0, 1, 0, 0, 0, COMBINED, 0, 0, 0, 1),
 	gsDPSetCycleType(G_CYC_2CYCLE),
-	gsDPSetRenderMode(G_RM_PASS, G_RM_AA_ZB_OPA_SURF2),
+	gsDPSetRenderMode(G_RM_PASS, G_RM_AA_OPA_SURF2),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	// gsDPSetPrimColor(0, 0, 82, 77, 65, 255),
 	// gsDPSetEnvColor(60, 55, 45, 255),
@@ -853,7 +853,7 @@ Gfx mat_revert_flower_main_Material_36_f3d_layer1[] = {
 
 Gfx mat_flower_main_f3dlite_material[] = {
 	gsDPPipeSync(),
-	gsDPSetRenderMode(G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2),
+	gsDPSetRenderMode(G_RM_AA_OPA_SURF, G_RM_AA_OPA_SURF2),
 	gsDPSetCombineLERP(0, 0, 0, PRIMITIVE, 0, 0, 0, 1, 0, 0, 0, PRIMITIVE, 0, 0, 0, 1),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	// gsDPSetPrimColor(0, 0, 104, 96, 89, 255),
