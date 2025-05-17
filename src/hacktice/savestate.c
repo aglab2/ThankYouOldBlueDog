@@ -23,7 +23,7 @@ void set_play_mode(s16 playMode);
 #ifdef BINARY
 #define Hacktice_gState ((State*) 0x80026000)
 #else
-#define Hacktice_gState ((State*) 0x80525800)
+#define Hacktice_gState ((State*) 0x80526000)
 #endif
 
 #ifdef BINARY

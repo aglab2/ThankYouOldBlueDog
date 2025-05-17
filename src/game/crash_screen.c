@@ -78,7 +78,7 @@ extern far char *parse_map(u32 pc);
 extern far void map_data_init(void);
 extern far char *find_function_in_stack(u32 *sp);
 
-struct {
+static struct {
     OSThread thread;
     u64 stack[THREAD2_STACK / sizeof(u64)];
     OSMesgQueue mesgQueue;
@@ -86,7 +86,7 @@ struct {
     u16 *framebuffer;
     u16 width;
     u16 height;
-} gCrashScreen;
+} gCrashScreen __attribute__((section(".bss")));
 
 void crash_screen_draw_rect(s32 x, s32 y, s32 w, s32 h) {
     u16 *ptr;
@@ -437,8 +437,10 @@ void thread2_crash_screen(UNUSED void *arg) {
     }
 }
 
+extern u16 gScreenWidth __attribute__((section(".bss")));
 void crash_screen_init(void) {
     gCrashScreen.framebuffer = (RGBA16 *) getFramebuffer(sRenderedFramebuffer);
+    gCrashScreen.width = gScreenWidth;
     gCrashScreen.height = SCREEN_HEIGHT;
     osCreateMesgQueue(&gCrashScreen.mesgQueue, &gCrashScreen.mesg, 1);
     osCreateThread(&gCrashScreen.thread, THREAD_2_CRASH_SCREEN, thread2_crash_screen, NULL,

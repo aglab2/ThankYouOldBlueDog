@@ -159,6 +159,7 @@ void my_rsp_init(void) {
 /**
  * Initialize the z buffer for the current frame.
  */
+extern u16 gScreenWidth __attribute__((section(".bss")));
 void init_z_buffer(s32 resetZB) {
     Gfx *tempGfxHead = gDisplayListHead;
 
@@ -167,11 +168,11 @@ void init_z_buffer(s32 resetZB) {
     gDPSetDepthSource(tempGfxHead++, G_ZS_PIXEL);
     gDPSetDepthImage(tempGfxHead++, gPhysicalZBuffer);
 
-    gDPSetColorImage(tempGfxHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, gPhysicalZBuffer);
+    gDPSetColorImage(tempGfxHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gPhysicalZBuffer);
     if (!resetZB)
         return;
 
-    gSPMemset(tempGfxHead++, (u8*) gPhysicalZBuffer + gBorderHeight  * SCREEN_WIDTH * 2, GPACK_ZDZ(G_MAXFBZ, 0), SCREEN_WIDTH * (SCREEN_HEIGHT - 2 * gBorderHeight) * 2);
+    gSPMemset(tempGfxHead++, (u8*) gPhysicalZBuffer + gBorderHeight  * gScreenWidth * 2, GPACK_ZDZ(G_MAXFBZ, 0), gScreenWidth * (SCREEN_HEIGHT - 2 * gBorderHeight) * 2);
     gDisplayListHead = tempGfxHead;
 }
 
@@ -184,9 +185,9 @@ void select_framebuffer(void) {
     gDPPipeSync(tempGfxHead++);
 
     gDPSetCycleType(tempGfxHead++, G_CYC_1CYCLE);
-    gDPSetColorImage(tempGfxHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH,
+    gDPSetColorImage(tempGfxHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth,
                      gPhysicalFramebuffers[sRenderingFramebuffer]);
-    gDPSetScissor(tempGfxHead++, G_SC_NON_INTERLACE, 0, gBorderHeight, SCREEN_WIDTH,
+    gDPSetScissor(tempGfxHead++, G_SC_NON_INTERLACE, 0, gBorderHeight, gScreenWidth,
                   SCREEN_HEIGHT - gBorderHeight);
 
     gDisplayListHead = tempGfxHead;
@@ -260,7 +261,7 @@ void draw_screen_borders(void) {
 
     gDPPipeSync(tempGfxHead++);
 
-    gDPSetScissor(tempGfxHead++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    gDPSetScissor(tempGfxHead++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth, SCREEN_HEIGHT);
     gDPSetRenderMode(tempGfxHead++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
     gDPSetCycleType(tempGfxHead++, G_CYC_FILL);
 
@@ -404,13 +405,13 @@ void draw_reset_bars(void) {
         }
 
         fbPtr = (u64 *) PHYSICAL_TO_VIRTUAL(gPhysicalFramebuffers[fbNum]);
-        fbPtr += gNmiResetBarsTimer++ * (SCREEN_WIDTH / 4);
+        fbPtr += gNmiResetBarsTimer++ * (gScreenWidth / 4);
 
         for (width = 0; width < ((SCREEN_HEIGHT / 16) + 1); width++) {
-            for (height = 0; height < (SCREEN_WIDTH / 4); height++) {
+            for (height = 0; height < (gScreenWidth / 4); height++) {
                 *fbPtr++ = 0;
             }
-            fbPtr += ((SCREEN_WIDTH / 4) * 14);
+            fbPtr += ((gScreenWidth / 4) * 14);
         }
     }
 

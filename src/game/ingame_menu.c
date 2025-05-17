@@ -213,6 +213,7 @@ void create_dl_scale_matrix(s8 pushOp, f32 x, f32 y, f32 z) {
     }
 }
 
+extern u16 gScreenWidth __attribute__((section(".bss")));
 void create_dl_ortho_matrix(void) {
     Mtx *matrix = (Mtx *) alloc_display_list(sizeof(Mtx));
 
@@ -222,7 +223,7 @@ void create_dl_ortho_matrix(void) {
 
     create_dl_identity_matrix();
 
-    guOrtho(matrix, 0.0f, SCREEN_WIDTH, 0.0f, SCREEN_HEIGHT, -10.0f, 10.0f, 1.0f);
+    guOrtho(matrix, 0.0f, gScreenWidth, 0.0f, SCREEN_HEIGHT, -10.0f, 10.0f, 1.0f);
 
     // Should produce G_RDPHALF_1 in Fast3D
     gSPPerspNormalize(gDisplayListHead++, 0xFFFF);
@@ -1356,14 +1357,14 @@ void render_dialog_entries(void) {
                   // Horizontal scissoring isn't really required and can potentially mess up widescreen enhancements.
                   0,
                   ensure_nonnegative(SCREEN_HEIGHT - dialog->width - 3),
-                  SCREEN_WIDTH,
+                  gScreenWidth,
                   ensure_nonnegative(SCREEN_HEIGHT + (dialog->linesPerBox * DIALOG_LINE_HEIGHT) - dialog->width));
     handle_dialog_text_and_pages(dialog);
 
     if (gLastDialogPageStrPos == -1 && gDialogHasResponse) {
         render_dialog_triangle_choice();
     }
-    gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, 2, 2, SCREEN_WIDTH - gBorderHeight / 2, SCREEN_HEIGHT - gBorderHeight / 2);
+    gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, 2, 2, gScreenWidth - gBorderHeight / 2, SCREEN_HEIGHT - gBorderHeight / 2);
     if (gLastDialogPageStrPos != -1 && gDialogBoxState == DIALOG_STATE_VERTICAL) {
         render_dialog_triangle_next(dialog->linesPerBox);
     }
@@ -2467,16 +2468,16 @@ s32 render_menus_and_dialogs(void) {
     if (gBlackBoxAlpha)
     {
         if (gBigBlackBoxAlpha)
-            render_black_box(64, SCREEN_WIDTH - 175, 6, 1.6f, gBigBlackBoxAlpha);
+            render_black_box(64, gScreenWidth - 175, 6, 1.6f, gBigBlackBoxAlpha);
         else
-            render_black_box(174, SCREEN_WIDTH - 175, 6, 1.1f, gSmallBlackBoxAlpha);
+            render_black_box(174, gScreenWidth - 175, 6, 1.1f, gSmallBlackBoxAlpha);
 
         create_dl_ortho_matrix();
-        render_black_box(100, SCREEN_WIDTH - 105, 1, 1.1f, gBlackBoxAlpha);
+        render_black_box(100, gScreenWidth - 105, 1, 1.1f, gBlackBoxAlpha);
     }
 
     if (gBottomBlackBoxAlpha)
-        render_black_box(0, SCREEN_WIDTH - 260, 5, 2.6f, gBottomBlackBoxAlpha);
+        render_black_box(0, gScreenWidth - 260, 5, 2.6f, gBottomBlackBoxAlpha);
 
     create_dl_ortho_matrix();
 

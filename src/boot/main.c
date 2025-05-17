@@ -414,6 +414,10 @@ void thread3_main(UNUSED void *arg) {
     debug_initialize();
 #endif
 
+    if (gIsConsole) {
+        change_vi(&VI, 324, 240);
+    }
+
 #ifdef DEBUG
     osSyncPrintf("Super Mario 64\n");
 #if 0 // if your PC username isn't your real name feel free to uncomment
@@ -541,7 +545,9 @@ void turn_off_audio(void) {
     }
 }
 
+u16 gScreenWidth;
 void change_vi(OSViMode *mode, int width, int height) {
+    gScreenWidth = width;
     mode->comRegs.width  = width;
     mode->comRegs.xScale = ((width * 512) / 320);
     if (height > 240) {

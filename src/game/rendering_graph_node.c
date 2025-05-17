@@ -896,6 +896,7 @@ void geo_process_generated_list(struct GraphNodeGenerated *node) {
  * the function of the node. If that function is null or returns null, a black
  * rectangle is drawn instead.
  */
+extern u16 gScreenWidth __attribute__((section(".bss")));
 void geo_process_background(struct GraphNodeBackground *node) {
     Gfx *list = NULL;
 
@@ -913,13 +914,7 @@ void geo_process_background(struct GraphNodeBackground *node) {
 #endif
         Gfx *gfx = gfxStart;
 
-        gDPPipeSync(gfx++);
-        gDPSetCycleType(gfx++, G_CYC_FILL);
-        gDPSetFillColor(gfx++, node->background);
-        gDPFillRectangle(gfx++, GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(0), gBorderHeight,
-        GFX_DIMENSIONS_RECT_FROM_RIGHT_EDGE(0) - 1, SCREEN_HEIGHT - gBorderHeight - 1);
-        gDPPipeSync(gfx++);
-        gDPSetCycleType(gfx++, G_CYC_1CYCLE);
+        gSPMemset(gfx++, (u8*) gPhysicalFramebuffers[sRenderingFramebuffer] + gBorderHeight  * gScreenWidth * 2, node->background, gScreenWidth * (SCREEN_HEIGHT - 2 * gBorderHeight) * 2);
         gSPEndDisplayList(gfx++);
 
         geo_append_display_list((void *) VIRTUAL_TO_PHYSICAL(gfxStart), LAYER_FORCE);
